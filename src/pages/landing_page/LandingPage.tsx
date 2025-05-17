@@ -1,7 +1,6 @@
-import React from "react";
+
 import { CssBaseline, Divider } from "@mui/joy";
 import LandingPageBar from "../../components/landing_page/LandingPageBar";
-import LogoCollection from "../../components/landing_page/LogoCollection";
 import Features from "../../components/landing_page/Features";
 import Testimonials from "../../components/landing_page/Testimonials";
 import Highlights from "../../components/landing_page/Highlights";
