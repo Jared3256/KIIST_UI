@@ -103,7 +103,7 @@ export default function Footer() {
           }}
         >
           <Typography variant="body2" sx={{ fontWeight: "medium" }}>
-            Product
+            Courses
           </Typography>
           <Link color="text.secondary" variant="body2" href="#">
             Features
@@ -129,7 +129,7 @@ export default function Footer() {
           }}
         >
           <Typography variant="body2" sx={{ fontWeight: "medium" }}>
-            Company
+            Institute
           </Typography>
           <Link color="text.secondary" variant="body2" href="#">
             About us
@@ -193,7 +193,7 @@ export default function Footer() {
           <IconButton
             color="inherit"
             size="small"
-            href="https://github.com/mui"
+            href=""
             aria-label="GitHub"
             sx={{ alignSelf: "center" }}
           >
@@ -202,7 +202,7 @@ export default function Footer() {
           <IconButton
             color="inherit"
             size="small"
-            href="https://x.com/MaterialUI"
+            href=""
             aria-label="X"
             sx={{ alignSelf: "center" }}
           >
@@ -211,7 +211,7 @@ export default function Footer() {
           <IconButton
             color="inherit"
             size="small"
-            href="https://www.linkedin.com/company/mui/"
+            href=""
             aria-label="LinkedIn"
             sx={{ alignSelf: "center" }}
           >
