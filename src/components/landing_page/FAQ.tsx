@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React from "react";
 
 export default function FAQ() {
   const [expanded, setExpanded] = React.useState<string[]>([]);

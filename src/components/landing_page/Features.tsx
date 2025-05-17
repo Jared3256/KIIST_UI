@@ -1,4 +1,4 @@
-
+import React from "react";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -250,7 +250,7 @@ export default function Features() {
                 m: "auto",
                 width: "90%",
                 height: "100%",
-                
+
                 backgroundPosition: "center",
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
