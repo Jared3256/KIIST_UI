@@ -1,5 +1,6 @@
 import {Box} from "@mui/joy"
 import { motion } from "framer-motion";
+import SiginSide from "src/components/auth/SiginSide";
 export default function Loginv2() {
     return (
       <Box
@@ -11,7 +12,7 @@ export default function Loginv2() {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          width: 400,
+          width: "100%",
           maxWidth: "100%",
           mx: "auto",
           borderRadius: "sm",
@@ -30,7 +31,9 @@ export default function Loginv2() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Loading isLoading={isLoading}>
+          <SiginSide/>
+          
+          {/* <Loading isLoading={isLoading}>
             <Stack sx={{ gap: 4, mb: 2 }}>
               <Stack sx={{ gap: 1 }}>
                 <Typography component="h1" level="h3">
@@ -111,7 +114,7 @@ export default function Loginv2() {
                 </Stack>
               </form>
             </Stack>
-          </Loading>
+          </Loading> */}
         </motion.div>
       </Box>
     );

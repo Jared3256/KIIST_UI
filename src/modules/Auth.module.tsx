@@ -1,16 +1,22 @@
 import {
-    Box,
-    CssBaseline,
-    CssVarsProvider,
-    GlobalStyles,
-    IconButton,
-    Typography,
-  } from "@mui/joy";
-  import { Outlet } from "react-router";
-  import { BadgeOutlined } from "@mui/icons-material";
-  
+  Box,
+  CssBaseline,
+  CssVarsProvider,
+  GlobalStyles,
+  IconButton,
+  Typography,
+} from "@mui/joy";
+import { Outlet, useNavigate } from "react-router";
+import { BadgeOutlined } from "@mui/icons-material";
+import { useEffect } from "react";
 
 export default function AuthModule() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/auth/login", {
+      replace: true,
+    });
+  }, []);
   return (
     <CssVarsProvider defaultMode="light" disableTransitionOnChange>
       <CssBaseline />
@@ -25,7 +31,7 @@ export default function AuthModule() {
 
       <Box
         sx={(theme) => ({
-          width: "100%" ,
+          width: "100%",
           transition: "width var(--Transition-duration)",
           transitionDelay: "calc(var(--Transition-duration) + 0.1s)",
           position: "relative",
@@ -39,7 +45,6 @@ export default function AuthModule() {
           },
         })}
       >
-        
         <Box
           sx={{
             display: "flex",
@@ -60,7 +65,6 @@ export default function AuthModule() {
               <IconButton variant="soft" color="primary" size="sm">
                 <BadgeOutlined />
               </IconButton>
-              
             </Box>
             {/* <ColorSchemeToggle /> */}
           </Box>

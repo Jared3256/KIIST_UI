@@ -6,6 +6,7 @@ import {CloseRounded} from "@mui/icons-material"
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SitemarkIcon from './SiteMark';
+import { useNavigate } from 'react-router';
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -24,6 +25,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 
 export default function LandingPageBar() {
+  const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
 
     const toggleDrawer = (newOpen: boolean) => () => {
@@ -86,7 +88,7 @@ export default function LandingPageBar() {
                 alignItems: "center",
               }}
             >
-              <Button color="primary" variant="text" size="small">
+              <Button color="primary" onClick={()=> navigate("/auth/login")} variant="text" size="small">
                 Sign in
               </Button>
               <Button color="primary" variant="contained" size="small">
