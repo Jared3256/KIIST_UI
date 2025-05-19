@@ -28,6 +28,7 @@ import {  GoogleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 
 import { Loader } from "lucide-react";
+import Loading from "../Loading";
 // import color from "../../../services/utils/color";
 // import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
