@@ -1,15 +1,19 @@
-import React from 'react' 
+import React from "react";
 import AppBar from "@mui/material/AppBar";
-import { alpha, Container, styled, Toolbar } from '@mui/material';
-import {Box,Button, Divider, Drawer, IconButton, Menu, MenuItem} from "@mui/material"
-import { CloseRounded } from "@mui/icons-material"
-import {Dropdown, Space} from "antd"
+import { alpha, Container, styled, Toolbar } from "@mui/material";
+import { Box, Button, Divider, Drawer, IconButton } from "@mui/material";
+import { CloseRounded } from "@mui/icons-material";
+import { Dropdown } from "antd";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import SitemarkIcon from './SiteMark';
-import { useNavigate } from 'react-router';
-import { ChevronDown } from 'lucide-react';
-import { about, administration, admission, programmes } from './LandingPAgeBarConstants';
+import SitemarkIcon from "./SiteMark";
+import { useNavigate } from "react-router";
+import {
+  about,
+  administration,
+  admission,
+  programmes,
+} from "./LandingPAgeBarConstants";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -26,14 +30,13 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: "8px 12px",
 }));
 
-
 export default function LandingPageBar() {
   const navigate = useNavigate();
-    const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-    const toggleDrawer = (newOpen: boolean) => () => {
-      setOpen(newOpen);
-    };
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
 
   return (
     <div>
@@ -59,9 +62,6 @@ export default function LandingPageBar() {
 
                 <DropdownMenu title={"ADMINISTRATION"} items={administration} />
                 <DropdownMenu title={"PROGRAMMES"} items={programmes} />
-               
-                
-                
               </Box>
             </Box>
             <Box
@@ -110,25 +110,23 @@ export default function LandingPageBar() {
                       <CloseRounded />
                     </IconButton>
                   </Box>
-                  <Menu>
-                    <MenuItem>Features</MenuItem>
-                    <MenuItem>Testimonials</MenuItem>
-                    <MenuItem>Highlights</MenuItem>
-                    <MenuItem>Pricing</MenuItem>
-                    <MenuItem>FAQ</MenuItem>
-                    <MenuItem>Blog</MenuItem>
+                  <Box>
+                    <DrawerMenuItem title="About" />
+                    <DrawerMenuItem title="Admission" />
+                    <DrawerMenuItem title="Administration" />
+                    <DrawerMenuItem title="Programmes" />
                     <Divider sx={{ my: 3 }} />
-                    <MenuItem>
+                    <Box
+                      sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+                    >
                       <Button color="primary" variant="contained" fullWidth>
                         Sign up
                       </Button>
-                    </MenuItem>
-                    <MenuItem>
                       <Button color="primary" variant="outlined" fullWidth>
                         Sign in
                       </Button>
-                    </MenuItem>
-                  </Menu>
+                    </Box>
+                  </Box>
                 </Box>
               </Drawer>
             </Box>
@@ -139,20 +137,26 @@ export default function LandingPageBar() {
   );
 }
 
-
-
 const DropdownMenu = ({ items, title }) => {
   return (
     <Dropdown menu={{ items }} className="mr-4">
       <a onClick={(e) => e.preventDefault()}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-         
           <Button variant="text" color="info" size="small">
-           {title}
+            {title}
           </Button>
-          <ChevronDown  color='lightblue'/>
         </Box>
       </a>
     </Dropdown>
+  );
+};
+
+const DrawerMenuItem = ({ title }: { title: string }) => {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Button variant="text" color="info" size="small">
+        {title}
+      </Button>
+    </Box>
   );
 };
