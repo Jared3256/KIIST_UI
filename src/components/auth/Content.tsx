@@ -8,33 +8,33 @@ import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRound
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 import SitemarkIcon from "../landing_page/SiteMark";
 
-
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Adaptable performance",
+    title: "Hands-On Curriculum",
     description:
-      "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.",
+      "Dive into real-world projects—from community health bots to agro-tech dashboards—so you graduate with skills, not just slides.",
   },
   {
     icon: <ConstructionRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Built to last",
+    title: "State-of-the-Art Labs",
     description:
-      "Experience unmatched durability that goes above and beyond with lasting investment.",
+      "Our Kisii campus labs are decked out with modern gear and open 24/7—because breakthroughs don’t wait for office hours.",
   },
   {
     icon: <ThumbUpAltRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Great user experience",
+    title: "Mentorship & Community",
     description:
-      "Integrate our product into your routine with an intuitive and easy-to-use interface.",
+      "Join a network of local innovators and global partners; here, you’re more than a student—you’re a collaborator in Kisii’s tech renaissance.",
   },
   {
     icon: <AutoFixHighRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Innovative functionality",
+    title: "Global Pathways",
     description:
-      "Stay ahead with features that set new standards, addressing your evolving needs better than the rest.",
+      "Through exchange programs and industry tie-ups, your code today could power tomorrow’s smart farms—whether in Kisii or Copenhagen.",
   },
 ];
+
 
 export default function Content() {
   return (
@@ -53,7 +53,7 @@ export default function Content() {
         <Stack key={index} direction="row" sx={{ gap: 2 }}>
           {item.icon}
           <div>
-            <Typography gutterBottom sx={{ fontWeight: "medium" }}>
+            <Typography gutterBottom sx={{ fontWeight: "bold" }}>
               {item.title}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>

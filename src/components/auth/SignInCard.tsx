@@ -1,206 +1,202 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-// import MuiCard from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
-import Divider from "@mui/material/Divider";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Link from "@mui/material/Link";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-// import { styled } from "@mui/material/styles";
-import ForgotPassword from "./ForgotPassword";
-import SitemarkIcon from "../landing_page/SiteMark";
-import {Card} from "antd"
-// import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormLabel,
+  Input,
+  Link as JoyLink,
+  Stack,
+  Typography,
+} from "@mui/joy";
+import React, { FormEvent, useEffect, useState } from "react";
+// import { Helmet } from "react-helmet";
+import {
+  Link,
+  Link as RouterLink,
+  // useLocation,
+  // useNavigate,
+} from "react-router";
+// import useAuth from "../../../services/hooks/useAuth";
+import { Input as AntInput } from "antd";
+// import { useDispatch, useSelector } from "react-redux";
+// import { selectAuth } from "../../../redux/auth/selectors";
+// import { login } from "../../../redux/auth/actions";
+// import Loading from "../../../components/Loading/Loading";
+import {  GoogleOutlined } from "@ant-design/icons";
+import { motion } from "framer-motion";
 
-// const Card = styled(MuiCard)(({ theme }) => ({
-//   display: "flex",
-//   flexDirection: "column",
-//   alignSelf: "center",
-//   width: "100%",
-//   padding: theme.spacing(4),
-//   gap: theme.spacing(2),
-//   boxShadow:"hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px"
-//    ,
-//   [theme.breakpoints.up("sm")]: {
-//     width: "450px",
-//   },
-// }));
-  
+import { Loader } from "lucide-react";
+// import color from "../../../services/utils/color";
+// import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
-export default function SignInCard() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+interface FormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement;
+  password: HTMLInputElement;
+  persistent: HTMLInputElement;
+}
+interface SignInFormElement extends HTMLFormElement {
+  readonly elements: FormElements;
+}
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+export default function SigninCard() {
+  // const { setAuth, persist, setPersist } = useAuth();
+  // const [snackMessage, setSnackMessage] = useState();
+  // const [color, setColor] = useState();
+  // const [snackIcon, setSnackIcon] = useState(<CheckCircleOutlined />);
+  // const [open, setOpen] = useState(false);
+  // const location = useLocation();
+  // const [loggingIn, setLoggingIn] = useState(false);
+  // const navigate = useNavigate();
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // create a Url to route to
+  // const fromUrl = location.state?.from?.pathname || "/info";
+  // console.log(fromUrl);
+  // // redux Configurations and details
+  // const dispatch = useDispatch();
+  // const { isLoading, isSuccess, current } = useSelector(selectAuth);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  // useEffect(() => {
+  //   handleSuccessLogin();
+  // }, [isSuccess]);
 
-  const validateInputs = () => {
-    const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
+  // const handleSuccessLogin = () => {
+  //   if (isSuccess) {
+  //     navigate(fromUrl, { replace: true });
+  //   }
+  // };
+  // const handleLogin = async (username, password, persist) => {
+  //   const data = JSON.stringify({ email: username, password });
 
-    let isValid = true;
+  //   dispatch(login({ loginData: data }));
+  //   handlePersistToggle(persist);
+  //   setLoggingIn(isLoading);
+  // };
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
-    }
+  // const handlePersistToggle = (value) => {
+  //   setPersist(value);
+  // };
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
+  // useEffect(() => {
+  //   localStorage.setItem("persist", persist);
+  // }, [persist]);
 
-    return isValid;
-  };
-
+  const isLoading = false; // Replace with your loading state
   return (
-    <Card>
-      <Box sx={{ display: { xs: "flex", md: "none" } }}>
-        <SitemarkIcon />
-      </Box>
-      <Typography
-        component="h1"
-        variant="h4"
-        sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+    <Box
+      component="main"
+      sx={{
+        my: "auto",
+        py: 2,
+        pb: 5,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        width: 400,
+        maxWidth: "100%",
+        mx: "auto",
+        borderRadius: "sm",
+        "& form": {
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        },
+        [`& .MuiFormLabel-asterisk`]: {
+          visibility: "hidden",
+        },
+      }}
+    >
+      {/* <Helmet>
+        <title>The KIIST | Login</title>
+      </Helmet> */}
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        Sign in
-      </Typography>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        sx={{ display: "flex", flexDirection: "column", width: "100%", gap: 2 }}
-      >
-        
-      </Box>
-      {/*<Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        sx={{ display: "flex", flexDirection: "column", width: "100%", gap: 2 }}
-      >
-        <FormControl>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <TextField
-            error={emailError}
-            helperText={emailErrorMessage}
-            id="email"
-            type="email"
-            name="email"
-            placeholder="your@email.com"
-            autoComplete="email"
-            autoFocus
-            required
-            fullWidth
-            variant="outlined"
-            color={emailError ? "error" : "primary"}
-          />
-        </FormControl>
-        <FormControl>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: "baseline" }}
+        {/* <Loading isLoading={isLoading}> */}
+          <Stack sx={{ gap: 4, mb: 2 }}>
+            <Stack sx={{ gap: 1 }}>
+              <Typography component="h1" level="h3">
+                Sign in
+              </Typography>
+              <Typography level="body-md">
+                New to the school ?{" "}
+                <Link to={"/admission/register"}>
+                  <JoyLink href="/admission/register" level="title-md">
+                    Register!
+                  </JoyLink>
+                </Link>
+              </Typography>
+            </Stack>
+          <Button
+            disabled
+              variant="soft"
+              color="neutral"
+              fullWidth
+              startDecorator={<GoogleOutlined />}
             >
-              Forgot your password?
-            </Link>
-          </Box>
-          <TextField
-            error={passwordError}
-            helperText={passwordErrorMessage}
-            name="password"
-            placeholder="••••••"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            autoFocus
-            required
-            fullWidth
-            variant="outlined"
-            color={passwordError ? "error" : "primary"}
-          />
-        </FormControl>
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        />
-        <ForgotPassword open={open} handleClose={handleClose} />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          onClick={validateInputs}
-        >
-          Sign in
-        </Button>
-        <Typography sx={{ textAlign: "center" }}>
-          Don&apos;t have an account?{" "}
-          <span>
-            <Link
-              href="/material-ui/getting-started/templates/sign-in/"
-              variant="body2"
-              sx={{ alignSelf: "center" }}
+              Continue with Gmail
+            </Button>
+          </Stack>
+          <Divider
+            sx={(theme) => ({
+              [theme.getColorSchemeSelector("light")]: {
+                color: { xs: "#FFF", md: "text.tertiary" },
+              },
+            })}
+          >
+            or
+          </Divider>
+          <Stack sx={{ gap: 4, mt: 2 }}>
+            <form
+              onSubmit={(event: FormEvent<SignInFormElement>) => {
+                event.preventDefault();
+                const formElements = event.currentTarget.elements;
+
+                // handleLogin(
+                //   formElements.email.value,
+                //   formElements.password.value,
+                //   formElements.persistent.checked
+                // );
+              }}
             >
-              Sign up
-            </Link>
-          </span>
-        </Typography>
-      </Box>
-      <Divider>or</Divider>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign in with Google")}
-        //   startIcon={<GoogleIcon />}
-        >
-          Sign in with Google
-        </Button>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign in with Facebook")}
-        //   startIcon={<FacebookIcon />}
-        >
-          Sign in with Facebook
-        </Button>
-      </Box> */}
-    </Card>
+              <FormControl required>
+                <FormLabel>Email</FormLabel>
+                <Input type="email" name="email" />
+              </FormControl>
+              <FormControl required>
+                <FormLabel>Password</FormLabel>
+                <AntInput.Password name="password" size="medium" />
+              </FormControl>
+              <Stack sx={{ gap: 4, mt: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Checkbox size="sm" label="Remember me" name="persistent" />
+                  <RouterLink to={"/auth/forgot_password"}>
+                    <JoyLink level="title-sm">Forgot your password?</JoyLink>
+                  </RouterLink>
+                </Box>
+
+                <Button type="submit" fullWidth>
+                  {isLoading ? (
+                    <Loader color={"white"} className="w-6 h-6 animate-spin" />
+                  ) : (
+                    <>Sign In</>
+                  )}
+                </Button>
+              </Stack>
+            </form>
+          </Stack>
+        {/* </Loading> */}
+      </motion.div>
+    </Box>
   );
 }
