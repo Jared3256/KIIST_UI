@@ -2,11 +2,14 @@ import React from 'react'
 import AppBar from "@mui/material/AppBar";
 import { alpha, Container, styled, Toolbar } from '@mui/material';
 import {Box,Button, Divider, Drawer, IconButton, Menu, MenuItem} from "@mui/material"
-import {CloseRounded} from "@mui/icons-material"
+import { CloseRounded } from "@mui/icons-material"
+import {Dropdown, Space} from "antd"
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SitemarkIcon from './SiteMark';
 import { useNavigate } from 'react-router';
+import { ChevronDown } from 'lucide-react';
+import { about, administration, admission, programmes } from './LandingPAgeBarConstants';
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -51,34 +54,14 @@ export default function LandingPageBar() {
             >
               <SitemarkIcon />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <Button variant="text" color="info" size="small">
-                  Features
-                </Button>
-                <Button variant="text" color="info" size="small">
-                  Testimonials
-                </Button>
-                <Button variant="text" color="info" size="small">
-                  Highlights
-                </Button>
-                <Button variant="text" color="info" size="small">
-                  Pricing
-                </Button>
-                <Button
-                  variant="text"
-                  color="info"
-                  size="small"
-                  sx={{ minWidth: 0 }}
-                >
-                  FAQ
-                </Button>
-                <Button
-                  variant="text"
-                  color="info"
-                  size="small"
-                  sx={{ minWidth: 0 }}
-                >
-                  Blog
-                </Button>
+                <DropdownMenu title={"ABOUT"} items={about} />
+                <DropdownMenu title={"ADMISSION"} items={admission} />
+
+                <DropdownMenu title={"ADMINISTRATION"} items={administration} />
+                <DropdownMenu title={"PROGRAMMES"} items={programmes} />
+               
+                
+                
               </Box>
             </Box>
             <Box
@@ -88,7 +71,12 @@ export default function LandingPageBar() {
                 alignItems: "center",
               }}
             >
-              <Button color="primary" onClick={()=> navigate("/auth/login")} variant="text" size="small">
+              <Button
+                color="primary"
+                onClick={() => navigate("/auth/login")}
+                variant="text"
+                size="small"
+              >
                 Sign in
               </Button>
               <Button color="primary" variant="contained" size="small">
@@ -123,7 +111,6 @@ export default function LandingPageBar() {
                     </IconButton>
                   </Box>
                   <Menu>
-                    {" "}
                     <MenuItem>Features</MenuItem>
                     <MenuItem>Testimonials</MenuItem>
                     <MenuItem>Highlights</MenuItem>
@@ -151,3 +138,21 @@ export default function LandingPageBar() {
     </div>
   );
 }
+
+
+
+const DropdownMenu = ({ items, title }) => {
+  return (
+    <Dropdown menu={{ items }} className="mr-4">
+      <a onClick={(e) => e.preventDefault()}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+         
+          <Button variant="text" color="info" size="small">
+           {title}
+          </Button>
+          <ChevronDown  color='lightblue'/>
+        </Box>
+      </a>
+    </Dropdown>
+  );
+};

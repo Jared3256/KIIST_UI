@@ -11,27 +11,29 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import { FloatButton, Tag} from "antd"
+import { MessageOutlined, PlusOutlined } from "@ant-design/icons";
 
 const tiers = [
   {
     title: "Certificate Course",
-    price: "10,000",
+    price: "18,000",
     description: [
-      "3-month intensive curriculum",
+      "12-months intensive curriculum",
       "Hands-on lab access",
       "Dedicated mentorship",
       "Career readiness workshop",
     ],
     buttonText: "Enroll now",
-    buttonVariant: "contained",
-    buttonColor: "secondary",
+    buttonVariant: "outlined",
+    buttonColor: "primary",
   },
   {
     title: "Diploma Program",
     subheader: "Most Popular",
-    price: "50,000",
+    price: "20,000",
     description: [
-      "1-year comprehensive syllabus",
+      "2-year comprehensive syllabus",
       "Everything in Certificate",
       "Industry internship placement",
       "Capstone research project",
@@ -41,8 +43,8 @@ const tiers = [
     buttonColor: "secondary",
   },
   {
-    title: "Degree Program",
-    price: "100,000",
+    title: "ISBAT Advanced Diploma",
+    price: "50,000",
     description: [
       "3-year accredited degree",
       "Full access to all facilities",
@@ -86,8 +88,8 @@ export default function Pricing() {
         <Typography variant="body1" sx={{ color: "text.secondary" }}>
           Choose your pathway at Kisii Impact Institute of Science and
           Technology—whether a short certificate, an in-depth diploma, or a full
-          degree. Each plan combines hands-on learning, expert mentorship, and
-          industry connections to launch your tech career.
+          advanced diploma. Each plan combines hands-on learning, expert mentorship, and
+          industry connections to launch your career.
         </Typography>
       </Box>
       <Grid
@@ -145,7 +147,8 @@ export default function Pricing() {
                     {tier.title}
                   </Typography>
                   {tier.subheader && (
-                    <Chip icon={<AutoAwesomeIcon />} label={tier.subheader} />
+                    <Tag>{tier.subheader }</Tag>
+                    // <Chip icon={<AutoAwesomeIcon />} label={tier.subheader} />
                   )}
                 </Box>
                 <Box
@@ -214,6 +217,27 @@ export default function Pricing() {
           </Grid>
         ))}
       </Grid>
+
+      <FloatButton.Group icon={<PlusOutlined/>} trigger="click">
+        <FloatButton
+          icon={<MessageOutlined />}
+          tooltip="Contact Admissions"
+          type="primary"
+          style={{ right: 24, bottom: 80 }}
+          onClick={() => {
+            window.open("https://wa.me/254780640762", "_blank");
+          }}
+        />
+        <FloatButton
+          icon={<AutoAwesomeIcon />}
+          tooltip="Apply Now"
+          type="primary"
+          style={{ right: 24, bottom: 140 }}
+          onClick={() => {
+            window.open("https://kisiiimpact.ac.ke/apply", "_blank");
+          }}
+        />
+      </FloatButton.Group>
     </Container>
   );
 }
