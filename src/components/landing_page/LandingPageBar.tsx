@@ -110,7 +110,7 @@ export default function LandingPageBar() {
                       <CloseRounded />
                     </IconButton>
                   </Box>
-                  <Box>
+                  <Box width={"100%"}>
                     <DrawerMenuItem title="About" />
                     <DrawerMenuItem title="Admission" />
                     <DrawerMenuItem title="Administration" />
@@ -122,7 +122,14 @@ export default function LandingPageBar() {
                       <Button color="primary" variant="contained" fullWidth>
                         Sign up
                       </Button>
-                      <Button color="primary" variant="outlined" fullWidth>
+                      <Button
+                        onClick={() => {
+                          navigate("/auth/login");
+                        }}
+                        color="primary"
+                        variant="outlined"
+                        fullWidth
+                      >
                         Sign in
                       </Button>
                     </Box>
@@ -153,8 +160,16 @@ const DropdownMenu = ({ items, title }) => {
 
 const DrawerMenuItem = ({ title }: { title: string }) => {
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Button variant="text" color="info" size="small">
+    <Box width={"100%"} sx={{ display: "flex", alignItems: "center" }}>
+      <Button
+        sx={{
+          justifyContent: "flex-start",
+        }}
+        fullWidth
+        variant="text"
+        color="info"
+        size="small"
+      >
         {title}
       </Button>
     </Box>
