@@ -116,7 +116,7 @@ export default function SigninCard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* <Loading isLoading={isLoading}> */}
+        <Loading isLoading={isLoading}>
           <Stack sx={{ gap: 4, mb: 2 }}>
             <Stack sx={{ gap: 1 }}>
               <Typography component="h1" level="h3">
@@ -195,7 +195,7 @@ export default function SigninCard() {
               </Stack>
             </form>
           </Stack>
-        {/* </Loading> */}
+        </Loading>
       </motion.div>
     </Box>
   );
