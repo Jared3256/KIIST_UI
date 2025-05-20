@@ -12,7 +12,7 @@ export default function useRefreshToken() {
   const refresh = async () => {
     try {
       await axios
-        .get("/api/v1/auth/refresh", {
+        .get("/auth/refresh", {
           withCredentials: true,
         })
         .then((response) => {
