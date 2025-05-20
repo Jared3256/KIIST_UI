@@ -4,6 +4,7 @@ import PageLayout from "../pages/layout/PageLayout";
 import AuthModule from "../modules/Auth.module";
 import Loginv2 from "../pages/auth/new_login";
 import LandingPage from "src/pages/landing_page/LandingPage";
+import PersisAccess from "src/security/PersisAccess";
 
 const system_routes = createBrowserRouter([
   {
@@ -21,6 +22,16 @@ const system_routes = createBrowserRouter([
           {
             path: "login",
             element: <Loginv2 />,
+          },
+        ],
+      },
+      {
+        path: "v1",
+        element: <PersisAccess />,
+        children: [
+          {
+            path: "info",
+            element: <div>Coming soon</div>,
           },
         ],
       },

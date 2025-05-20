@@ -15,6 +15,8 @@ import React, { FormEvent, useEffect, useState } from "react";
 import {
   Link,
   Link as RouterLink,
+  useLocation,
+  useNavigate,
   // useLocation,
   // useNavigate,
 } from "react-router";
@@ -29,6 +31,9 @@ import { motion } from "framer-motion";
 
 import { Loader } from "lucide-react";
 import Loading from "../Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "src/redux/auth/selectors";
+import { login } from "src/redux/auth/actions";
 // import color from "../../../services/utils/color";
 // import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
@@ -42,38 +47,36 @@ interface SignInFormElement extends HTMLFormElement {
 }
 
 export default function SigninCard() {
-  // const { setAuth, persist, setPersist } = useAuth();
-  // const [snackMessage, setSnackMessage] = useState();
+  
   // const [color, setColor] = useState();
   // const [snackIcon, setSnackIcon] = useState(<CheckCircleOutlined />);
   // const [open, setOpen] = useState(false);
-  // const location = useLocation();
-  // const [loggingIn, setLoggingIn] = useState(false);
-  // const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // create a Url to route to
-  // const fromUrl = location.state?.from?.pathname || "/info";
+  const fromUrl = location.state?.from?.pathname || "/v1/info";
   // console.log(fromUrl);
   // // redux Configurations and details
-  // const dispatch = useDispatch();
-  // const { isLoading, isSuccess, current } = useSelector(selectAuth);
+  const dispatch = useDispatch();
+  console.log(useSelector(selectAuth));
+  const { isLoading, isSuccess, current } = useSelector(selectAuth);
 
-  // useEffect(() => {
-  //   handleSuccessLogin();
-  // }, [isSuccess]);
+  useEffect(() => {
+    handleSuccessLogin();
+  }, [isSuccess]);
 
-  // const handleSuccessLogin = () => {
-  //   if (isSuccess) {
-  //     navigate(fromUrl, { replace: true });
-  //   }
-  // };
-  // const handleLogin = async (username, password, persist) => {
-  //   const data = JSON.stringify({ email: username, password });
+  const handleSuccessLogin = () => {
+    if (isSuccess) {
+      navigate(fromUrl, { replace: true });
+    }
+  };
+  const handleLogin = async (username, password) => {
+    const data = JSON.stringify({ email: username, password });
 
-  //   dispatch(login({ loginData: data }));
-  //   handlePersistToggle(persist);
-  //   setLoggingIn(isLoading);
-  // };
+    dispatch(login({ loginData: data }));
+    // handlePersistToggle(persist);
+  };
 
   // const handlePersistToggle = (value) => {
   //   setPersist(value);
@@ -81,9 +84,7 @@ export default function SigninCard() {
 
   // useEffect(() => {
   //   localStorage.setItem("persist", persist);
-  // }, [persist]);
-
-  const isLoading = false; // Replace with your loading state
+  // }, [persis]);
   return (
     <Box
       component="main"
@@ -157,11 +158,11 @@ export default function SigninCard() {
                 event.preventDefault();
                 const formElements = event.currentTarget.elements;
 
-                // handleLogin(
-                //   formElements.email.value,
-                //   formElements.password.value,
-                //   formElements.persistent.checked
-                // );
+                handleLogin(
+                  formElements.email.value,
+                  formElements.password.value,
+                  // formElements.persistent.checked
+                );
               }}
             >
               <FormControl required>
