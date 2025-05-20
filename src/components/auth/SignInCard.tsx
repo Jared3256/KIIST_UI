@@ -26,7 +26,7 @@ import { Input as AntInput } from "antd";
 // import { selectAuth } from "../../../redux/auth/selectors";
 // import { login } from "../../../redux/auth/actions";
 // import Loading from "../../../components/Loading/Loading";
-import {  GoogleOutlined } from "@ant-design/icons";
+import { GoogleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 
 import { Loader } from "lucide-react";
@@ -47,7 +47,6 @@ interface SignInFormElement extends HTMLFormElement {
 }
 
 export default function SigninCard() {
-  
   // const [color, setColor] = useState();
   // const [snackIcon, setSnackIcon] = useState(<CheckCircleOutlined />);
   // const [open, setOpen] = useState(false);
@@ -62,6 +61,8 @@ export default function SigninCard() {
   console.log(useSelector(selectAuth));
   const { isLoading, isSuccess, current } = useSelector(selectAuth);
 
+  console.log("Current from the login module", current);
+  
   useEffect(() => {
     handleSuccessLogin();
   }, [isSuccess]);
@@ -133,8 +134,8 @@ export default function SigninCard() {
                 </Link>
               </Typography>
             </Stack>
-          <Button
-            disabled
+            <Button
+              disabled
               variant="soft"
               color="neutral"
               fullWidth
@@ -160,7 +161,7 @@ export default function SigninCard() {
 
                 handleLogin(
                   formElements.email.value,
-                  formElements.password.value,
+                  formElements.password.value
                   // formElements.persistent.checked
                 );
               }}

@@ -6,16 +6,26 @@ import {
   IconButton,
   Typography,
 } from "@mui/joy";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { BadgeOutlined } from "@mui/icons-material";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectAuth } from "src/redux/auth/selectors";
 
 export default function AuthModule() {
+  const { current } = useSelector(selectAuth);
+  const location = useLocation();
+  // create a Url to route to
+  const fromUrl = location.state?.from?.pathname || "/v1/info";
   const navigate = useNavigate();
   useEffect(() => {
-    navigate("/auth/login", {
-      replace: true,
-    });
+    if (current.isLoggedIn) {
+      navigate(fromUrl);
+    } else {
+      navigate("/auth/login", {
+        replace: true,
+      });
+    }
   }, []);
   return (
     <CssVarsProvider defaultMode="light" disableTransitionOnChange>
