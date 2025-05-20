@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 
 import PageLayout from "../pages/layout/PageLayout";
 import AuthModule from "../modules/Auth.module";
@@ -19,6 +19,10 @@ const system_routes = createBrowserRouter([
         path: "auth",
         element: <AuthModule />,
         children: [
+          {
+            index: true,
+            element: <Navigate to="/auth/login" replace />,
+          },
           {
             path: "login",
             element: <Loginv2 />,

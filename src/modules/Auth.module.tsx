@@ -21,12 +21,8 @@ export default function AuthModule() {
   useEffect(() => {
     if (current.isLoggedIn) {
       navigate(fromUrl);
-    } else {
-      navigate("/auth/login", {
-        replace: true,
-      });
     }
-  }, []);
+  });
   return (
     <CssVarsProvider defaultMode="light" disableTransitionOnChange>
       <CssBaseline />
