@@ -33,7 +33,7 @@ export default function PersisAccess() {
     !current.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
     return () => (isMounted = false);
-  });
+  },[]);
   return (
     <>
       {current?.UserInfo ? (
