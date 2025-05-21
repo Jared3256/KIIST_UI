@@ -202,7 +202,7 @@ export default function Sidebar() {
         >
           <ListItem>
             <ListItemButton
-              onClick={() => selectedHandler("home")}
+              
               selected={selected["home"]}
               onClick={() => handleNavigation("/")}
             >
