@@ -6,7 +6,7 @@ import useRefreshToken from "src/service/useRefreshToken";
 import RequireAuthLayout from "./RequireAuthLayout";
 import PageLoader from "src/components/PageLoader";
 
-export default function PersisAccess() {
+export default function PersistAccess() {
   const { current } = useSelector(selectAuth);
   const refresh = useRefreshToken();
   const location = useLocation();

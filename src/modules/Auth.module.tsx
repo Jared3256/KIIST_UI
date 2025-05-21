@@ -16,7 +16,7 @@ export default function AuthModule() {
   const { current } = useSelector(selectAuth);
   const location = useLocation();
   // create a Url to route to
-  const fromUrl = location.state?.from?.pathname || "/v1/info";
+  const fromUrl = location.state?.from?.pathname || "/v1/dashboard";
   const navigate = useNavigate();
   useEffect(() => {
     if (current.isLoggedIn) {

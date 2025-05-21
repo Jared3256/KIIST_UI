@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
+import SystemLayout from "src/pages/layout/SystemLayout";
 import { selectAuth } from "src/redux/auth/selectors";
 
 export default function RequireAuthLayout() {
@@ -8,12 +9,12 @@ export default function RequireAuthLayout() {
 
   const { current } = useSelector(selectAuth);
 
-  console.log(current)
+  console.log(current);
   return current.UserInfo ? (
     current.UserInfo?.enabled ? (
-      <Outlet />
+      <SystemLayout />
     ) : (
-      <Navigate to={"/auth/unauthorised"} replace />
+      <Navigate to={"/auth/unauthorized"} replace />
     )
   ) : (
     <Navigate to={"/auth/login"} state={{ from: location }} replace />

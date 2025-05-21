@@ -54,7 +54,7 @@ export default function SigninCard() {
   const navigate = useNavigate();
 
   // create a Url to route to
-  const fromUrl = location.state?.from?.pathname || "/v1/info";
+  const fromUrl = location.state?.from?.pathname || "/v1/dashboard";
   // console.log(fromUrl);
   // // redux Configurations and details
   const dispatch = useDispatch();
