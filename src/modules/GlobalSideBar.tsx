@@ -28,12 +28,13 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 // import ColorSchemeToggle from "./ColorSchemeToggle";
 import { closeSidebar } from "./utils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "src/redux/auth/selectors";
 import { Avatar } from "antd";
 import { MoneyRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { BookUser } from "lucide-react";
+import { logout } from "src/redux/auth/actions";
 
 function Toggler({
   defaultExpanded = false,
@@ -100,7 +101,7 @@ export default function Sidebar() {
   };
   // User module
   const { current } = useSelector(selectAuth);
-  const role = "student"; //current.UserInfo.role;
+  const role = current.UserInfo.role;
 
   // navigation mechanism
   const navigate = useNavigate();
@@ -110,6 +111,11 @@ export default function Sidebar() {
     navigate(link);
   };
 
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  
   return (
     <Sheet
       className="Sidebar"
@@ -198,7 +204,7 @@ export default function Sidebar() {
             <ListItemButton
               onClick={() => selectedHandler("home")}
               selected={selected["home"]}
-              // onClick={() => handleNavigation("/")}
+              onClick={() => handleNavigation("/")}
             >
               <HomeRoundedIcon />
               <ListItemContent>
@@ -285,13 +291,7 @@ export default function Sidebar() {
               >
                 <List sx={{ gap: 0.5 }}>
                   <ListItem sx={{ mt: 0.5 }}>
-                    <ListItemButton
-                      role="menuitem"
-                      component="a"
-                      href="/joy-ui/getting-started/templates/profile-dashboard/"
-                    >
-                      Expenses
-                    </ListItemButton>
+                    <ListItemButton role="menuitem">Expenses</ListItemButton>
                   </ListItem>
                   <ListItem>
                     <ListItemButton>Expense Category</ListItemButton>
@@ -336,13 +336,7 @@ export default function Sidebar() {
               >
                 <List sx={{ gap: 0.5 }}>
                   <ListItem sx={{ mt: 0.5 }}>
-                    <ListItemButton
-                      role="menuitem"
-                      component="a"
-                      href="/joy-ui/getting-started/templates/profile-dashboard/"
-                    >
-                      Courses
-                    </ListItemButton>
+                    <ListItemButton role="menuitem">Courses</ListItemButton>
                   </ListItem>
 
                   <ListItem>
@@ -382,13 +376,7 @@ export default function Sidebar() {
               >
                 <List sx={{ gap: 0.5 }}>
                   <ListItem sx={{ mt: 0.5 }}>
-                    <ListItemButton
-                      role="menuitem"
-                      component="a"
-                      href="/joy-ui/getting-started/templates/profile-dashboard/"
-                    >
-                      Transcripts
-                    </ListItemButton>
+                    <ListItemButton role="menuitem">Transcripts</ListItemButton>
                   </ListItem>
                   <ListItem sx={{ mt: 0.5 }}>
                     <ListItemButton role="menuitem">My Courses</ListItemButton>
@@ -403,15 +391,6 @@ export default function Sidebar() {
               </Toggler>
             </ListItem>
           )}
-
-          {/* <ListItem>
-            <ListItemButton selected={selected["files"]}>
-              <Files />
-              <ListItemContent>
-                <Typography level="title-sm">Files</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem> */}
         </List>
         <List
           size="sm"
@@ -477,7 +456,12 @@ export default function Sidebar() {
           <Typography level="title-sm">{current.UserInfo.fullname}</Typography>
           <Typography level="body-xs">{current.UserInfo.email}</Typography>
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton
+          onClick={() => handleLogout()}
+          size="sm"
+          variant="plain"
+          color="neutral"
+        >
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

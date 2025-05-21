@@ -16,16 +16,9 @@ import {
   Link,
   Link as RouterLink,
   useLocation,
-  useNavigate,
-  // useLocation,
-  // useNavigate,
+  useNavigate
 } from "react-router";
-// import useAuth from "../../../services/hooks/useAuth";
 import { Input as AntInput } from "antd";
-// import { useDispatch, useSelector } from "react-redux";
-// import { selectAuth } from "../../../redux/auth/selectors";
-// import { login } from "../../../redux/auth/actions";
-// import Loading from "../../../components/Loading/Loading";
 import { GoogleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 
@@ -34,8 +27,6 @@ import Loading from "../Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "src/redux/auth/selectors";
 import { login } from "src/redux/auth/actions";
-// import color from "../../../services/utils/color";
-// import ErrorBoundary from "../../ErrorBoundary/ErrorBoundary";
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -47,9 +38,6 @@ interface SignInFormElement extends HTMLFormElement {
 }
 
 export default function SigninCard() {
-  // const [color, setColor] = useState();
-  // const [snackIcon, setSnackIcon] = useState(<CheckCircleOutlined />);
-  // const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -58,10 +46,8 @@ export default function SigninCard() {
   // console.log(fromUrl);
   // // redux Configurations and details
   const dispatch = useDispatch();
-  console.log(useSelector(selectAuth));
-  const { isLoading, isSuccess, current } = useSelector(selectAuth);
+  const { isLoading, isSuccess} = useSelector(selectAuth);
 
-  console.log("Current from the login module", current);
   
   useEffect(() => {
     handleSuccessLogin();
@@ -79,13 +65,7 @@ export default function SigninCard() {
     // handlePersistToggle(persist);
   };
 
-  // const handlePersistToggle = (value) => {
-  //   setPersist(value);
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem("persist", persist);
-  // }, [persis]);
+  
   return (
     <Box
       component="main"

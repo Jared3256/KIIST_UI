@@ -35,3 +35,32 @@ export const login = async ({ loginData }) => {
 
   return server_data;
 };
+
+
+export const logout = async () => {
+  let server_response = {};
+  await axios
+    .post(
+       "/auth/logout",
+      { data: null },
+      {
+        withCredentials: true,
+      }
+    )
+    .then((response) => {
+      const { status, data } = response;
+      server_response = data;
+      successHandler(
+        { data, status },
+        {
+          notifyOnSuccess: true,
+          notifyOnFailed: true,
+        }
+      );
+    })
+    .catch((error) => {
+      errorHandler(error);
+    });
+
+  return { ...server_response, success: true };
+};

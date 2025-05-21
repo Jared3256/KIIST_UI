@@ -7,7 +7,8 @@ interface LoginData {
   password: string;
 }
 
-export const login = ({ loginData }: LoginData) =>
+export const login =
+  ({ loginData }: LoginData) =>
   async (dispatch: any) => {
     dispatch({
       type: actionTypes.REQUEST_LOADING,
@@ -31,3 +32,28 @@ export const login = ({ loginData }: LoginData) =>
       });
     }
   };
+
+export const logout = () => async (dispatch) => {
+  // logout out the user from the from end before the sending the request for logout in the backend
+  dispatch({
+    type: actionTypes.LOGOUT_SUCCESS,
+  });
+
+  const data = await authService.logout();
+
+  if (data.success === false) {
+    const auth_state = {
+      current: {},
+      isLoggedIn: true,
+      isLoading: false,
+      isSuccess: true,
+    };
+
+    dispatch({
+      type: actionTypes.LOGOUT_FAILED,
+      payload: data.response,
+    });
+  } else {
+    /* empty */
+  }
+};
