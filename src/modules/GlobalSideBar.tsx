@@ -33,7 +33,7 @@ import { selectAuth } from "src/redux/auth/selectors";
 import { Avatar } from "antd";
 import { MoneyRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { BookUser, Files } from "lucide-react";
+import { BookUser } from "lucide-react";
 
 function Toggler({
   defaultExpanded = false,
@@ -100,6 +100,7 @@ export default function Sidebar() {
   };
   // User module
   const { current } = useSelector(selectAuth);
+  const role = "student"; //current.UserInfo.role;
 
   // navigation mechanism
   const navigate = useNavigate();
@@ -217,203 +218,200 @@ export default function Sidebar() {
               </ListItemContent>
             </ListItemButton>
           </ListItem>
-
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton
-                  selected={selected["users"]}
-                  onClick={() => setOpen(!open)}
-                >
-                  <GroupRoundedIcon />
-                  <ListItemContent>
-                    <Typography level="title-sm">Users</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={[
-                      open
-                        ? {
-                            transform: "rotate(180deg)",
-                          }
-                        : {
-                            transform: "none",
-                          },
-                    ]}
-                  />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton role="menuitem">Tutors</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Students</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
-
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton
-                  selected={selected["finance"]}
-                  onClick={() => setOpen(!open)}
-                >
-                  <MoneyRounded />
-                  <ListItemContent>
-                    <Typography level="title-sm">Finance</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={[
-                      open
-                        ? {
-                            transform: "rotate(180deg)",
-                          }
-                        : {
-                            transform: "none",
-                          },
-                    ]}
-                  />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
+          {role === "admin" && (
+            <ListItem nested>
+              <Toggler
+                renderToggle={({ open, setOpen }) => (
                   <ListItemButton
-                    role="menuitem"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    selected={selected["users"]}
+                    onClick={() => setOpen(!open)}
                   >
-                    Expenses
+                    <GroupRoundedIcon />
+                    <ListItemContent>
+                      <Typography level="title-sm">Users</Typography>
+                    </ListItemContent>
+                    <KeyboardArrowDownIcon
+                      sx={[
+                        open
+                          ? {
+                              transform: "rotate(180deg)",
+                            }
+                          : {
+                              transform: "none",
+                            },
+                      ]}
+                    />
                   </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Expense Category</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Payment Mode</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Invoices</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>School fee</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
+                )}
+              >
+                <List sx={{ gap: 0.5 }}>
+                  <ListItem sx={{ mt: 0.5 }}>
+                    <ListItemButton role="menuitem">Tutors</ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>Students</ListItemButton>
+                  </ListItem>
+                </List>
+              </Toggler>
+            </ListItem>
+          )}
 
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton
-                  selected={selected["programmes"]}
-                  onClick={() => setOpen(!open)}
-                >
-                  <BookUser />
-                  <ListItemContent>
-                    <Typography level="title-sm">Programmes</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={[
-                      open
-                        ? {
-                            transform: "rotate(180deg)",
-                          }
-                        : {
-                            transform: "none",
-                          },
-                    ]}
-                  />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
+          {/* Finance Section only visible to the admin */}
+          {role === "admin" && (
+            <ListItem nested>
+              <Toggler
+                renderToggle={({ open, setOpen }) => (
                   <ListItemButton
-                    role="menuitem"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    selected={selected["finance"]}
+                    onClick={() => setOpen(!open)}
                   >
-                    Courses
+                    <MoneyRounded />
+                    <ListItemContent>
+                      <Typography level="title-sm">Finance</Typography>
+                    </ListItemContent>
+                    <KeyboardArrowDownIcon
+                      sx={[
+                        open
+                          ? {
+                              transform: "rotate(180deg)",
+                            }
+                          : {
+                              transform: "none",
+                            },
+                      ]}
+                    />
                   </ListItemButton>
-                </ListItem>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton
-                    role="menuitem"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/profile-dashboard/"
-                  >
-                    My Courses
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Schedule</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
+                )}
+              >
+                <List sx={{ gap: 0.5 }}>
+                  <ListItem sx={{ mt: 0.5 }}>
+                    <ListItemButton
+                      role="menuitem"
+                      component="a"
+                      href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    >
+                      Expenses
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>Expense Category</ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>Payment Mode</ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>Invoices</ListItemButton>
+                  </ListItem>
+                </List>
+              </Toggler>
+            </ListItem>
+          )}
 
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton
-                  selected={selected["programmes"]}
-                  onClick={() => setOpen(!open)}
-                >
-                  <BookUser />
-                  <ListItemContent>
-                    <Typography level="title-sm">Academics</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={[
-                      open
-                        ? {
-                            transform: "rotate(180deg)",
-                          }
-                        : {
-                            transform: "none",
-                          },
-                    ]}
-                  />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
+          {/* Programmes only for the admin and tutors */}
+          {(role === "admin" || role === "tutor") && (
+            <ListItem nested>
+              <Toggler
+                renderToggle={({ open, setOpen }) => (
                   <ListItemButton
-                    role="menuitem"
-                    component="a"
-                    href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    selected={selected["programmes"]}
+                    onClick={() => setOpen(!open)}
                   >
-                    Transcripts
+                    <BookUser />
+                    <ListItemContent>
+                      <Typography level="title-sm">Programmes</Typography>
+                    </ListItemContent>
+                    <KeyboardArrowDownIcon
+                      sx={[
+                        open
+                          ? {
+                              transform: "rotate(180deg)",
+                            }
+                          : {
+                              transform: "none",
+                            },
+                      ]}
+                    />
                   </ListItemButton>
-                </ListItem>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton
-                    role="menuitem"
-                   
-                  >
-                    My Courses
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Schedule</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
+                )}
+              >
+                <List sx={{ gap: 0.5 }}>
+                  <ListItem sx={{ mt: 0.5 }}>
+                    <ListItemButton
+                      role="menuitem"
+                      component="a"
+                      href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    >
+                      Courses
+                    </ListItemButton>
+                  </ListItem>
 
-          <ListItem>
+                  <ListItem>
+                    <ListItemButton>Schedule</ListItemButton>
+                  </ListItem>
+                </List>
+              </Toggler>
+            </ListItem>
+          )}
+
+          {/* Academics only for students */}
+          {role === "student" && (
+            <ListItem nested>
+              <Toggler
+                renderToggle={({ open, setOpen }) => (
+                  <ListItemButton
+                    selected={selected["programmes"]}
+                    onClick={() => setOpen(!open)}
+                  >
+                    <BookUser />
+                    <ListItemContent>
+                      <Typography level="title-sm">Academics</Typography>
+                    </ListItemContent>
+                    <KeyboardArrowDownIcon
+                      sx={[
+                        open
+                          ? {
+                              transform: "rotate(180deg)",
+                            }
+                          : {
+                              transform: "none",
+                            },
+                      ]}
+                    />
+                  </ListItemButton>
+                )}
+              >
+                <List sx={{ gap: 0.5 }}>
+                  <ListItem sx={{ mt: 0.5 }}>
+                    <ListItemButton
+                      role="menuitem"
+                      component="a"
+                      href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    >
+                      Transcripts
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem sx={{ mt: 0.5 }}>
+                    <ListItemButton role="menuitem">My Courses</ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>Schedule</ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>School fee</ListItemButton>
+                  </ListItem>
+                </List>
+              </Toggler>
+            </ListItem>
+          )}
+
+          {/* <ListItem>
             <ListItemButton selected={selected["files"]}>
               <Files />
               <ListItemContent>
                 <Typography level="title-sm">Files</Typography>
               </ListItemContent>
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
         <List
           size="sm"
@@ -471,7 +469,10 @@ export default function Sidebar() {
       </Box>
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286" />
+        <Avatar>
+          {String(current.UserInfo.fullname).toUpperCase().charAt(0)}
+          {String(current.UserInfo.fullname).split(" ")[1].charAt(0)}
+        </Avatar>
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">{current.UserInfo.fullname}</Typography>
           <Typography level="body-xs">{current.UserInfo.email}</Typography>
