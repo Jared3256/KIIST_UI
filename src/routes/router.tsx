@@ -11,6 +11,7 @@ import PersistAccess from "src/security/PersistAccess";
 import Home from "src/pages/home/home";
 import LandingHome from "src/pages/landing_page/modules/admission";
 import Requirements from "src/pages/landing_page/modules/admission/requirement";
+import AdmissionStatus from "src/pages/landing_page/modules/admission/status";
 
 const system_routes = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const system_routes = createBrowserRouter([
               {
                 path: "requirements",
                 element: <Requirements />,
+              },
+              {
+                path: "status",
+                element: <AdmissionStatus />,
               },
             ],
           },
