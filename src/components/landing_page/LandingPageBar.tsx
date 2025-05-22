@@ -2,7 +2,13 @@ import React from "react";
 import AppBar from "@mui/material/AppBar";
 import { alpha, Container, styled, Toolbar } from "@mui/material";
 import { Box, Button, Divider, Drawer, IconButton } from "@mui/material";
-import { CloseRounded } from "@mui/icons-material";
+import {
+  AirplanemodeActiveRounded,
+  BluetoothRounded,
+  CloseRounded,
+  TapAndPlayRounded,
+  WifiRounded,
+} from "@mui/icons-material";
 import { Dropdown, Menu } from "antd";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,10 +16,26 @@ import SitemarkIcon from "./SiteMark";
 import { useNavigate } from "react-router";
 import {
   about,
+  aboutData,
   administration,
   admission,
+  admissionData,
   programmes,
+  programmesData,
 } from "./LandingPAgeBarConstants";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionGroup,
+  AccordionSummary,
+  Avatar,
+  FormControl,
+  FormLabel,
+  ListItemContent,
+  Stack,
+  Switch,
+  Typography,
+} from "@mui/joy";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -114,17 +136,22 @@ export default function LandingPageBar() {
                       <CloseRounded />
                     </IconButton>
                   </Box>
-                  <Box width={"100%"}>
-                    <DrawerMenuItem title="About" />
-                    <DrawerMenuItem title="Admission" url="admission" />
-                    <DrawerMenuItem title="Administration" />
-                    <DrawerMenuItem title="Programmes" />
-                    <Divider sx={{ my: 3 }} />
+                  <Box width={"100%"} mb={6}>
+                    <AccordionGroup>
+                      <DrawerMenuItem2 title="About" data={aboutData} />
+                      <DrawerMenuItem2 title="Admission" data={admissionData} />
+                      <DrawerMenuItem2
+                        title="Programmes"
+                        data={programmesData}
+                      />
+                    </AccordionGroup>
+
                     <Box
+                      mt={6}
                       sx={{ display: "flex", flexDirection: "column", gap: 1 }}
                     >
                       <Button color="primary" variant="contained" fullWidth>
-                        Sign up
+                        Register
                       </Button>
                       <Button
                         onClick={() => {
@@ -167,7 +194,6 @@ function findLabel(items: MenuItem[], targetKey: string): string | undefined {
 const DropdownMenu = ({
   items,
   title,
-  url,
 }: {
   title: string;
   url?: string;
@@ -200,6 +226,50 @@ const DropdownMenu = ({
         </Box>
       </a>
     </Dropdown>
+  );
+};
+
+const DrawerMenuItem2 = ({ title, data }: { title: string; data: [] }) => {
+  const navigate = useNavigate();
+  const handleMenuItemClick = (url) => {
+    if (url) {
+      navigate(url);
+    }
+  };
+  return (
+    <Accordion>
+      <AccordionSummary>
+        <Avatar color="primary" size="sm">
+          <TapAndPlayRounded fontSize="12px" />
+        </Avatar>
+        <ListItemContent>
+          <Typography level="title-md">{title}</Typography>
+          <Typography level="body-sm">
+            Check and manage your admissions
+          </Typography>
+        </ListItemContent>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Stack spacing={1.5}>
+          {data.map((item) => (
+            <Button
+              disabled={item.disabled}
+              onClick={() => handleMenuItemClick(item.url)}
+              key={item.key}
+              sx={{
+                justifyContent: "flex-start",
+              }}
+              fullWidth
+              variant="text"
+              color="info"
+              size="small"
+            >
+              {item.label}
+            </Button>
+          ))}
+        </Stack>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 

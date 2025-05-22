@@ -13,13 +13,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 import Collapse from "@mui/material/Collapse";
 
 import visuallyHidden from "@mui/utils/visuallyHidden";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Loading from "src/components/Loading";
 
 interface RowData {
   name: string;
@@ -188,18 +189,19 @@ const rows = [
 ];
 
 export default function AdmissionStatus() {
+  const [loading, setIsLoading] = useState(true)
   return (
     <Box display={"flex"} flexDirection={"column"} gap={"40px"}>
       <Box display={"flex"} flexDirection={"column"} gap={"20px"}>
         <Typography component={"h4"}>
           Check Your admission status here
         </Typography>
-        <Box display={"flex"} >
+        <Box display={"flex"}>
           <Box width={"100%"} display={"flex"} gap={"4-px"}>
             {/* <InputLabel required>Id number</InputLabel> */}
             <TextField
               sx={{
-                marginRight:"40px"
+                marginRight: "40px",
               }}
               id="email-hero"
               hiddenLabel
@@ -218,6 +220,7 @@ export default function AdmissionStatus() {
           </Box>
 
           <Button
+            onClick={()=>setIsLoading(!loading)}
             variant="contained"
             color="primary"
             size="small"
@@ -228,24 +231,28 @@ export default function AdmissionStatus() {
         </Box>
         <Divider />
       </Box>
-      <TableContainer component={Paper}>
-        <Table aria-label="admission status table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Student Name</TableCell>
-              <TableCell>Level</TableCell>
-              <TableCell>Course</TableCell>
-              <TableCell>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={`${row.name}-${row.course}`} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {loading ? (
+        <Loading isLoading={loading}/>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table aria-label="admission status table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell>Student Name</TableCell>
+                <TableCell>Level</TableCell>
+                <TableCell>Course</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <Row key={`${row.name}-${row.course}`} row={row} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 }

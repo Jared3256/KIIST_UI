@@ -328,3 +328,105 @@ export const admission: MenuProps["admission"] = [
     ],
   },
 ];
+
+// Accordion data
+export const admissionData = [
+  {
+    key: "1",
+    label: "Basic requirements",
+    url: "/h/admission/requirements",
+    disabled: false,
+  },
+  {
+    key: "2",
+    label: "Forms",
+    url: "/h/admission/forms",
+    disabled: true,
+  },
+  {
+    key: "3",
+    label: "Status",
+    url: "/h/admission/status",
+    disabled: false,
+  },
+  {
+    key: "4",
+    label: "Admission Letters",
+    url: "/h/admission/letters",
+    disabled: true,
+  },
+];
+
+export const aboutData = [
+  {
+    key: "1",
+    label: "About Kiist",
+    url: "/h/about",
+    disabled: true,
+  },
+  {
+    key: "2",
+    label: "Vision & Mission",
+    url: "/h/about/vision & mission",
+    disabled: true,
+  },
+  {
+    key: "3",
+    label: "Director",
+    url: "/h/about/director",
+    disabled: true,
+  },
+  {
+    key: "4",
+    label: "Authorities",
+    url: "/h/about/authorities",
+    disabled: true,
+  },
+  {
+    key: "5",
+    label: "KIIST Act",
+    url: "/h/about/act",
+    disabled: true,
+  },
+  {
+    key: "6",
+    label: "Location Map",
+    url: "/h/about/map",
+    disabled: true,
+  },
+];
+
+
+export const programmesData = [
+  {
+    key: "1",
+    label: "KNEC/CDACC PROGRAMMES",
+    url: "/h/programmes/knec_cdacc",
+    disabled: true,
+  },
+  {
+    key: "2",
+    label: "NITA PROGRAMMES",
+    url: "/h/programmes/nita",
+    disabled: true,
+  },
+  {
+    key: "3",
+    label: "ISBAT Programmes",
+    url: "/h/programmes/isbat",
+    disabled: true,
+  },
+  {
+    key: "4",
+    label: "Authorities",
+    url: "/h/programmes/jp",
+    disabled: true,
+  },
+  {
+    key: "5",
+    label: "KIIST Act",
+    url: "/h/programmes/short",
+    disabled: true,
+  },
+  
+];
