@@ -1,4 +1,3 @@
-
 import { CssBaseline, Divider } from "@mui/joy";
 import LandingPageBar from "../../components/landing_page/LandingPageBar";
 import Features from "../../components/landing_page/Features";
@@ -8,16 +7,10 @@ import Pricing from "../../components/landing_page/Pricing";
 import FAQ from "../../components/landing_page/FAQ";
 import Footer from "../../components/landing_page/Footer";
 import Hero from "../../components/landing_page/Hero";
-import { useLocation } from "react-router";
 
 export default function LandingPage() {
-
-  const location = useLocation()
-const locationPathname = location.pathname
-
   return (
     <div>
-      
       <CssBaseline />
       <LandingPageBar />
       <Hero />

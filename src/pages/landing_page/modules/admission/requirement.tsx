@@ -4,11 +4,9 @@ import {
   Link,
   List,
   ListItem,
-  ListItemDecorator,
   Typography,
 } from "@mui/joy";
 import React from "react";
-
 export default function Requirements() {
   return (
     <Box width={"100%"} display={"flex"}>
@@ -123,7 +121,8 @@ export default function Requirements() {
             </Box>
           </Box>
         </Box>
-        <Divider/>
+        
+        <Divider />
         <Box
           width={"100%"}
           display={"flex"}
@@ -131,7 +130,6 @@ export default function Requirements() {
           justifyContent={"center"}
           alignItems={"center"}
         >
-          
           <Typography>
             Minimum Eligibility Criteria Contact Admission office for more
             details programmed wise eligibility

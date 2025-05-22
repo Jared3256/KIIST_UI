@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import { alpha, Container, styled, Toolbar } from "@mui/material";
 import { Box, Button, Divider, Drawer, IconButton } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
-import { Dropdown } from "antd";
+import { Dropdown, Menu } from "antd";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SitemarkIcon from "./SiteMark";
@@ -148,6 +148,22 @@ export default function LandingPageBar() {
   );
 }
 
+type MenuItem = {
+  key: string;
+  label?: string;
+  url?: string;
+  children?: MenuItem[];
+};
+
+function findLabel(items: MenuItem[], targetKey: string): string | undefined {
+  for (const item of items) {
+    if (item.key === targetKey) return item.url;
+    if (item.children) {
+      const found = findLabel(item.children, targetKey);
+      if (found) return found;
+    }
+  }
+}
 const DropdownMenu = ({
   items,
   title,
@@ -159,14 +175,18 @@ const DropdownMenu = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleMenuItemClick = () => {
-    if (url) {
-      navigate(`/h/${url}`);
-      console.log("/url", url);
+  const handleMenuItemClick: MenuProps["onClick"] = ({ key }) => {
+    const label = findLabel(items, key);
+    if (label) {
+      navigate(label);
     }
   };
+
   return (
-    <Dropdown menu={{ items }} className="mr-4" >
+    <Dropdown
+      menu={{ items: items, onClick: handleMenuItemClick }}
+      className="mr-4"
+    >
       <a
         onClick={(e) => {
           e.preventDefault();

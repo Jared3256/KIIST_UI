@@ -5,26 +5,32 @@ export const about: MenuProps["about"] = [
     key: "1",
     type: "group",
     label: "About us",
+
     children: [
       {
         key: "1-1",
         label: "ABOUT KIIST",
+        disabled: true,
       },
       {
         key: "1-2",
         label: "VISION & MISSION",
+        disabled: true,
       },
       {
         key: "1-3",
         label: "DIRECTOR, KIIST",
+        disabled: true,
       },
       {
         key: "1-4",
         label: "AUTHORITIES",
+        disabled: true,
       },
       {
         key: "1-5",
         label: "ADMINISTRATION",
+        disabled: true,
         children: [
           {
             key: "1-5-1",
@@ -55,10 +61,12 @@ export const about: MenuProps["about"] = [
       {
         key: "1-6",
         label: "KIIST ACT",
+        disabled: true,
       },
       {
         key: "1-7",
         label: "LOCATION MAP",
+        disabled: true,
       },
     ],
   },
@@ -73,14 +81,17 @@ export const administration: MenuProps["administration"] = [
       {
         key: "2-1",
         label: "VC OFFICE",
+        disabled: true,
       },
       {
         key: "2-2",
         label: "REGISTRAR OFFICE",
+        disabled: true,
       },
       {
         key: "2-3",
         label: "FINANANCE & ACCOUNTS",
+        disabled: true,
         children: [
           {
             key: "2-3-1",
@@ -99,6 +110,7 @@ export const administration: MenuProps["administration"] = [
       {
         key: "2-4",
         label: "EXAMINATION",
+        disabled: true,
         children: [
           {
             key: "2-4-1",
@@ -117,26 +129,32 @@ export const administration: MenuProps["administration"] = [
       {
         key: "2-5",
         label: "ACADEMICS",
+        disabled: true,
       },
       {
         key: "2-6",
         label: "RESEARCH & DEVELOPMENT",
+        disabled: true,
       },
       {
         key: "2-7",
         label: "PLANNING & EXTERNAL AFFAIRS",
+        disabled: true,
       },
       {
         key: "2-8",
         label: "COLLEGE DEVELOPMENT",
+        disabled: true,
       },
       {
         key: "2-9",
         label: "STUDENT WELFARE",
+        disabled: true,
       },
       {
         key: "2-10",
         label: "OPEN AND DISTANCE LEARNING",
+        disabled: true,
       },
     ],
   },
@@ -191,6 +209,7 @@ export const programmes: MenuProps["programmes"] = [
       {
         key: "3-1",
         label: "KNEC/CDACC PROGRAMMES",
+        disabled: true,
         children: [
           { key: "3-1-1", label: "Preoperative theatre technology (Surgery)" },
           { key: "3-1-2", label: "Healthcare Support (Nurse Aid)" },
@@ -206,6 +225,7 @@ export const programmes: MenuProps["programmes"] = [
       {
         key: "3-2",
         label: "NITA PROGRAMMES",
+        disabled: true,
         children: [
           { key: "3-2-1", label: "Hairdressing" },
           { key: "3-2-2", label: "Beauty Therapy" },
@@ -220,6 +240,7 @@ export const programmes: MenuProps["programmes"] = [
       {
         key: "3-3",
         label: "ISBAT UNIVERSITY PROGRAMMES",
+        disabled: true,
         children: [
           { key: "3-3-1", label: "Diploma in Information Technology" },
           { key: "3-3-2", label: "Diploma in Software Engineering" },
@@ -231,6 +252,7 @@ export const programmes: MenuProps["programmes"] = [
       {
         key: "3-4",
         label: "JP PROGRAMMES",
+        disabled: true,
         children: [
           {
             key: "3-4-1",
@@ -257,6 +279,7 @@ export const programmes: MenuProps["programmes"] = [
       {
         key: "3-5",
         label: "SHORT COURSES",
+        disabled: true,
         children: [
           { key: "3-5-1", label: "Computer Packages" },
           { key: "3-5-2", label: "Web Design" },
@@ -285,18 +308,22 @@ export const admission: MenuProps["admission"] = [
       {
         key: "3-1",
         label: "ADMISSION REQUIREMENTS",
+        url: "/h/admission/requirements",
       },
       {
         key: "3-2",
         label: "APPLICATION FORM",
+        disabled: true,
       },
       {
         key: "3-3",
         label: "APPLICATION STATUS",
+        url: "/h/admission/status",
       },
       {
         key: "3-4",
         label: "ADMISSION LETTERS",
+        disabled: true,
       },
     ],
   },
