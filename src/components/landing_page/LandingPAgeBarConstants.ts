@@ -276,7 +276,6 @@ export const programmes: MenuProps["programmes"] = [
   },
 ];
 
-
 export const admission: MenuProps["admission"] = [
   {
     key: "3",
@@ -299,6 +298,6 @@ export const admission: MenuProps["admission"] = [
         key: "3-4",
         label: "ADMISSION LETTERS",
       },
-    ]
-  }
-]
+    ],
+  },
+];

@@ -58,7 +58,11 @@ export default function LandingPageBar() {
               <SitemarkIcon />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 <DropdownMenu title={"ABOUT"} items={about} />
-                <DropdownMenu title={"ADMISSION"} items={admission} />
+                <DropdownMenu
+                  title={"ADMISSION"}
+                  items={admission}
+                  url={"admission"}
+                />
 
                 <DropdownMenu title={"ADMINISTRATION"} items={administration} />
                 <DropdownMenu title={"PROGRAMMES"} items={programmes} />
@@ -112,7 +116,7 @@ export default function LandingPageBar() {
                   </Box>
                   <Box width={"100%"}>
                     <DrawerMenuItem title="About" />
-                    <DrawerMenuItem title="Admission" />
+                    <DrawerMenuItem title="Admission" url="admission" />
                     <DrawerMenuItem title="Administration" />
                     <DrawerMenuItem title="Programmes" />
                     <Divider sx={{ my: 3 }} />
@@ -144,10 +148,31 @@ export default function LandingPageBar() {
   );
 }
 
-const DropdownMenu = ({ items, title }) => {
+const DropdownMenu = ({
+  items,
+  title,
+  url,
+}: {
+  title: string;
+  url?: string;
+  items: any;
+}) => {
+  const navigate = useNavigate();
+
+  const handleMenuItemClick = () => {
+    if (url) {
+      navigate(`/h/${url}`);
+      console.log("/url", url);
+    }
+  };
   return (
-    <Dropdown menu={{ items }} className="mr-4">
-      <a onClick={(e) => e.preventDefault()}>
+    <Dropdown menu={{ items }} className="mr-4" >
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleMenuItemClick();
+        }}
+      >
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button variant="text" color="info" size="small">
             {title}
@@ -158,9 +183,21 @@ const DropdownMenu = ({ items, title }) => {
   );
 };
 
-const DrawerMenuItem = ({ title }: { title: string }) => {
+const DrawerMenuItem = ({ title, url }: { title: string; url?: string }) => {
+  const navigate = useNavigate();
+
+  const handleMenuItemClick = () => {
+    if (url) {
+      navigate(`/h/${url}`);
+      console.log("/url", url);
+    }
+  };
   return (
-    <Box width={"100%"} sx={{ display: "flex", alignItems: "center" }}>
+    <Box
+      onClick={() => handleMenuItemClick()}
+      width={"100%"}
+      sx={{ display: "flex", alignItems: "center" }}
+    >
       <Button
         sx={{
           justifyContent: "flex-start",

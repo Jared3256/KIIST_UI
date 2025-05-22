@@ -8,6 +8,9 @@ import Dashboard from "src/pages/dashboard/Dashboard";
 import GlobalSideBar from "src/modules/GlobalSideBar";
 import GlobalHeader from "src/modules/GlobalHeader";
 import PersistAccess from "src/security/PersistAccess";
+import Home from "src/pages/home/home";
+import LandingHome from "src/pages/landing_page/modules/admission";
+import Requirements from "src/pages/landing_page/modules/admission/requirement";
 
 const system_routes = createBrowserRouter([
   {
@@ -17,6 +20,30 @@ const system_routes = createBrowserRouter([
       {
         index: true,
         element: <LandingPage />,
+      },
+      {
+        path: "h",
+        element: <Home />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to={"/h/admission"} replace />,
+          },
+          {
+            path: "admission",
+            element: <LandingHome />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={"/h/admission/requirements"} replace />,
+              },
+              {
+                path: "requirements",
+                element: <Requirements />,
+              },
+            ],
+          },
+        ],
       },
       {
         path: "auth",
