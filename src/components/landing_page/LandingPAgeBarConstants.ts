@@ -313,18 +313,19 @@ export const admission: MenuProps["admission"] = [
       {
         key: "3-2",
         label: "APPLICATION FORM",
-        disabled: true,
+        url: "/h/admission/forms",
+        disabled: false,
       },
       {
         key: "3-3",
         label: "APPLICATION STATUS",
         url: "/h/admission/status",
       },
-      {
-        key: "3-4",
-        label: "ADMISSION LETTERS",
-        disabled: true,
-      },
+      // {
+      //   key: "3-4",
+      //   label: "ADMISSION LETTERS",
+      //   disabled: true,
+      // },
     ],
   },
 ];
@@ -341,7 +342,7 @@ export const admissionData = [
     key: "2",
     label: "Forms",
     url: "/h/admission/forms",
-    disabled: true,
+    disabled: false,
   },
   {
     key: "3",
@@ -396,7 +397,6 @@ export const aboutData = [
   },
 ];
 
-
 export const programmesData = [
   {
     key: "1",
@@ -428,5 +428,4 @@ export const programmesData = [
     url: "/h/programmes/short",
     disabled: true,
   },
-  
 ];
