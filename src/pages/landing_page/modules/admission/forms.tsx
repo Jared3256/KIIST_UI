@@ -14,6 +14,7 @@ import {
   Divider,
   Modal,
   ModalDialog,
+  Sheet,
 } from "@mui/joy";
 import { Button } from "@mui/joy";
 import { Button as MuiButton } from "@mui/material";
@@ -39,21 +40,6 @@ interface TableTransferProps extends TransferProps<TransferItem> {
 const TableTransfer: React.FC<TableTransferProps> = (props) => {
   const { leftColumns, rightColumns, ...restProps } = props;
 
-  const { useBreakpoint } = Grid;
-
-  const screens = useBreakpoint();
-
-  const isSmall = !screens.md;
-
-  const containerStyles = {
-    display: "flex",
-    flexDirection: isSmall ? "column" : "row",
-  };
-
-  const listWrapperStyle = {
-    flex: 1,
-    margin: isSmall ? "0 0 16px 0" : "0 16px 0 0",
-  };
   return (
     <Transfer style={{ width: "100%" }} {...restProps}>
       {({
@@ -192,20 +178,66 @@ export default function AdmissionForms() {
     }
   };
 
-  
+  const downRowSelection: TableRowSelection<TransferItem> = {
+    getCheckboxProps: () => ({ disabled }),
+    // onChange(selectedRowKeys) {
+    // onItemSelectAll(selectedRowKeys, "replace");
+    // },
+    // selectedRowKeys: listSelectedKeys,
+    selections: [
+      Table.SELECTION_ALL,
+      Table.SELECTION_INVERT,
+      Table.SELECTION_NONE,
+    ],
+  };
   return (
     <Flex align="start" gap="middle" vertical>
-      <TableTransfer
-        dataSource={mockData}
-        targetKeys={targetKeys}
-        disabled={disabled}
-        showSearch
-        showSelectAll={false}
-        onChange={onChange}
-        filterOption={filterOption}
-        leftColumns={columns}
-        rightColumns={columns}
-      />
+      <Box
+        display={{
+          md: "flex",
+          sm: "none",
+          xs: "none",
+        }}
+      >
+        <TableTransfer
+          dataSource={mockData}
+          targetKeys={targetKeys}
+          disabled={disabled}
+          showSearch
+          showSelectAll={false}
+          onChange={onChange}
+          filterOption={filterOption}
+          leftColumns={columns}
+          rightColumns={columns}
+        />
+      </Box>
+      <Box
+        width={"100%"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        display={{
+          md: "none",
+          sm: "flex",
+          xs: "flex",
+        }}
+      >
+        <Table
+          rowSelection={downRowSelection}
+          columns={columns}
+          dataSource={mockData}
+          size="small"
+          // style={{ pointerEvents: listDisabled ? "none" : undefined }}
+          // onRow={({ key, disabled: itemDisabled }) => ({
+          // onClick: () => {
+          // if (itemDisabled || listDisabled) {
+          // return;
+          // }
+          // onItemSelect(key, !listSelectedKeys.includes(key));
+          // },
+          // })}
+        />
+      </Box>
+
       <Box
         width={"100%"}
         mt={"20px"}
