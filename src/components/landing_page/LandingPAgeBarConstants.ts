@@ -321,11 +321,12 @@ export const admission: MenuProps["admission"] = [
         label: "APPLICATION STATUS",
         url: "/h/admission/status",
       },
-      // {
-      //   key: "3-4",
-      //   label: "ADMISSION LETTERS",
-      //   disabled: true,
-      // },
+      {
+        key: "3-4",
+        label: "SELF REGISTER",
+        url: "/h/admission/register",
+        disabled: false,
+      },
     ],
   },
 ];
@@ -355,7 +356,12 @@ export const admissionData = [
     label: "Admission Letters",
     url: "/h/admission/letters",
     disabled: true,
-  },
+  }, {
+    key: "5",
+    label: "Self Register",
+    url: "/h/admission/register",
+    disabled:false
+  }
 ];
 
 export const aboutData = [

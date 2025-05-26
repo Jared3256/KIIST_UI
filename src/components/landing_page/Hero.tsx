@@ -1,4 +1,3 @@
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -9,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import visuallyHidden from "@mui/utils/visuallyHidden";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router";
 
 const StyledBox = styled("div")(({ theme }) => ({
   alignSelf: "center",
@@ -36,6 +36,8 @@ const StyledBox = styled("div")(({ theme }) => ({
 }));
 
 export default function Hero() {
+  const navigate = useNavigate();
+
   return (
     <Box
       id="hero"
@@ -125,12 +127,13 @@ export default function Hero() {
               }}
             />
             <Button
+              onClick={() => navigate("/h/admission/register")}
               variant="contained"
               color="primary"
               size="small"
               sx={{ minWidth: "fit-content" }}
             >
-              Start now
+              Register Now
             </Button>
           </Stack>
           <Typography

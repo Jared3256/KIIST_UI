@@ -13,6 +13,7 @@ import LandingHome from "src/pages/landing_page/modules/admission";
 import Requirements from "src/pages/landing_page/modules/admission/requirement";
 import AdmissionStatus from "src/pages/landing_page/modules/admission/status";
 import AdmissionForms from "src/pages/landing_page/modules/admission/forms";
+import RegisterStudent from "src/pages/landing_page/modules/admission/new student/register";
 
 const system_routes = createBrowserRouter([
   {
@@ -46,10 +47,15 @@ const system_routes = createBrowserRouter([
               {
                 path: "status",
                 element: <AdmissionStatus />,
-              }, {
+              },
+              {
                 path: "forms",
-                element:<AdmissionForms/>
-              }
+                element: <AdmissionForms />,
+              },
+              {
+                path: "register",
+                element: <RegisterStudent/>,
+              },
             ],
           },
         ],
