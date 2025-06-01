@@ -8,8 +8,12 @@ import FAQ from "../../components/landing_page/FAQ";
 import Footer from "../../components/landing_page/Footer";
 import Hero from "../../components/landing_page/Hero";
 
+
+
+
 export default function LandingPage() {
-  return (
+
+    return (
     <div>
       <CssBaseline />
       <LandingPageBar />
