@@ -6,14 +6,14 @@ import {
 
 
 const columns = [
-    {field: 'id', headerName: 'ID', flex: 1},
+    {field: 'id', headerName: 'ID', flex: 1, minWidth: 80},
     // {field: 'studentName', headerName: 'Student Name', width: 180},
     // {field: 'registrationNumber', headerName: 'Reg Number', width: 160},
-    {field: 'paymentType', headerName: 'Payment Type', flex: 1},
-    {field: 'amountPaid', headerName: 'Amount Paid (KES)', type: 'number', flex: 1},
-    {field: 'paymentStatus', headerName: 'Status', flex: 1},
-    {field: 'paymentDate', headerName: 'Date', type: 'date', flex: 1},
-    {field: "paymentMethod", headerName: 'Payment Method', flex: 1},
+    {field: 'paymentType', headerName: 'Payment Type', flex: 1, minWidth: 100},
+    {field: 'amountPaid', headerName: 'Amount Paid (KES)', type: 'number', flex: 1, minWidth: 120},
+    {field: 'paymentStatus', headerName: 'Status', flex: 1, minWidth: 100},
+    {field: 'paymentDate', headerName: 'Date', type: 'date', flex: 1, minWidth: 100},
+    {field: "paymentMethod", headerName: 'Payment Method', flex: 1, minWidth: 100},
 ];
 
 const rows = [
