@@ -19,6 +19,8 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^7.1.0",
+    "@mui/x-data-grid-generator": "^8.5.0",
+    "@mui/x-data-grid-premium": "^8.5.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.7",
     "antd": "^5.25.1",

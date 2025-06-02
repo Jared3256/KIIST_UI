@@ -68,7 +68,8 @@ export default function SigninCard() {
 
     return (
         <Box
-            component="main"
+            component
+                ="main"
             sx={{
                 my: "auto",
                 py: 2,
