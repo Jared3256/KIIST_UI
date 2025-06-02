@@ -25,7 +25,7 @@ export default function Home() {
         {pathname === "/h/admission/register" ? null : (
           <>
             <Divider />
-            <Highlights />
+           
             <Divider />
             <Pricing />
             <Divider />
