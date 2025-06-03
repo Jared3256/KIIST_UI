@@ -1,44 +1,62 @@
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import InputLabel from "@mui/material/InputLabel";
-import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import visuallyHidden from "@mui/utils/visuallyHidden";
-import { styled } from "@mui/material/styles";
-import { useNavigate } from "react-router";
 import { Button, Card, Col, Layout, Row, Statistic } from "antd";
 import { ArrowRightOutlined, BookOutlined, DownloadOutlined, TeamOutlined, TrophyOutlined, UserOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
+import * as echarts from "echarts";
+import { Link } from "react-router";
 
-const StyledBox = styled("div")(({ theme }) => ({
-  alignSelf: "center",
-  width: "100%",
-  height: 400,
-  marginTop: theme.spacing(8),
-  borderRadius: (theme.vars || theme).shape.borderRadius,
-  outline: "6px solid",
-  outlineColor: "hsla(220, 25%, 80%, 0.2)",
-  border: "1px solid",
-  borderColor: (theme.vars || theme).palette.grey[200],
-  boxShadow: "0 0 12px 8px hsla(220, 25%, 80%, 0.2)",
-  backgroundImage: `url(${"https://mui.com"}/static/screenshots/material-ui/getting-started/templates/dashboard.jpg)`,
-  backgroundSize: "cover",
-  [theme.breakpoints.up("sm")]: {
-    marginTop: theme.spacing(10),
-    height: 700,
-  },
-  ...theme.applyStyles("dark", {
-    boxShadow: "0 0 24px 12px hsla(210, 100%, 25%, 0.2)",
-    backgroundImage: `url(${"https://mui.com"}/static/screenshots/material-ui/getting-started/templates/dashboard-dark.jpg)`,
-    outlineColor: "hsla(220, 20%, 42%, 0.1)",
-    borderColor: (theme.vars || theme).palette.grey[700],
-  }),
-}));
 
 export default function Hero() {
-  const navigate = useNavigate();
   const {Content}= Layout
+
+   useEffect(() => {
+      // Initialize stats chart
+      const statsChart = document.getElementById("statsChart");
+      if (statsChart) {
+        const chart = echarts.init(statsChart);
+        const option = {
+          animation: false,
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow",
+            },
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true,
+          },
+          xAxis: {
+            type: "category",
+            data: ["2020", "2021", "2022", "2023", "2024"],
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
+          yAxis: {
+            type: "value",
+          },
+          series: [
+            {
+              name: "Students",
+              type: "bar",
+              barWidth: "40%",
+              data: [1200, 1500, 1800, 2200, 2500],
+              itemStyle: {
+                color: "#4c1d95",
+              },
+            },
+          ],
+        };
+        chart.setOption(option);
+        // Handle resize
+        window.addEventListener("resize", () => {
+          chart.resize();
+        });
+      }
+    }, []);
 
   return (
     <Box
@@ -89,11 +107,8 @@ export default function Hero() {
                           environment.
                         </p>
                         <div className="flex flex-wrap gap-4">
-                          <a
-                            href="https://readdy.ai/home/be1ad4ae-35c8-469d-bc6c-b0b56d11bffd/e4559866-d28f-4e4d-9d51-ebb891069f18"
-                            data-readdy="true"
-                          >
-                            <Button
+                          <Link to={"/h/admission/register"}>
+                          <Button
                               type="primary"
                               size="large"
                               className="bg-purple-700 hover:bg-purple-600 border-0 !rounded-button whitespace-nowrap cursor-pointer"
@@ -101,7 +116,8 @@ export default function Hero() {
                             >
                               Apply Now
                             </Button>
-                          </a>
+                          </Link>
+                          
                           <Button
                             size="large"
                             className="bg-white text-purple-800 hover:bg-gray-100 !rounded-button whitespace-nowrap cursor-pointer"
