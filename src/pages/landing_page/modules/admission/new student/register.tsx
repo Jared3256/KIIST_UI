@@ -183,6 +183,13 @@ export default function RegisterStudent() {
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
+                <Form.Item rules={[
+                    { required: true, message: "Please enter national id or birth certificate number" },
+                  ]} name="nationalId" label="National Id">
+                  <Input placeholder="Enter your National Id" type="number"  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
                 <Form.Item
                   name="lastName"
                   label="Last Name"
