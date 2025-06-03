@@ -8,7 +8,6 @@ import News from "src/components/landing_page/News";
 import AdmisiionProcess from "src/components/landing_page/AdmisiionProcess";
 
 
-
 export default function LandingPage() {
 
     return (

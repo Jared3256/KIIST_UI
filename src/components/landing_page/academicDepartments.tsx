@@ -1,16 +1,23 @@
 import React, { useState } from 'react'
-import { Badge, Button, Card, Col, Layout, Row } from 'antd'
+import { Badge, Button, Card, Col, Layout, Modal, Row } from 'antd'
 import { courseCategories, featuredCourses } from './LandingPAgeBarConstants'
 import { ArrowRightOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 
 export default function AcademicDepartments() {
+   const [visible, setVisible] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<any>(null);
 const [activeCategory, setActiveCategory] = useState("all");
 const filteredCourses =
     activeCategory === "all"
       ? featuredCourses
       : featuredCourses.filter((course) => course.category === activeCategory);
     const {Content} = Layout
+
+     const showCourseDetails = (course: any) => {
+    setSelectedCourse(course);
+    setVisible(true);
+  };
   return (
     <Content>
      {/* Course Categories */}
@@ -35,8 +42,8 @@ const filteredCourses =
                            <div className="h-48 overflow-hidden">
                              <img
                                alt={category.title}
-                            //    src={`https://readdy.ai/api/search-image?query=$%7Bcategory.imagePrompt%7D&width=400&height=200&seq=${category.id}&orientation=landscape`}
-                               className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105"
+                               src={category.url}
+                              className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105"
                              />
                            </div>
                          }
@@ -111,7 +118,7 @@ const filteredCourses =
                                    <div className="h-48 overflow-hidden">
                                      <img
                                        alt={course.title}
-                                       src={`https://readdy.ai/api/search-image?query=$%7Bcourse.imagePrompt%7D&width=400&height=200&seq=${course.id + 10}&orientation=landscape`}
+                                       src={course.url}
                                        className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105"
                                      />
                                    </div>
@@ -164,6 +171,122 @@ const filteredCourses =
                          </div>
                        </div>
                      </section>
+
+                      <Modal
+        title={selectedCourse?.title}
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        footer={[
+          <Button
+            key="back"
+            onClick={() => setVisible(false)}
+            className="!rounded-button whitespace-nowrap cursor-pointer"
+          >
+            Close
+          </Button>,
+          <a
+            href="https://readdy.ai/home/be1ad4ae-35c8-469d-bc6c-b0b56d11bffd/e4559866-d28f-4e4d-9d51-ebb891069f18"
+            data-readdy="true"
+            key="apply-link"
+          >
+            <Button
+              key="apply"
+              type="primary"
+              className="bg-purple-700 hover:bg-purple-600 border-0 !rounded-button whitespace-nowrap cursor-pointer"
+            >
+              Apply Now
+            </Button>
+          </a>,
+        ]}
+        width={800}
+      >
+        {selectedCourse && (
+          <div>
+            <div className="mb-6 overflow-hidden rounded-lg">
+              <img
+                src={`https://ccitraining.edu/wp-content/uploads/2023/12/Information-Technology.jpg`}
+                alt={selectedCourse.title}
+                className="w-full h-64 object-cover object-top"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-bold text-gray-800 mb-2">Duration</h4>
+                <p className="text-gray-600">{selectedCourse.duration}</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-bold text-gray-800 mb-2">Study Mode</h4>
+                <p className="text-gray-600">{selectedCourse.mode}</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-bold text-gray-800 mb-2">Tuition Fee</h4>
+                <p className="text-gray-600">{selectedCourse.fee}</p>
+              </div>
+            </div>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
+                Course Overview
+              </h3>
+              <p className="text-gray-600">{selectedCourse.description}</p>
+              <p className="text-gray-600 mt-2">
+                This comprehensive program is designed to provide students with
+                both theoretical knowledge and practical skills needed to excel
+                in today's competitive job market. Our curriculum is regularly
+                updated to reflect industry trends and technological
+                advancements.
+              </p>
+            </div>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
+                Key Modules
+              </h3>
+              <ul className="list-disc pl-5 text-gray-600">
+                <li className="mb-1">Introduction to Core Principles</li>
+                <li className="mb-1">Advanced Theoretical Frameworks</li>
+                <li className="mb-1">Research Methodologies</li>
+                <li className="mb-1">Practical Applications</li>
+                <li className="mb-1">Industry Case Studies</li>
+                <li className="mb-1">Professional Development</li>
+              </ul>
+            </div>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
+                Career Opportunities
+              </h3>
+              <p className="text-gray-600">
+                Graduates of this program have pursued successful careers in
+                various sectors including:
+              </p>
+              <ul className="list-disc pl-5 text-gray-600">
+                <li className="mb-1">Research and Development</li>
+                <li className="mb-1">Consulting</li>
+                <li className="mb-1">Project Management</li>
+                <li className="mb-1">Technical Leadership</li>
+                <li className="mb-1">Entrepreneurship</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
+                Entry Requirements
+              </h3>
+              <ul className="list-disc pl-5 text-gray-600">
+                <li className="mb-1">
+                  Minimum secondary school qualification with strong grades in
+                  relevant subjects
+                </li>
+                <li className="mb-1">
+                  Successful completion of entrance examination
+                </li>
+                <li className="mb-1">Interview with faculty members</li>
+                <li className="mb-1">
+                  English language proficiency (for international students)
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </Modal>
+
     </Content>
   )
 }

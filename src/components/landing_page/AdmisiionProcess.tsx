@@ -1,6 +1,5 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Layout, Timeline } from 'antd'
-import React from 'react'
 
 export default function AdmisiionProcess() {
     const {Content} = Layout
