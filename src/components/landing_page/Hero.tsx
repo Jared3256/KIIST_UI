@@ -1,10 +1,63 @@
 import Box from "@mui/material/Box";
-import { Button, Card, Col, Layout, Row, Statistic } from "antd";
+import { Button, Card, Carousel, Col, Layout, Row, Statistic } from "antd";
 import { ArrowRightOutlined, BookOutlined, DownloadOutlined, TeamOutlined, TrophyOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import * as echarts from "echarts";
 import { Link } from "react-router";
 
+const FlowingSection = ({bgImage,title, subtitle})=>{
+  
+  return <section className="relative h-[600px] overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-transparent z-5"></div>
+                    <div
+                      className="absolute inset-0 bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url('${bgImage}')`,
+                      }}
+                    ></div>
+                    <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+                      <div className="max-w-2xl text-white">
+                        <h1 className="text-5xl font-bold mb-4">
+                          {title}
+                        </h1>
+                        <p className="text-xl mb-8">
+                         {subtitle}
+                        </p>
+                        <div className="flex flex-wrap gap-4">
+                          <Link to={"/h/admission/register"}>
+                          <Button
+                              type="primary"
+                              size="large"
+                              className="bg-purple-700 hover:bg-purple-600 border-0 !rounded-button whitespace-nowrap cursor-pointer"
+                              icon={<ArrowRightOutlined />}
+                            >
+                              Apply Now
+                            </Button>
+                          </Link>
+                          
+                          <Button
+                            size="large"
+                            className="bg-white text-purple-800 hover:bg-gray-100 !rounded-button whitespace-nowrap cursor-pointer"
+                            icon={<DownloadOutlined />}
+                          >
+                            Download Prospectus
+                          </Button>
+                          <Button
+                            size="large"
+                            className="bg-transparent text-white border-white hover:bg-white hover:text-purple-800 !rounded-button whitespace-nowrap cursor-pointer"
+                          >
+                            Virtual Tour
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+                      <div className="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center">
+                        <DownloadOutlined className="text-white text-lg" />
+                      </div>
+                    </div>
+                  </section>
+}
 
 export default function Hero() {
   const {Content}= Layout
@@ -30,7 +83,7 @@ export default function Hero() {
           },
           xAxis: {
             type: "category",
-            data: ["2020", "2021", "2022", "2023", "2024"],
+            data: ["2019","2020", "2021", "2022", "2023", "2024"],
             axisTick: {
               alignWithLabel: true,
             },
@@ -43,9 +96,9 @@ export default function Hero() {
               name: "Students",
               type: "bar",
               barWidth: "40%",
-              data: [1200, 1500, 1800, 2200, 2500],
+              data: [1300,1500, 1418, 1891, 1600, 1599],
               itemStyle: {
-                color: "#4c1d95",
+                color: "blue",
               },
             },
           ],
@@ -88,58 +141,24 @@ export default function Hero() {
             </div>
         <Content>
           {/* Hero Section */}
-                  <section className="relative h-[600px] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-transparent z-10"></div>
-                    <div
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{
-                        backgroundImage: `url('https://readdy.ai/api/search-image?query=A%20stunning%20modern%20university%20campus%20with%20beautiful%20architecture%2C%20students%20walking%20between%20buildings%2C%20lush%20green%20spaces%20and%20trees%2C%20academic%20atmosphere%2C%20bright%20sunny%20day%2C%20clean%20campus%20grounds%2C%20state-of-the-art%20facilities%20visible%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape')`,
-                      }}
-                    ></div>
-                    <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
-                      <div className="max-w-2xl text-white">
-                        <h1 className="text-5xl font-bold mb-4">
-                          Shaping Future Leaders in Science & Technology
-                        </h1>
-                        <p className="text-xl mb-8">
-                          Discover world-class education at Kisii Impact Institute, where
-                          innovation meets excellence in a supportive learning
-                          environment.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                          <Link to={"/h/admission/register"}>
-                          <Button
-                              type="primary"
-                              size="large"
-                              className="bg-purple-700 hover:bg-purple-600 border-0 !rounded-button whitespace-nowrap cursor-pointer"
-                              icon={<ArrowRightOutlined />}
-                            >
-                              Apply Now
-                            </Button>
-                          </Link>
-                          
-                          <Button
-                            size="large"
-                            className="bg-white text-purple-800 hover:bg-gray-100 !rounded-button whitespace-nowrap cursor-pointer"
-                            icon={<DownloadOutlined />}
-                          >
-                            Download Prospectus
-                          </Button>
-                          <Button
-                            size="large"
-                            className="bg-transparent text-white border-white hover:bg-white hover:text-purple-800 !rounded-button whitespace-nowrap cursor-pointer"
-                          >
-                            Virtual Tour
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-                      <div className="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center">
-                        <DownloadOutlined className="text-white text-lg" />
-                      </div>
-                    </div>
-                  </section>
+          <Carousel autoplay={{ dotDuration: true }} autoplaySpeed={8000}>
+
+            <FlowingSection bgImage={"https://readdy.ai/api/search-image?query=A%20stunning%20modern%20university%20campus%20with%20beautiful%20architecture%2C%20students%20walking%20between%20buildings%2C%20lush%20green%20spaces%20and%20trees%2C%20academic%20atmosphere%2C%20bright%20sunny%20day%2C%20clean%20campus%20grounds%2C%20state-of-the-art%20facilities%20visible%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape"}
+            title={"Shaping Future Leaders in Science and Technology."}
+            subtitle={"Discover world-class education at Kisii Impact Institute, where innovation meets excellence in a supportive learning environment."}/>
+            
+
+            <FlowingSection bgImage={"https://readdy.ai/api/search-image?query=A%20stunning%20modern%20university%20campus%20with%20beautiful%20architecture%2C%20students%20walking%20between%20buildings%2C%20lush%20green%20spaces%20and%20trees%2C%20academic%20atmosphere%2C%20bright%20sunny%20day%2C%20clean%20campus%20grounds%2C%20state-of-the-art%20facilities%20visible%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape"}
+            title={"Empowering Dreams Through Practical Skills."}
+            subtitle={"Join Kisii Impact Institute to gain hands-on experience, industry-relevant training, and career-ready skills that shape a better future."}/>
+
+
+                <FlowingSection bgImage={"https://readdy.ai/api/search-image?query=A%20stunning%20modern%20university%20campus%20with%20beautiful%20architecture%2C%20students%20walking%20between%20buildings%2C%20lush%20green%20spaces%20and%20trees%2C%20academic%20atmosphere%2C%20bright%20sunny%20day%2C%20clean%20campus%20grounds%2C%20state-of-the-art%20facilities%20visible%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape"}
+            title={"Building a Vibrant Community of Lifelong Learners"}
+            subtitle={"In Kisii Impact Institute, we foster a culture of collaboration, diversity, and continuous growth—where every learner thrives and contributes meaningfully."}/>
+                  
+          </Carousel>
+                  
 
                    {/* Stats Section */}
                           <section className="py-16 bg-gray-50">
