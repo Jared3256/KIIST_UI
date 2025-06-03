@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, BankOutlined, BookOutlined, CheckCircleOutlined, EnvironmentOutlined, FileTextOutlined, HomeOutlined, InfoCircleOutlined, MailOutlined, SaveOutlined, TeamOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Facebook, Instagram, LinkedIn, PhoneOutlined, Twitter } from "@mui/icons-material";
-import { Card,Input, Form, Layout, Row, Select, Steps , Typography, Col, DatePicker, Radio, Divider, Upload, Button, Alert, Checkbox, Spin, Progress} from "antd";
+import { Card,Input, Form, Layout, Row, Select, Steps , Typography, Col, DatePicker, Radio, Divider, Upload, Button, Alert, Checkbox, Spin, Progress, Grid} from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
@@ -129,6 +129,12 @@ export default function RegisterStudent() {
       }, 300);
       return false; // Prevent default upload behavior
     };
+
+    const {useBreakpoint} = Grid
+    const screens = useBreakpoint()
+    // Set direction based on screen size
+  const isSmallScreen = !screens.md || !screens.lg // screens.md is true for ≥768px
+  const direction = isSmallScreen ? 'vertical' : 'horizontal';
 
   const steps = [
       {
@@ -1792,8 +1798,9 @@ export default function RegisterStudent() {
             </div>
             <div className="mb-8">
               <Steps
+              direction={direction}
                 current={currentStep}
-                responsive={false}
+                responsive={true}
                 className="application-steps"
                 items={steps.map((step) => ({ title: step.title }))}
               />
