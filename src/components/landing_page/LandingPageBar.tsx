@@ -10,7 +10,7 @@ import { Dropdown, Layout, Input, Menu, Select , Button as AntButton} from "antd
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SitemarkIcon from "./SiteMark";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   about,
   aboutData,
@@ -79,6 +79,7 @@ export default function LandingPageBar() {
                   <div className="hidden lg:flex">
                     <Menu mode="horizontal" className="border-0">
                       <Menu.Item
+                      onClick={()=> navigate("/")}
                         key="home"
                         className="font-medium text-gray-800 hover:text-purple-700"
                       >
@@ -127,23 +128,21 @@ export default function LandingPageBar() {
                   
                   <div className="relative mr-4 hidden md:block">
                     <Input
-                      placeholder="Search..."
+                      placeholder="Search here..."
                       prefix={<SearchOutlined className="text-gray-400" />}
                       className="rounded-full border-gray-300 w-40"
                     />
                   </div>
-                  <a
-                    href="https://readdy.ai/home/be1ad4ae-35c8-469d-bc6c-b0b56d11bffd/e4559866-d28f-4e4d-9d51-ebb891069f18"
-                    data-readdy="true"
-                  >
-                    <AntButton
+                  <Link to={"/h/admission/register"}>
+                  <AntButton
                       type="primary"
                       size="large"
                       className="bg-blue-800 hover:bg-blue-700 border-0 !rounded-button whitespace-nowrap cursor-pointer"
                     >
                       Apply Now
                     </AntButton>
-                  </a>
+                  </Link>
+                 
                 </div>
               </Header>
     // <div>
