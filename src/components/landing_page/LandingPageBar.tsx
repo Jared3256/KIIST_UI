@@ -1,55 +1,14 @@
 import React from "react";
-import { alpha, Container, styled, Toolbar } from "@mui/material";
+import { alpha, styled, Toolbar } from "@mui/material";
 import { Button, Drawer, IconButton } from "@mui/material";
-import { CloseRounded, TapAndPlayRounded } from "@mui/icons-material";
-import {
-  Dropdown,
-  Layout,
-  Input,
-  Menu,
-  Select,
-  Button as AntButton,
-} from "antd";
+import { CloseRounded } from "@mui/icons-material";
+import { Layout, Input, Menu, Button as AntButton } from "antd";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import SitemarkIcon from "./SiteMark";
 import { Link, useNavigate } from "react-router";
-import {
-  about,
-  aboutData,
-  administration,
-  admission,
-  admissionData,
-  programmes,
-} from "./LandingPAgeBarConstants";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionGroup,
-  AccordionSummary,
-  Avatar,
-  Box,
-  ListItemContent,
-  Stack,
-  Typography,
-} from "@mui/joy";
-import { BankOutlined, SearchOutlined } from "@ant-design/icons";
 
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  flexShrink: 0,
-  borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
-  backdropFilter: "blur(24px)",
-  border: "1px solid",
-  borderColor: (theme.vars || theme).palette.divider,
-  backgroundColor: theme.vars
-    ? `rgba(${theme.vars.palette.background.defaultChannel} / 0.4)`
-    : alpha(theme.palette.background.default, 0.4),
-  boxShadow: (theme.vars || theme).shadows[1],
-  padding: "8px 12px",
-}));
+import { Box } from "@mui/joy";
+import { BankOutlined, SearchOutlined } from "@ant-design/icons";
 
 export default function LandingPageBar() {
   const { Header } = Layout;
@@ -71,13 +30,19 @@ export default function LandingPageBar() {
           <div className='hidden md:hidden lg:flex lg:text-3xl text-2xl mr-5 font-bold text-blue-900 mr-2'>
             <BankOutlined />
           </div>
-          <div className="hidden sm:flex md:flex lg:hidden xl:hidden">
+          <Box
+            display={{
+              sm: "flex",
+              md: "flex",
+              lg: "none",
+            }}
+            className='md:flex sm:flex lg:hidden'>
             <IconButton aria-label='Menu button' onClick={toggleDrawer(true)}>
-            <MenuIcon  color="blue"/>
-          </IconButton>
-          </div>
-          
-          <div >
+              <MenuIcon color='blue' />
+            </IconButton>
+          </Box>
+
+          <div>
             <h1 className='lg:text-2xl text-xl font-bold text-blue-900 m-0'>
               Kisii Impact
             </h1>
@@ -88,7 +53,7 @@ export default function LandingPageBar() {
             </div>
           </div>
         </div>
-        <div className='hidden md:flex'>
+        <div className='hidden md:flex lg:flex '>
           <MenuItem mode={"horizontal"} />
         </div>
       </div>
@@ -154,7 +119,7 @@ export default function LandingPageBar() {
   );
 }
 
-const MenuItem = ({mode}) => {
+const MenuItem = ({ mode }) => {
   return (
     <Menu mode={mode} className='border-0'>
       <Menu.Item
@@ -195,4 +160,4 @@ const MenuItem = ({mode}) => {
       </Menu.Item>
     </Menu>
   );
-}
+};
