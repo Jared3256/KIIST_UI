@@ -17,10 +17,11 @@ export default function Home() {
         {/* <LogoCollection /> */}
 
         <Outlet />
-        {pathname === "/h/admission/register" ? null : (
+        {pathname === "/h/admission/register" ||
+        pathname === "/h/courses" ? null : (
           <>
             <Divider />
-           
+
             <Divider />
             <Pricing />
             <Divider />

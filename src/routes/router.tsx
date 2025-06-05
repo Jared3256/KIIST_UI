@@ -16,6 +16,7 @@ import AdmissionForms from "src/pages/landing_page/modules/admission/forms";
 import RegisterStudent from "src/pages/landing_page/modules/admission/new student/register";
 import StudentChecker from "src/security/StudentChecker.tsx";
 import StudentFinance from "src/pages/academics/finance/Finance.tsx";
+import Courses from "src/components/landing_page/courses";
 
 const system_routes = createBrowserRouter([
     {
@@ -60,6 +61,10 @@ const system_routes = createBrowserRouter([
                             },
                         ],
                     },
+                    {
+                        path: "courses",
+                        element:<Courses/>
+                    }
                 ],
             },
             {

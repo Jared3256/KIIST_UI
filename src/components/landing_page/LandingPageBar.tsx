@@ -120,10 +120,11 @@ export default function LandingPageBar() {
 }
 
 const MenuItem = ({ mode }) => {
+  const navigate = useNavigate()
   return (
     <Menu mode={mode} className='border-0'>
       <Menu.Item
-        // onClick={() => navigate("/")}
+        onClick={() => navigate("/")}
         key='home'
         className='font-medium text-gray-800 hover:text-purple-700'>
         Home
@@ -134,6 +135,7 @@ const MenuItem = ({ mode }) => {
         About
       </Menu.Item>
       <Menu.Item
+        onClick={() => navigate("/h/courses")}
         key='courses'
         className='font-medium text-gray-800 hover:text-purple-700'>
         Courses
