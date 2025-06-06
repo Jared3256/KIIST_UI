@@ -43,7 +43,21 @@ import {
   message,
 } from "antd";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router";
+import {
+  saveDocumentDetails,
+  savepersonalDetails,
+  saveProgramSelection,
+} from "src/redux/admission/actions";
+import {
+  dataToDocumentDetails,
+  dataToAcademicDetails,
+  dataToPersonalDetails,
+  dataToProgramSelection,
+} from "src/redux/admission/format.data";
+import * as studentActionTypes from "../../../../../redux/admission/types";
+import axios from "src/service/axios";
 
 export default function RegisterStudent() {
   const { Content, Footer } = Layout;
@@ -59,6 +73,8 @@ export default function RegisterStudent() {
   const [isUploading, setIsUploading] = useState(false);
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
   const [activeStepSaved, setActiveStepSaved] = useState(true);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setActiveStepSaved(true);
@@ -101,17 +117,37 @@ export default function RegisterStudent() {
   };
 
   const handleNext = async () => {
+    let res = false;
     try {
       await form.validateFields();
-      const values = form.getFieldsValue();
-      setFormData({
-        ...formData,
-        ...values,
-      });
-
       console.log(formData);
-      setCurrentStep(currentStep + 1);
-      window.scrollTo(0, 0);
+      switch (currentStep) {
+        case 0: {
+          const data = dataToPersonalDetails(formData);
+          console.log("Data out 2", data);
+          res = await savepersonalDetails({ details: data });
+          break;
+        }
+        case 1: {
+          const data = dataToAcademicDetails(formData);
+          res = await savepersonalDetails({ details: data });
+          break;
+        }
+        case 2: {
+          const data = dataToProgramSelection(formData);
+          res = await saveProgramSelection({ details: data });
+          break;
+        }
+        case 4: {
+          res = await saveDocumentDetails({ details: formData });
+          break;
+        }
+      }
+
+      if (res) {
+        setCurrentStep(currentStep + 1);
+        window.scrollTo(0, 0);
+      }
     } catch (error) {
       message.error("Please complete all required fields before proceeding");
     }
@@ -189,7 +225,7 @@ export default function RegisterStudent() {
         return newProgress;
       });
     }, 300);
-    return false; // Prevent default upload behavior
+    return true; // Prevent default upload behavior
   };
 
   const { useBreakpoint } = Grid;
@@ -197,6 +233,37 @@ export default function RegisterStudent() {
   // Set direction based on screen size
   const isSmallScreen = !screens.md || !screens.lg; // screens.md is true for ≥768px
   const direction = isSmallScreen ? "vertical" : "horizontal";
+
+  // transcript props
+  const transcriptProps = {
+    maxCount: 1,
+    listType: "text",
+    accept: ".pdf,.jpg,.jpeg,.png",
+    name: "file",
+    action: "localhost:3500/api/v1/student/683f42389c5b70e626589b02/upload",
+
+    onChange(info) {
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    customRequest({ file, onSuccess, onError }) {
+      const formData = new FormData();
+      formData.append("file", file);
+      axios
+        .post("student/683f42389c5b70e626589b02/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          onSuccess(res.data, file);
+        })
+        .catch(onError);
+    },
+  };
 
   const steps = [
     {
@@ -401,9 +468,9 @@ export default function RegisterStudent() {
             label='Country'
             rules={[{ required: true, message: "Please select your country" }]}>
             <Select placeholder='Select your country' showSearch>
-              <Option value='kenya'>Kenya</Option>
-              <Option value='uganda'>Uganda</Option>
-              <Option value='tanzania'>Tanzania</Option>
+              <Option value='Kenya'>Kenya</Option>
+              <Option value='Uganda'>Uganda</Option>
+              <Option value='Tanzania'>Tanzania</Option>
               <Option value='rwanda'>Rwanda</Option>
               <Option value='usa'>United States</Option>
               <Option value='uk'>United Kingdom</Option>
@@ -445,12 +512,12 @@ export default function RegisterStudent() {
                   { required: true, message: "Please specify relationship" },
                 ]}>
                 <Select placeholder='Select relationship'>
-                  <Option value='parent'>Parent</Option>
-                  <Option value='spouse'>Spouse</Option>
-                  <Option value='sibling'>Sibling</Option>
-                  <Option value='relative'>Other Relative</Option>
-                  <Option value='friend'>Friend</Option>
-                  <Option value='other'>Other</Option>
+                  <Option value='Parent'>Parent</Option>
+                  <Option value='Spouse'>Spouse</Option>
+                  <Option value='Sibling'>Sibling</Option>
+                  <Option value='Relative'>Other Relative</Option>
+                  <Option value='Friend'>Friend</Option>
+                  <Option value='Other'>Other</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -591,11 +658,7 @@ export default function RegisterStudent() {
                 { required: true, message: "Please upload your transcript" },
               ]}
               extra='Accepted file types: PDF, JPG, PNG (Max: 5MB)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={1}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -665,11 +728,7 @@ export default function RegisterStudent() {
               name='collegeTranscript'
               label='Upload Transcript'
               extra='Accepted file types: PDF, JPG, PNG (Max: 5MB)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={1}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -695,12 +754,7 @@ export default function RegisterStudent() {
               name='certificationDocuments'
               label='Upload Certificates'
               extra='Accepted file types: PDF, JPG, PNG (Max: 5MB per file, up to 3 files)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={3}
-                multiple
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1133,9 +1187,9 @@ export default function RegisterStudent() {
                   message: "Please write your personal statement",
                 },
                 {
-                  min: 500,
+                  min: 100,
                   message:
-                    "Your personal statement should be at least 500 characters",
+                    "Your personal statement should be at least 100 characters",
                 },
                 {
                   max: 4000,
@@ -1238,11 +1292,7 @@ export default function RegisterStudent() {
                 { required: true, message: "Please upload your ID/Passport" },
               ]}
               extra='Upload a clear copy of your National ID card or Passport bio-data page'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={1}
-                listType='picture'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1257,11 +1307,7 @@ export default function RegisterStudent() {
                 { required: true, message: "Please upload a passport photo" },
               ]}
               extra='Upload a recent passport-sized photograph with white background (taken within the last 6 months)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={1}
-                listType='picture'
-                accept='.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1279,12 +1325,7 @@ export default function RegisterStudent() {
                 },
               ]}
               extra='Upload certificates for all completed academic qualifications (high school diploma, college degrees, etc.)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                multiple
-                maxCount={5}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1302,12 +1343,7 @@ export default function RegisterStudent() {
                 },
               ]}
               extra='Upload official transcripts for all completed academic qualifications'>
-              <Upload
-                beforeUpload={simulateUpload}
-                multiple
-                maxCount={5}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1324,12 +1360,7 @@ export default function RegisterStudent() {
               name='recommendationLetters'
               label='Recommendation Letters'
               extra='Upload letters of recommendation from teachers, professors, or employers (if available)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                multiple
-                maxCount={3}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1341,11 +1372,7 @@ export default function RegisterStudent() {
               name='cvResume'
               label='CV/Resume'
               extra='Upload your current CV or resume (if available)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={1}
-                listType='text'
-                accept='.pdf,.doc,.docx'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1357,11 +1384,7 @@ export default function RegisterStudent() {
               name='englishProficiency'
               label='English Proficiency Test Results'
               extra='Upload TOEFL, IELTS, or other English proficiency test results (if applicable)'>
-              <Upload
-                beforeUpload={simulateUpload}
-                maxCount={1}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -1373,12 +1396,7 @@ export default function RegisterStudent() {
               name='additionalDocuments'
               label='Other Relevant Documents'
               extra='Upload any other documents that may support your application'>
-              <Upload
-                beforeUpload={simulateUpload}
-                multiple
-                maxCount={5}
-                listType='text'
-                accept='.pdf,.jpg,.jpeg,.png,.doc,.docx'>
+              <Upload beforeUpload={simulateUpload} {...transcriptProps}>
                 <Button
                   icon={<UploadOutlined />}
                   className='!rounded-button whitespace-nowrap cursor-pointer'>

@@ -17,6 +17,8 @@ import RegisterStudent from "src/pages/landing_page/modules/admission/new studen
 import StudentChecker from "src/security/StudentChecker.tsx";
 import StudentFinance from "src/pages/academics/finance/Finance.tsx";
 import Courses from "src/components/landing_page/courses";
+import Finance from "src/pages/finance/finance";
+import Offline from "src/pages/offline/offline";
 
 const system_routes = createBrowserRouter([
     {
@@ -129,11 +131,14 @@ const system_routes = createBrowserRouter([
                 ],
             },
             {
+                path: "offline",
+                element:<Offline/>
+            },
+            {
                 path: "test",
                 element: (
                     <>
-                        <GlobalSideBar/>
-                        <GlobalHeader/>
+                    <Finance/>
                     </>
                 ),
             },
