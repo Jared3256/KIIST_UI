@@ -46,9 +46,7 @@ export default function Content() {
         maxWidth: 450,
       }}
     >
-      <Box sx={{ display: { xs: "none", md: "flex" } }}>
-        <SitemarkIcon />
-      </Box>
+      
       {items.map((item, index) => (
         <Stack key={index} direction="row" sx={{ gap: 2 }}>
           {item.icon}
