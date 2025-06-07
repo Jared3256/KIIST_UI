@@ -3,6 +3,7 @@ import type {
   documentInfo,
   personalInfo,
   programSelectionInfo,
+  statementInfo,
 } from "./actions";
 import { format } from "date-fns";
 
@@ -36,33 +37,25 @@ export const dataToPersonalDetails = (data) => {
 };
 
 export const dataToAcademicDetails = (data) => {
-  const academicData: academicInfo = {
-    secondarySchool: {
-      name: data.highSchoolName,
-      startDate: data.highSchoolStartDate,
-      endDate: data.highSchoolEndDate,
-      qualificationObtained: data.highSchoolQualification,
-      finalGrade: data.highSchoolGrade,
-      highSchoolTranscript: data.highSchoolTranscript.file.response.data.url,
-    },
-    college: {
-      collegeDegree: data.collegeDegree,
-      collegeLocation: data.collegeLocation,
-      collegeMajor: data.collegeMajor,
-      collegeName: data.collegeName,
-      collegeTranscript: data.collegeTranscript.file.response.data.url,
-    },
-    certification: {
-      certifications: data.certifications,
-      certificationDocuments:
-        data.certificationDocuments.file.response.data.url,
-    },
-    additionalInfo: data.additionalInfo,
-  };
+  const urlsByKey = {};
+  Object.keys(data).forEach((key) => {
+    urlsByKey[key] = data[key]?.file?.response?.data?.url || data[key];
+  });
 
-  return academicData;
+  console.log(urlsByKey);
+  return urlsByKey;
 };
 
+export const dataToPersonalStatement = (data) => {
+  const statementData: statementInfo = {
+    statement: data.personalStatement,
+    special: data.specialCircumstances,
+    honors: data.awards,
+    additionalInfo: data.extracurricularActivities,
+  };
+
+  return statementData
+}
 export const dataToProgramSelection = (data) => {
   const programData: programSelectionInfo = {
     main: {

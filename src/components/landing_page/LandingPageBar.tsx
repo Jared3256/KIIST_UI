@@ -59,11 +59,14 @@ export default function LandingPageBar() {
       </div>
       <div className='flex items-center'>
         <div className='relative mr-4 hidden md:block'>
-          <Input
+          {/* <Input
             placeholder='Search here...'
             prefix={<SearchOutlined className='text-gray-400' />}
             className='rounded-full border-gray-300 w-40'
-          />
+          /> */}
+          <Button onClick={() => navigate("/auth/login")}>
+            Student Portal
+          </Button>
         </div>
         <Link to={"/h/admission/register"}>
           <AntButton
@@ -120,7 +123,7 @@ export default function LandingPageBar() {
 }
 
 const MenuItem = ({ mode }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Menu mode={mode} className='border-0'>
       <Menu.Item

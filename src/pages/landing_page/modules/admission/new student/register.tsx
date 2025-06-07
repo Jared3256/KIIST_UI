@@ -43,21 +43,23 @@ import {
   message,
 } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
+  saveAcademicDetails,
   saveDocumentDetails,
   savepersonalDetails,
+  savePersonalStatement,
   saveProgramSelection,
 } from "src/redux/admission/actions";
 import {
-  dataToDocumentDetails,
   dataToAcademicDetails,
   dataToPersonalDetails,
   dataToProgramSelection,
+  dataToPersonalStatement,
 } from "src/redux/admission/format.data";
-import * as studentActionTypes from "../../../../../redux/admission/types";
 import axios from "src/service/axios";
+import { SubmitStudentApplication } from "src/service/admissionService";
+import { format } from "date-fns";
 
 export default function RegisterStudent() {
   const { Content, Footer } = Layout;
@@ -73,8 +75,8 @@ export default function RegisterStudent() {
   const [isUploading, setIsUploading] = useState(false);
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
   const [activeStepSaved, setActiveStepSaved] = useState(true);
-
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let applicationId = "";
 
   useEffect(() => {
     setActiveStepSaved(true);
@@ -120,26 +122,31 @@ export default function RegisterStudent() {
     let res = false;
     try {
       await form.validateFields();
-      console.log(formData);
+      const id = localStorage.getItem("nationalId");
       switch (currentStep) {
         case 0: {
           const data = dataToPersonalDetails(formData);
-          console.log("Data out 2", data);
           res = await savepersonalDetails({ details: data });
           break;
         }
         case 1: {
           const data = dataToAcademicDetails(formData);
-          res = await savepersonalDetails({ details: data });
+          console.log(data);
+          res = await saveAcademicDetails({ details: data, id: id });
           break;
         }
         case 2: {
           const data = dataToProgramSelection(formData);
-          res = await saveProgramSelection({ details: data });
+          res = await saveProgramSelection({ details: data, id: id });
+          break;
+        }
+        case 3: {
+          const data = dataToPersonalStatement(formData);
+          res = await savePersonalStatement({ details: data, id: id });
           break;
         }
         case 4: {
-          res = await saveDocumentDetails({ details: formData });
+          res = await saveDocumentDetails({ details: formData, id: id });
           break;
         }
       }
@@ -187,22 +194,17 @@ export default function RegisterStudent() {
       await form.validateFields();
       setSaving(true);
       setSaveStatus("Submitting...");
-      // Simulate API call
-      const values = form.getFieldsValue();
+      // generate the application code
+      applicationId = `KIIST-${new Date().getFullYear()}-${Math.floor(
+        10000 + Math.random() * 90000
+      )}`;
 
-      console.log(values);
-      // setTimeout(() => {
-      //   const values = form.getFieldsValue();
-      //   setFormData({
-      //     ...formData,
-      //     ...values,
-      //   });
-      //   setSaving(false);
-      //   setSaveStatus("Application submitted");
-      //   message.success("Your application has been submitted successfully!");
-      //   setCurrentStep(currentStep + 1);
-      //   window.scrollTo(0, 0);
-      // }, 2000);
+      SubmitStudentApplication(
+        applicationId,
+        "/student/" + localStorage.getItem("nationalId") + "/submit"
+      );
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
     } catch (error) {
       message.error("Please complete all required fields before submitting");
     }
@@ -940,9 +942,9 @@ export default function RegisterStudent() {
               },
             ]}>
             <Radio.Group>
-              <Radio value='full_time'>Full-time</Radio>
-              <Radio value='part_time'>Part-time</Radio>
-              <Radio value='online'>Online/Distance Learning</Radio>
+              <Radio value='full-time'>Full-time</Radio>
+              <Radio value='part-time'>Part-time</Radio>
+              <Radio value='online-distance'>Online/Distance Learning</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item
@@ -1612,7 +1614,7 @@ export default function RegisterStudent() {
                 <div>
                   <Text strong>Identification Document:</Text>
                   <div className='text-gray-700'>
-                    {formData.identificationDocument?.length > 0
+                    {formData.identificationDocument
                       ? "✓ Uploaded"
                       : "✗ Not uploaded"}
                   </div>
@@ -1620,15 +1622,13 @@ export default function RegisterStudent() {
                 <div>
                   <Text strong>Passport Photo:</Text>
                   <div className='text-gray-700'>
-                    {formData.passportPhoto?.length > 0
-                      ? "✓ Uploaded"
-                      : "✗ Not uploaded"}
+                    {formData.passportPhoto ? "✓ Uploaded" : "✗ Not uploaded"}
                   </div>
                 </div>
                 <div>
                   <Text strong>Academic Certificates:</Text>
                   <div className='text-gray-700'>
-                    {formData.academicCertificates?.length > 0
+                    {formData.academicCertificates
                       ? "✓ Uploaded"
                       : "✗ Not uploaded"}
                   </div>
@@ -1636,7 +1636,7 @@ export default function RegisterStudent() {
                 <div>
                   <Text strong>Academic Transcripts:</Text>
                   <div className='text-gray-700'>
-                    {formData.academicTranscripts?.length > 0
+                    {formData.academicTranscripts
                       ? "✓ Uploaded"
                       : "✗ Not uploaded"}
                   </div>
@@ -1724,13 +1724,14 @@ export default function RegisterStudent() {
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
                 <div>
                   <Text strong>Application ID:</Text>
-                  <div className='text-gray-700'>
-                    KII-2025-{Math.floor(10000 + Math.random() * 90000)}
-                  </div>
+
+                  <div className='text-gray-700'>{applicationId}</div>
                 </div>
                 <div>
                   <Text strong>Submission Date:</Text>
-                  <div className='text-gray-700'>June 2, 2025</div>
+                  <div className='text-gray-700'>
+                    {format(new Date(), "MMMM d, yyyy")}
+                  </div>
                 </div>
                 <div>
                   <Text strong>Applicant Name:</Text>
@@ -1762,7 +1763,7 @@ export default function RegisterStudent() {
                   </li>
                   <li>
                     Application results will typically be communicated within
-                    4-6 weeks.
+                    1-2 weeks.
                   </li>
                   <li>
                     You can check your application status by logging into the
@@ -1776,21 +1777,23 @@ export default function RegisterStudent() {
             />
             <div className='flex flex-col md:flex-row justify-center gap-4 mt-8'>
               <Button
+                onClick={() => navigate("/")}
                 type='primary'
                 size='large'
                 icon={<HomeOutlined />}
                 className='bg-blue-700 hover:bg-blue-600 !rounded-button whitespace-nowrap cursor-pointer'
-                href='https://readdy.ai/home/be1ad4ae-35c8-469d-bc6c-b0b56d11bffd/a4e1df5e-b038-4ba2-b8d6-e8b39adbdede'
                 data-readdy='true'>
                 Return to Homepage
               </Button>
               <Button
+                onClick={() => navigate("/auth/login")}
                 size='large'
                 icon={<TeamOutlined />}
                 className='!rounded-button whitespace-nowrap cursor-pointer'>
                 Student Portal
               </Button>
               <Button
+                disabled
                 size='large'
                 icon={<MailOutlined />}
                 className='!rounded-button whitespace-nowrap cursor-pointer'>
