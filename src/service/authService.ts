@@ -27,7 +27,9 @@ export const login = async ({ loginData }) => {
       return data;
     })
     .catch((error) => {
-      return errorHandler(error);
+      console.log(error.response.data);
+      server_data = error.response.data;
+      return errorHandler(error.response.data);
     })
     .finally(() => {
       return server_data;
@@ -36,12 +38,11 @@ export const login = async ({ loginData }) => {
   return server_data;
 };
 
-
 export const logout = async () => {
   let server_response = {};
   await axios
     .post(
-       "/auth/logout",
+      "/auth/logout",
       { data: null },
       {
         withCredentials: true,

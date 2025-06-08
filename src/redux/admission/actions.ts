@@ -86,32 +86,32 @@ export interface statementInfo {
 }
 
 const savepersonalDetails = async ({ details }: personalInfo) => {
-  await SaveStudentPersonalDetails(details);
-  return true;
+  const res = await SaveStudentPersonalDetails(details);
+  return res;
 };
 
 const saveAcademicDetails = async ({ details, id }: academicInfo) => {
   const link ="/student/"+id +"/academic" 
-  await SaveStudentDetails(details, link)
-  return true;
+  const res = await SaveStudentDetails(details, link)
+  return res;
 };
 
 const saveProgramSelection = async ({ details,id }: programSelectionInfo) => {
   const link = "/student/" + id + "/program";
-  await SaveStudentDetails(details, link);
-  return true;
+  const res = await SaveStudentDetails(details, link);
+  return res;
 };
 
 const savePersonalStatement = async ({ details ,id}) => {
   const link = "/student/" + id + "/statement";
-  await SaveStudentDetails(details, link);
-  return true;
+  const res = await SaveStudentDetails(details, link);
+  return res;
 };
 const saveDocumentDetails = async ({ details ,id}: documentInfo) => {
  
   const link = "/student/" + id + "/document";
-  await SaveStudentDetails(dataToDocumentDetails(details), link);
-  return true;
+  const res = await SaveStudentDetails(dataToDocumentDetails(details), link);
+  return res;
 };
 export {
   savepersonalDetails,

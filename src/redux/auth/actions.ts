@@ -16,7 +16,7 @@ export const login =
 
     const data = await authService.login({ loginData });
 
-    if (data) {
+    if (data.success) {
       const decodedUser = jwtDecode(data?.accessToken);
       const active_role = decodedUser.UserInfo.active_role;
 
@@ -29,6 +29,9 @@ export const login =
     } else {
       dispatch({
         type: actionTypes.REQUEST_FAILED,
+        payload: {
+          data,
+        },
       });
     }
   };

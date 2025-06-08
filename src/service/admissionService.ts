@@ -3,29 +3,38 @@ import axios from "./axios";
 export const SaveStudentPersonalDetails = async (studentDetails) => {
   let server_response = {};
 
-  console.log(studentDetails);
-  await axios.post("/student/register", studentDetails).then((res) => {
-    console.log(res.data);
-    server_response = res.data;
+  await axios
+    .post("/student/register", studentDetails)
+    .then((res) => {
+      server_response = res.data;
 
-    // save the student id to the local storage
-    localStorage.setItem("nationalId", server_response.data._id);
-  });
+      // save the student id to the local storage
+      localStorage.setItem("nationalId", server_response.data._id);
+    })
+    .catch((error) => {
+      server_response = error;
+    });
   return server_response;
 };
 
 export const SaveStudentDetails = async (details, link) => {
   let server_response = {};
 
-  await axios.put(link, details).then((res) => {
-    console.log(res.data);
-    server_response = res.data;
-  });
+  await axios
+    .put(link, details)
+    .then((res) => {
+      console.log(res.data);
+      server_response = res.data;
+    })
+    .catch((error) => {
+      server_response = error;
+    });
   return server_response;
 };
 
 export const SubmitStudentApplication = async (id, link) => {
   let server_response = {};
+  console.log(id)
   await axios.post(link, { applicationId: id }).then((res) => {
     console.log(res.data);
     server_response = res.data;

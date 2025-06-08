@@ -5,8 +5,8 @@ const INITIAL_STATE = {
   isLoggedIn: false,
   isLoading: false,
   isSuccess: false,
+  errorMessage: {},
 };
-
 
 const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -17,7 +17,10 @@ const authReducer = (state = INITIAL_STATE, action) => {
         isLoading: true,
       };
     case actionTypes.REQUEST_FAILED:
-      return INITIAL_STATE;
+      return {
+        ...INITIAL_STATE,
+        errorMessage: action.payload,
+      };
 
     case actionTypes.REQUEST_SUCCESS:
       return {

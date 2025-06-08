@@ -17,7 +17,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router";
-import { Input as AntInput } from "antd";
+import { Input as AntInput, message } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 
@@ -41,19 +41,32 @@ export default function SigninCard() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [messageApi, contextHolder] = message.useMessage();
+
   // create a Url to route to
-  const fromUrl = location.state?.from?.pathname || "/v1/dashboard";
+  const fromUrl = location.state?.from?.pathname || "/v1/student";
   // console.log(fromUrl);
   // // redux Configurations and details
   const dispatch = useDispatch();
-  const { isLoading, isSuccess } = useSelector(selectAuth);
+  const { isLoading, isSuccess, errorMessage } = useSelector(selectAuth);
 
   useEffect(() => {
     handleSuccessLogin();
-  }, [isSuccess]);
+    if (errorMessage) {
+      messageApiHandler("error", errorMessage.data.message);
+    }
+  }, [isSuccess, errorMessage]);
 
+  const messageApiHandler = (type, content) => {
+    messageApi.open({
+      type: type,
+      content: content,
+      duration: 2.5,
+    });
+  };
   const handleSuccessLogin = () => {
     if (isSuccess) {
+      messageApiHandler("success", "successfully loggedin.");
       navigate(fromUrl, { replace: true });
     }
   };
@@ -87,10 +100,7 @@ export default function SigninCard() {
           visibility: "hidden",
         },
       }}>
-      {/* <Helmet>
-        <title>The KIIST | Login</title>
-      </Helmet> */}
-
+      {contextHolder}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

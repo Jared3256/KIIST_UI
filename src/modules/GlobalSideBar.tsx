@@ -211,7 +211,10 @@ export default function Sidebar() {
           }}>
           <ListItem>
             <ListItemButton
-              onClick={() => selectedHandler("dashboard")}
+              onClick={() => {
+                selectedHandler("dashboard");
+                navigate(`/v1/${role}/dashboard`);
+              }}
               selected={selected["dashboard"]}>
               <DashboardRoundedIcon />
               <ListItemContent>
@@ -464,33 +467,35 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
         </List>
-        <Card
-          invertedColors
-          variant='soft'
-          color='warning'
-          size='sm'
-          sx={{ boxShadow: "none" }}>
-          <Stack
-            direction='row'
-            sx={{ justifyContent: "space-between", alignItems: "center" }}>
-            <Typography level='title-sm'>Used space</Typography>
-            <IconButton size='sm'>
-              <CloseRoundedIcon />
-            </IconButton>
-          </Stack>
-          <Typography level='body-xs'>
-            Your team has used 80% of your available space. Need more?
-          </Typography>
-          <LinearProgress
-            variant='outlined'
-            value={80}
-            determinate
-            sx={{ my: 1 }}
-          />
-          <Button size='sm' variant='solid'>
-            Upgrade plan
-          </Button>
-        </Card>
+        {role === "admin" && (
+          <Card
+            invertedColors
+            variant='soft'
+            color='warning'
+            size='sm'
+            sx={{ boxShadow: "none" }}>
+            <Stack
+              direction='row'
+              sx={{ justifyContent: "space-between", alignItems: "center" }}>
+              <Typography level='title-sm'>Used space</Typography>
+              <IconButton size='sm'>
+                <CloseRoundedIcon />
+              </IconButton>
+            </Stack>
+            <Typography level='body-xs'>
+              Your team has used 80% of your available space. Need more?
+            </Typography>
+            <LinearProgress
+              variant='outlined'
+              value={80}
+              determinate
+              sx={{ my: 1 }}
+            />
+            <Button size='sm' variant='solid'>
+              Upgrade plan
+            </Button>
+          </Card>
+        )}
       </Box>
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>

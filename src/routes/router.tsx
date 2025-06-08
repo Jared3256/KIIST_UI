@@ -94,12 +94,12 @@ const system_routes = createBrowserRouter([
           },
           {
             path: "activate",
-            element:<ActivateAccount/>
-          }
-          , {
+            element: <ActivateAccount />,
+          },
+          {
             path: "forgot_password",
-            element:<ForgotPassword/>
-          }
+            element: <ForgotPassword />,
+          },
         ],
       },
       {
@@ -141,23 +141,29 @@ const system_routes = createBrowserRouter([
                 element: <StudentDashboard />,
               },
               {
+                path: "dashboard",
+                element: <StudentDashboard />,
+              },
+              {
                 path: "finance",
                 element: <Finance />,
               },
               {
                 path: "classes",
                 element: <StudentClasses />,
-                },
-                {
-                    path: "history",
-                    element:<StudentClassAttendanceHistory/>
-                }, {
-                    path: "analytics",
-                    element:<StudentAnalytics/>
-              }, {
-                  path: "profile",
-                element:<StudentProfile/>
-              }
+              },
+              {
+                path: "history",
+                element: <StudentClassAttendanceHistory />,
+              },
+              {
+                path: "analytics",
+                element: <StudentAnalytics />,
+              },
+              {
+                path: "profile",
+                element: <StudentProfile />,
+              },
             ],
           },
         ],

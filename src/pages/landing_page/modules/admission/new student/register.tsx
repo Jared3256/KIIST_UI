@@ -62,6 +62,7 @@ import { SubmitStudentApplication } from "src/service/admissionService";
 import { format } from "date-fns";
 
 export default function RegisterStudent() {
+  const [messageApi, contextHolder] = message.useMessage();
   const { Content, Footer } = Layout;
   const { Title, Text, Paragraph } = Typography;
   const { Option } = Select;
@@ -118,6 +119,15 @@ export default function RegisterStudent() {
     }
   };
 
+  const messageApiHandler = (type, content) => {
+    messageApi.open({
+      type: type,
+      content: content,
+      duration: 2.5,
+    });
+    // .then(() => message.success("Loading finished", 2.5))
+    // .then(() => message.info("Loading finished", 2.5));
+  };
   const handleNext = async () => {
     let res = false;
     try {
@@ -126,27 +136,81 @@ export default function RegisterStudent() {
       switch (currentStep) {
         case 0: {
           const data = dataToPersonalDetails(formData);
-          res = await savepersonalDetails({ details: data });
+          const response = await savepersonalDetails({ details: data });
+          res = response.success;
+          if (res) {
+            messageApiHandler("success", response.message);
+          } else {
+            messageApiHandler(
+              "error",
+              "unable to proceed please check your connection."
+            );
+          }
           break;
         }
         case 1: {
           const data = dataToAcademicDetails(formData);
-          console.log(data);
-          res = await saveAcademicDetails({ details: data, id: id });
+          const response = await saveAcademicDetails({ details: data, id: id });
+          res = response.success;
+          if (res) {
+            messageApiHandler("success", response.message);
+          } else {
+            messageApiHandler(
+              "error",
+              "unable to proceed please check your connection."
+            );
+          }
           break;
         }
         case 2: {
           const data = dataToProgramSelection(formData);
-          res = await saveProgramSelection({ details: data, id: id });
+          const response = await saveProgramSelection({
+            details: data,
+            id: id,
+          });
+          res = response.success;
+          if (res) {
+            messageApiHandler("success", response.message);
+          } else {
+            messageApiHandler(
+              "error",
+              "unable to proceed please check your connection."
+            );
+          }
           break;
         }
         case 3: {
           const data = dataToPersonalStatement(formData);
-          res = await savePersonalStatement({ details: data, id: id });
+          const response = await savePersonalStatement({
+            details: data,
+            id: id,
+          });
+          res = response.success;
+          if (res) {
+            messageApiHandler("success", response.message);
+          } else {
+            messageApiHandler(
+              "error",
+              "unable to proceed please check your connection."
+            );
+          }
           break;
         }
         case 4: {
-          res = await saveDocumentDetails({ details: formData, id: id });
+          const response = await saveDocumentDetails({
+            details: formData,
+            id: id,
+          });
+          res = response.success;
+
+          if (res) {
+            messageApiHandler("success", response.message);
+          } else {
+            messageApiHandler(
+              "error",
+              "unable to proceed please check your connection."
+            );
+          }
           break;
         }
       }
@@ -156,7 +220,10 @@ export default function RegisterStudent() {
         window.scrollTo(0, 0);
       }
     } catch (error) {
-      message.error("Please complete all required fields before proceeding");
+      messageApiHandler(
+        "error",
+        "Please complete all required fields before proceeding"
+      );
     }
   };
 
@@ -166,27 +233,34 @@ export default function RegisterStudent() {
   };
 
   const handleSave = async () => {
-    await form.validateFields();
-    setSaving(true);
-    setSaveStatus("Saving...");
-    // Simulate API call
-    setTimeout(() => {
-      const values = form.getFieldsValue();
-      setFormData({
-        ...formData,
-        ...values,
-      });
-
-      setSaving(false);
-      setSaveStatus("Application saved");
-      message.success("Your application has been saved");
-      setActiveStepSaved(false);
-
-      // Clear status message after 3 seconds
+    try {
+      await form.validateFields();
+      setSaving(true);
+      setSaveStatus("Saving...");
+      // Simulate API call
       setTimeout(() => {
-        setSaveStatus("");
-      }, 3000);
-    }, 1500);
+        const values = form.getFieldsValue();
+        setFormData({
+          ...formData,
+          ...values,
+        });
+
+        setSaving(false);
+        setSaveStatus("Application saved");
+        messageApiHandler("success", "Your application has been saved");
+        setActiveStepSaved(false);
+
+        // Clear status message after 3 seconds
+        setTimeout(() => {
+          setSaveStatus("");
+        }, 3000);
+      }, 1500);
+    } catch (error) {
+      messageApiHandler(
+        "error",
+        "Please complete all required fields before proceeding"
+      );
+    }
   };
 
   const handleSubmit = async () => {
@@ -199,14 +273,17 @@ export default function RegisterStudent() {
         10000 + Math.random() * 90000
       )}`;
 
-      SubmitStudentApplication(
+      await SubmitStudentApplication(
         applicationId,
         "/student/" + localStorage.getItem("nationalId") + "/submit"
       );
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
     } catch (error) {
-      message.error("Please complete all required fields before submitting");
+      messageApiHandler(
+        "error",
+        "Please complete all required fields before proceeding"
+      );
     }
   };
 
@@ -1226,6 +1303,12 @@ export default function RegisterStudent() {
             </Text>
           </div>
           <Form.Item
+            rules={[
+              {
+                required: true,
+                message: "Please provide your extra curricular activities",
+              },
+            ]}
             name='extracurricularActivities'
             label='Extracurricular Activities'>
             <TextArea
@@ -1233,13 +1316,19 @@ export default function RegisterStudent() {
               rows={4}
             />
           </Form.Item>
-          <Form.Item name='awards' label='Honors and Awards'>
+          <Form.Item name='awards' label='Honors and Awards' required>
             <TextArea
               placeholder='List any academic or non-academic honors, awards, or recognitions you have received.'
               rows={4}
             />
           </Form.Item>
           <Form.Item
+            rules={[
+              {
+                required: true,
+                message: "Give any special consideration",
+              },
+            ]}
             name='specialCircumstances'
             label='Special Circumstances (Optional)'>
             <TextArea
@@ -1736,7 +1825,7 @@ export default function RegisterStudent() {
                 <div>
                   <Text strong>Applicant Name:</Text>
                   <div className='text-gray-700'>
-                    {formData.firstName} {formData.lastName}
+                    {formData.firstname} {formData.lastname}
                   </div>
                 </div>
                 <div>
@@ -1807,6 +1896,7 @@ export default function RegisterStudent() {
   ];
   return (
     <Layout className='min-h-screen'>
+      {contextHolder}
       <Content className=' min-h-[1024px]'>
         <div className='container mx-auto px-4 py-8'>
           <div className='bg-white p-6 md:p-8 rounded-lg shadow-md mb-8'>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 export default function ActivateAccount() {
   const [activationStep, setActivationStep] = useState<number>(0);
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [activationCode, setActivationCode] = useState<string[]>(
     Array(6).fill("")
@@ -37,7 +38,15 @@ export default function ActivateAccount() {
     if (code.length === 6) {
       console.log("Activation code:", code);
       setActivationStep(1);
-      message.success("Account activated successfully!");
+      messageApi
+        .open({
+          type: "success",
+          content: "Action in progress..",
+          duration: 2.5,
+        })
+        .then(() => message.success("Loading finished", 2.5))
+        .then(() => message.info("Loading finished", 2.5));
+      //   message.success("Account activated successfully!");
     } else {
       message.error("Please enter a valid 6-digit code");
     }
@@ -83,6 +92,7 @@ export default function ActivateAccount() {
           visibility: "hidden",
         },
       }}>
+      {contextHolder} 
       <Stack
         direction='column'
         sx={[
