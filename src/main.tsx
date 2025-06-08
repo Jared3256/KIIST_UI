@@ -6,6 +6,7 @@ import PageLoader from "./components/PageLoader";
 import {Provider} from "react-redux";
 import store from "./redux/store";
 
+import "@ant-design/v5-patch-for-react-19";
 const KiistApp = lazy(() => import("./engine/KIIST"));
 
 createRoot(document.getElementById("root")!).render(

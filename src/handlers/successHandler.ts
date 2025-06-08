@@ -2,6 +2,8 @@
 
 import { notification } from "antd";
 import codeMessage from "./codeMessage";
+import handlePlay from "./playNotificationSound";
+import playNotificationSound from "./playNotificationSound";
 
 const successHandler = (
   response,
@@ -20,7 +22,7 @@ const successHandler = (
         duration: time,
         maxCount: maxCount,
       });
-
+      playNotificationSound("success");
       notification.success({
         message: `Request success`,
         description: successText,
@@ -36,7 +38,7 @@ const successHandler = (
         duration: time,
         maxCount: maxCount,
       });
-
+      playNotificationSound("error");
       notification.error({
         message: `Request error ${status}`,
         description: errorText,

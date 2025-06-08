@@ -1,7 +1,8 @@
 import { notification } from "antd";
 import codeMessage from "./codeMessage";
 import notificationHandler from "./notificationHandler";
-// import playNotificationSound from "./playNotification";
+import handlePlay from "./playNotificationSound";
+import playNotificationSound from "./playNotificationSound";
 
 const errorHandler = (error) => {
   if (!navigator.onLine) {
@@ -25,15 +26,16 @@ const errorHandler = (error) => {
 
   const { response } = error;
 
-  console.log("Response ", response);
+  
 
   if (!response) {
+    playNotificationSound("error");
     notification.config({
       duration: 20,
       maxCount: 1,
     });
     // Code to execute when there is no internet connection
-    // playNotificationSound();
+  
 
     notification.error({
       message: "Problem connecting to server",
@@ -67,7 +69,7 @@ const errorHandler = (error) => {
       duration: 20,
       maxCount: 2,
     });
-    // playNotificationSound();
+    playNotificationSound("error");
     notification.error({
       message: `Request error ${status}`,
       description: errorText,

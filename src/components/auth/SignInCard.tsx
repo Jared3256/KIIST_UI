@@ -48,14 +48,12 @@ export default function SigninCard() {
   // console.log(fromUrl);
   // // redux Configurations and details
   const dispatch = useDispatch();
-  const { isLoading, isSuccess, errorMessage } = useSelector(selectAuth);
+  const { isLoading, isSuccess } = useSelector(selectAuth);
 
   useEffect(() => {
     handleSuccessLogin();
-    if (errorMessage) {
-      messageApiHandler("error", errorMessage.data.message);
-    }
-  }, [isSuccess, errorMessage]);
+    
+  }, [isSuccess]);
 
   const messageApiHandler = (type, content) => {
     messageApi.open({
