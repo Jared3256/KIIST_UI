@@ -146,15 +146,11 @@ export default function SigninCard() {
               <Divider />
               <div className='text-center'>
                 <span className='text-gray-600'>Account locked? </span>
-                <a
-                  href='#'
-                  className='text-blue-600 hover:text-blue-800'
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveTab("activate");
-                  }}>
+                <Link
+                  to={"/auth/activate"}
+                  className='text-blue-600 hover:text-blue-800'>
                   Activate Account
-                </a>
+                </Link>
               </div>
             </form>
           </Stack>

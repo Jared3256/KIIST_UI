@@ -1,5 +1,4 @@
 import { Box } from "@mui/joy";
-import { motion } from "framer-motion";
 import SiginSide from "src/components/auth/SiginSide";
 export default function Loginv2() {
   return (

@@ -24,6 +24,8 @@ import StudentClasses from "src/pages/students/student.classes";
 import StudentClassAttendanceHistory from "src/pages/students/student.class.attendance.history";
 import StudentAnalytics from "src/pages/students/student.analytics";
 import StudentProfile from "src/pages/students/student.profile";
+import ActivateAccount from "src/pages/auth/activateAccount";
+import ForgotPassword from "src/pages/auth/forgotPassword";
 
 const system_routes = createBrowserRouter([
   {
@@ -90,6 +92,14 @@ const system_routes = createBrowserRouter([
             path: "unauthorized",
             element: <h1>Unauthorized</h1>,
           },
+          {
+            path: "activate",
+            element:<ActivateAccount/>
+          }
+          , {
+            path: "forgot_password",
+            element:<ForgotPassword/>
+          }
         ],
       },
       {
