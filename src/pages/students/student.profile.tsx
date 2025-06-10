@@ -11,10 +11,15 @@ import {
   Typography,
 } from "antd";
 import React from "react";
+import { useSelector } from "react-redux";
 import { courseAttendance, studentData } from "src/modules/mockdata";
+import { selectAuth } from "src/redux/auth/selectors";
 
 export default function StudentProfile() {
   const { Title, Text } = Typography;
+  const { current } = useSelector(selectAuth);
+
+  console.log(current);
   return (
     <div className='p-6'>
       <Box
@@ -31,7 +36,7 @@ export default function StudentProfile() {
           />
           <div className='md:ml-5 sm:mt-3'>
             <Title level={2} className='mb-1'>
-              {studentData.name}
+              {current.UserInfo.fullname}
             </Title>
             <Text type='secondary' className='text-lg block'>
               ID: {studentData.id}
@@ -41,9 +46,11 @@ export default function StudentProfile() {
             </Text>
             <div className='mt-3'>
               <Tag color='blue' className='mr-2'>
-                2025 Batch
+                2021 Batch
               </Tag>
-              <Tag color='green'>Active</Tag>
+              <Tag color={current.UserInfo.enabled ? "success" : "warning"}>
+                {current.UserInfo.enabled ? "Active" : "Inactive"}
+              </Tag>
             </div>
           </div>
         </div>
@@ -59,13 +66,13 @@ export default function StudentProfile() {
                 <Text type='secondary' className='block'>
                   Email
                 </Text>
-                <Text strong>alex.johnson@university.edu</Text>
+                <Text strong>{current.UserInfo.email}</Text>
               </div>
               <div>
                 <Text type='secondary' className='block'>
                   Phone
                 </Text>
-                <Text strong>+1 (555) 123-4567</Text>
+                <Text strong>+254 (746) 461910</Text>
               </div>
               <div>
                 <Text type='secondary' className='block'>

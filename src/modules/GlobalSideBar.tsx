@@ -261,7 +261,12 @@ export default function Sidebar() {
                     </ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton  onClick={() => navigate(`/v1/${role}/student-management`)}>Students</ListItemButton>
+                    <ListItemButton
+                      onClick={() =>
+                        navigate(`/v1/${role}/student-management`)
+                      }>
+                      Students
+                    </ListItemButton>
                   </ListItem>
                 </List>
               </Toggler>
@@ -383,17 +388,14 @@ export default function Sidebar() {
                   )}>
                   <List sx={{ gap: 0.5 }}>
                     <ListItem sx={{ mt: 0.5 }}>
-                      <ListItemButton role='menuitem'>
+                      <ListItemButton role='menuitem' disabled>
                         Transcripts
                       </ListItemButton>
                     </ListItem>
                     <ListItem sx={{ mt: 0.5 }}>
-                      <ListItemButton role='menuitem'>
+                      <ListItemButton role='menuitem' disabled>
                         My Courses
                       </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemButton>Schedule</ListItemButton>
                     </ListItem>
                     <ListItem>
                       <ListItemButton

@@ -1,12 +1,71 @@
-import { Alert, Avatar, Badge, Button, Card, Checkbox, Col, Collapse, DatePicker, Divider, Form, Input, Layout, Menu, Modal, Progress, Radio, Row, Select, Space, Spin, Statistic, Switch, Table, Tabs, Tag, Typography, Upload } from "antd";
+import {
+  Alert,
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Collapse,
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  Layout,
+  Menu,
+  Modal,
+  Progress,
+  Radio,
+  Row,
+  Select,
+  Space,
+  Spin,
+  Statistic,
+  Switch,
+  Table,
+  Tabs,
+  Tag,
+  Typography,
+  Upload,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import * as echarts from "echarts";
 import { Autoplay, Pagination } from "swiper/modules";
-import { BarChartOutlined, BellOutlined, CalendarOutlined, CheckCircleOutlined, ClockCircleOutlined, DashboardOutlined, DollarOutlined, DownloadOutlined, DownOutlined, EyeOutlined, FileTextOutlined, FilterOutlined, InfoCircleOutlined, LogoutOutlined, MailOutlined, MenuFoldOutlined, MenuUnfoldOutlined, PieChartOutlined, PrinterOutlined, QuestionCircleOutlined, ReloadOutlined, SettingOutlined, TeamOutlined, UploadOutlined, UserOutlined, WarningOutlined } from "@ant-design/icons";
+import {
+  BarChartOutlined,
+  BellOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  DashboardOutlined,
+  DollarOutlined,
+  DownloadOutlined,
+  DownOutlined,
+  EyeOutlined,
+  FileTextOutlined,
+  FilterOutlined,
+  InfoCircleOutlined,
+  LogoutOutlined,
+  MailOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PieChartOutlined,
+  PrinterOutlined,
+  QuestionCircleOutlined,
+  ReloadOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  UploadOutlined,
+  UserOutlined,
+  WarningOutlined,
+} from "@ant-design/icons";
 import { PrintOutlined } from "@mui/icons-material";
 import { Box } from "@mui/joy";
+import { useSelector } from "react-redux";
+import { selectAuth } from "src/redux/auth/selectors";
 export default function Finance() {
-  const { Header, Sider, Content, Footer } = Layout;
+  const {current} = useSelector(selectAuth)
+  const {  Content } = Layout;
   const { Title, Text, Paragraph } = Typography;
   const { TabPane } = Tabs;
   const { Option } = Select;
@@ -23,19 +82,16 @@ export default function Finance() {
     "2025-06-05",
   ]);
   const [loading, setLoading] = useState(false);
-    
-  const swiperModules = [Pagination, Autoplay];
 
-    
   // Initialize charts after component mounts
   useEffect(() => {
     initCharts();
-    
+
     // Simulate loading
     setLoading(true);
     setTimeout(() => setLoading(false), 1000);
   }, []);
-    
+
   // Initialize charts when tab changes
   useEffect(() => {
     if (activeTab === "dashboard" || activeTab === "financial") {
@@ -44,7 +100,7 @@ export default function Finance() {
       }, 100);
     }
   }, [activeTab]);
-    
+
   const initCharts = () => {
     // Expense Breakdown Chart
     const expenseChartDom = document.getElementById("expense-breakdown-chart");
@@ -99,7 +155,7 @@ export default function Finance() {
       };
       expenseChart.setOption(expenseOption);
     }
-    
+
     // Monthly Trend Chart
     const trendChartDom = document.getElementById("monthly-trend-chart");
     if (trendChartDom) {
@@ -152,7 +208,7 @@ export default function Finance() {
       };
       trendChart.setOption(trendOption);
     }
-    
+
     // Budget vs Actual Chart
     const budgetChartDom = document.getElementById("budget-vs-actual-chart");
     if (budgetChartDom) {
@@ -200,35 +256,35 @@ export default function Finance() {
       budgetChart.setOption(budgetOption);
     }
   };
-    
+
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
-    
+
   const switchRole = () => {
     setUserRole(userRole === "student" ? "staff" : "student");
   };
-    
+
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
-    
+
   const showPaymentModal = () => {
     setPaymentModalVisible(true);
   };
-    
+
   const closePaymentModal = () => {
     setPaymentModalVisible(false);
   };
-    
+
   const toggleNotifications = () => {
     setNotificationsVisible(!notificationsVisible);
   };
-    
+
   const toggleUserMenu = () => {
     setUserMenuVisible(!userMenuVisible);
   };
-    
+
   const handleDateRangeChange = (dates: any) => {
     if (dates && dates.length === 2) {
       setDateRange([
@@ -237,7 +293,7 @@ export default function Finance() {
       ]);
     }
   };
-    
+
   // Student payment data
   const studentPayments = [
     {
@@ -276,7 +332,7 @@ export default function Finance() {
       status: "Paid",
     },
   ];
-    
+
   // Staff salary data
   const staffSalary = [
     {
@@ -315,7 +371,7 @@ export default function Finance() {
       status: "Pending",
     },
   ];
-    
+
   // Notifications data
   const notifications = [
     {
@@ -340,60 +396,60 @@ export default function Finance() {
       type: "info",
     },
   ];
-    
+
   // Recent transactions
   const recentTransactions =
     userRole === "student"
       ? [
-        {
-          id: 1,
-          description: "Spring Semester Tuition",
-          amount: "-$3,500.00",
-          date: "2025-05-15",
-          type: "expense",
-        },
-        {
-          id: 2,
-          description: "Scholarship Credit",
-          amount: "+$1,500.00",
-          date: "2025-05-10",
-          type: "income",
-        },
-        {
-          id: 3,
-          description: "Housing Fee",
-          amount: "-$1,200.00",
-          date: "2025-04-01",
-          type: "expense",
-        },
-      ]
+          {
+            id: 1,
+            description: "Spring Semester Tuition",
+            amount: "-$3,500.00",
+            date: "2025-05-15",
+            type: "expense",
+          },
+          {
+            id: 2,
+            description: "Scholarship Credit",
+            amount: "+$1,500.00",
+            date: "2025-05-10",
+            type: "income",
+          },
+          {
+            id: 3,
+            description: "Housing Fee",
+            amount: "-$1,200.00",
+            date: "2025-04-01",
+            type: "expense",
+          },
+        ]
       : [
-        {
-          id: 1,
-          description: "May Salary",
-          amount: "+$4,200.00",
-          date: "2025-05-30",
-          type: "income",
-        },
-        {
-          id: 2,
-          description: "Research Grant",
-          amount: "+$1,500.00",
-          date: "2025-05-15",
-          type: "income",
-        },
-        {
-          id: 3,
-          description: "Tax Deduction",
-          amount: "-$950.00",
-          date: "2025-05-30",
-          type: "expense",
-        },
-      ];
-    
+          {
+            id: 1,
+            description: "May Salary",
+            amount: "+$4,200.00",
+            date: "2025-05-30",
+            type: "income",
+          },
+          {
+            id: 2,
+            description: "Research Grant",
+            amount: "+$1,500.00",
+            date: "2025-05-15",
+            type: "income",
+          },
+          {
+            id: 3,
+            description: "Tax Deduction",
+            amount: "-$950.00",
+            date: "2025-05-30",
+            type: "expense",
+          },
+        ];
+
   // Dashboard content
   const renderDashboard = () => (
-    <div className='dashboard-content'>
+    <div className='dashboard-content bg-red'>
       <div className='welcome-section mb-6'>
         <Row gutter={[24, 24]} className='mb-6'>
           <Col span={24}>
@@ -402,8 +458,8 @@ export default function Finance() {
                 <Col xs={24} md={16}>
                   <Title level={3}>
                     Welcome back,{" "}
-                    {userRole === "student"
-                      ? "Alex Johnson"
+                    {current.UserInfo.role === "student"
+                      ? current.UserInfo.fullname
                       : "Prof. Sarah Williams"}
                   </Title>
                   <Paragraph className='text-gray-600'>
@@ -436,7 +492,7 @@ export default function Finance() {
             </Card>
           </Col>
         </Row>
-    
+
         <Row gutter={[24, 24]} className='mb-6'>
           <Col xs={24} md={8}>
             <Card className='h-full shadow-md hover:shadow-lg transition-shadow duration-300'>
@@ -532,7 +588,7 @@ export default function Finance() {
             </Card>
           </Col>
         </Row>
-    
+
         <Row gutter={[24, 24]} className='mb-6'>
           <Col xs={24} lg={16}>
             <Card
@@ -554,10 +610,11 @@ export default function Finance() {
                     </div>
                   </div>
                   <div
-                    className={`font-medium ${transaction.type === "income"
+                    className={`font-medium ${
+                      transaction.type === "income"
                         ? "text-green-600"
                         : "text-red-600"
-                      }`}>
+                    }`}>
                     {transaction.amount}
                   </div>
                 </div>
@@ -605,7 +662,7 @@ export default function Finance() {
             </Card>
           </Col>
         </Row>
-    
+
         <Row gutter={[24, 24]}>
           <Col xs={24}>
             <Card title='Financial Overview' className='shadow-md'>
@@ -632,7 +689,7 @@ export default function Finance() {
       </div>
     </div>
   );
-    
+
   // Financial overview content
   const renderFinancialOverview = () => (
     <div className='financial-overview-content'>
@@ -669,7 +726,7 @@ export default function Finance() {
                 </Button>
               </Space>
             </div>
-    
+
             <Row gutter={[24, 24]} className='mb-6'>
               <Col xs={24} sm={8}>
                 <Card className='bg-blue-50 border-0'>
@@ -733,7 +790,7 @@ export default function Finance() {
                 </Card>
               </Col>
             </Row>
-    
+
             <Tabs defaultActiveKey='overview' className='financial-detail-tabs'>
               <TabPane tab='Overview' key='overview'>
                 <div
@@ -743,7 +800,7 @@ export default function Finance() {
                     width: "100%",
                     marginBottom: "24px",
                   }}></div>
-    
+
                 <Row gutter={[24, 24]}>
                   <Col xs={24} md={12}>
                     <Card title='Expense Breakdown' className='h-full'>
@@ -785,94 +842,94 @@ export default function Finance() {
                       More Filters
                     </Button>
                   </Space>
-    
+
                   <Table
                     dataSource={
                       userRole === "student"
                         ? [
-                          {
-                            key: "1",
-                            category: "Tuition",
-                            budget: "$6,000.00",
-                            actual: "$5,500.00",
-                            variance: "$500.00",
-                            status: "Under Budget",
-                          },
-                          {
-                            key: "2",
-                            category: "Housing",
-                            budget: "$2,500.00",
-                            actual: "$2,200.00",
-                            variance: "$300.00",
-                            status: "Under Budget",
-                          },
-                          {
-                            key: "3",
-                            category: "Books",
-                            budget: "$1,000.00",
-                            actual: "$800.00",
-                            variance: "$200.00",
-                            status: "Under Budget",
-                          },
-                          {
-                            key: "4",
-                            category: "Food",
-                            budget: "$1,500.00",
-                            actual: "$1,200.00",
-                            variance: "$300.00",
-                            status: "Under Budget",
-                          },
-                          {
-                            key: "5",
-                            category: "Transportation",
-                            budget: "$700.00",
-                            actual: "$500.00",
-                            variance: "$200.00",
-                            status: "Under Budget",
-                          },
-                        ]
+                            {
+                              key: "1",
+                              category: "Tuition",
+                              budget: "$6,000.00",
+                              actual: "$5,500.00",
+                              variance: "$500.00",
+                              status: "Under Budget",
+                            },
+                            {
+                              key: "2",
+                              category: "Housing",
+                              budget: "$2,500.00",
+                              actual: "$2,200.00",
+                              variance: "$300.00",
+                              status: "Under Budget",
+                            },
+                            {
+                              key: "3",
+                              category: "Books",
+                              budget: "$1,000.00",
+                              actual: "$800.00",
+                              variance: "$200.00",
+                              status: "Under Budget",
+                            },
+                            {
+                              key: "4",
+                              category: "Food",
+                              budget: "$1,500.00",
+                              actual: "$1,200.00",
+                              variance: "$300.00",
+                              status: "Under Budget",
+                            },
+                            {
+                              key: "5",
+                              category: "Transportation",
+                              budget: "$700.00",
+                              actual: "$500.00",
+                              variance: "$200.00",
+                              status: "Under Budget",
+                            },
+                          ]
                         : [
-                          {
-                            key: "1",
-                            category: "Base Salary",
-                            budget: "$4,000.00",
-                            actual: "$4,000.00",
-                            variance: "$0.00",
-                            status: "On Budget",
-                          },
-                          {
-                            key: "2",
-                            category: "Overtime",
-                            budget: "$500.00",
-                            actual: "$200.00",
-                            variance: "-$300.00",
-                            status: "Under Budget",
-                          },
-                          {
-                            key: "3",
-                            category: "Tax Deductions",
-                            budget: "$900.00",
-                            actual: "$950.00",
-                            variance: "$50.00",
-                            status: "Over Budget",
-                          },
-                          {
-                            key: "4",
-                            category: "Benefits",
-                            budget: "$300.00",
-                            actual: "$300.00",
-                            variance: "$0.00",
-                            status: "On Budget",
-                          },
-                          {
-                            key: "5",
-                            category: "Retirement",
-                            budget: "$400.00",
-                            actual: "$400.00",
-                            variance: "$0.00",
-                            status: "On Budget",
-                          },
-                        ]
+                            {
+                              key: "1",
+                              category: "Base Salary",
+                              budget: "$4,000.00",
+                              actual: "$4,000.00",
+                              variance: "$0.00",
+                              status: "On Budget",
+                            },
+                            {
+                              key: "2",
+                              category: "Overtime",
+                              budget: "$500.00",
+                              actual: "$200.00",
+                              variance: "-$300.00",
+                              status: "Under Budget",
+                            },
+                            {
+                              key: "3",
+                              category: "Tax Deductions",
+                              budget: "$900.00",
+                              actual: "$950.00",
+                              variance: "$50.00",
+                              status: "Over Budget",
+                            },
+                            {
+                              key: "4",
+                              category: "Benefits",
+                              budget: "$300.00",
+                              actual: "$300.00",
+                              variance: "$0.00",
+                              status: "On Budget",
+                            },
+                            {
+                              key: "5",
+                              category: "Retirement",
+                              budget: "$400.00",
+                              actual: "$400.00",
+                              variance: "$0.00",
+                              status: "On Budget",
+                            },
+                          ]
                     }
                     columns={[
                       {
@@ -897,8 +954,8 @@ export default function Finance() {
                               text === "Under Budget"
                                 ? "green"
                                 : text === "Over Budget"
-                                  ? "red"
-                                  : "blue"
+                                ? "red"
+                                : "blue"
                             }>
                             {text}
                           </Tag>
@@ -930,7 +987,7 @@ export default function Finance() {
                     showIcon
                     className='mb-4'
                   />
-    
+
                   <Form layout='vertical' className='mb-4'>
                     <Row gutter={24}>
                       <Col xs={24} sm={8}>
@@ -967,9 +1024,9 @@ export default function Finance() {
                       Generate Report
                     </Button>
                   </Form>
-    
+
                   <Divider orientation='left'>Saved Reports</Divider>
-    
+
                   <Table
                     dataSource={[
                       {
@@ -1034,7 +1091,7 @@ export default function Finance() {
       </Row>
     </div>
   );
-    
+
   // Payments/Salary content
   const renderPayments = () => (
     <div className='payments-content'>
@@ -1070,7 +1127,7 @@ export default function Finance() {
                 </Button>
               </Space>
             </div>
-    
+
             <Tabs defaultActiveKey='current'>
               <TabPane
                 tab={userRole === "student" ? "Current Fees" : "Current Salary"}
@@ -1145,7 +1202,7 @@ export default function Finance() {
                     </Card>
                   </Col>
                 </Row>
-    
+
                 {userRole === "student" ? (
                   <div>
                     <Card title='Fee Breakdown' className='mb-6'>
@@ -1213,8 +1270,8 @@ export default function Finance() {
                                   text === "Paid"
                                     ? "green"
                                     : text === "Pending"
-                                      ? "orange"
-                                      : "red"
+                                    ? "orange"
+                                    : "red"
                                 }>
                                 {text}
                               </Tag>
@@ -1243,7 +1300,7 @@ export default function Finance() {
                         pagination={false}
                       />
                     </Card>
-    
+
                     <Card title='Payment Options' className='mb-6'>
                       <Row gutter={[24, 24]}>
                         <Col xs={24} md={8}>
@@ -1369,7 +1426,7 @@ export default function Finance() {
                         )}
                       />
                     </Card>
-    
+
                     <Card title='Benefits Overview' className='mb-6'>
                       <Row gutter={[24, 24]}>
                         <Col xs={24} md={8}>
@@ -1442,7 +1499,7 @@ export default function Finance() {
                       Reset
                     </Button>
                   </Space>
-    
+
                   <Table
                     dataSource={
                       userRole === "student" ? studentPayments : staffSalary
@@ -1515,7 +1572,7 @@ export default function Finance() {
                     showIcon
                     className='mb-6'
                   />
-    
+
                   <Card title='Financial Aid Package' className='mb-6'>
                     <Table
                       dataSource={[
@@ -1561,8 +1618,8 @@ export default function Finance() {
                                 text === "Approved" || text === "Accepted"
                                   ? "green"
                                   : text === "Pending"
-                                    ? "orange"
-                                    : "red"
+                                  ? "orange"
+                                  : "red"
                               }>
                               {text}
                             </Tag>
@@ -1599,7 +1656,7 @@ export default function Finance() {
                       )}
                     />
                   </Card>
-    
+
                   <Row gutter={[24, 24]}>
                     <Col xs={24} md={12}>
                       <Card title='Upcoming Deadlines' className='h-full'>
@@ -1716,7 +1773,7 @@ export default function Finance() {
                     showIcon
                     className='mb-6'
                   />
-    
+
                   <Card title='Tax Documents' className='mb-6'>
                     <Table
                       dataSource={[
@@ -1796,7 +1853,7 @@ export default function Finance() {
                       pagination={false}
                     />
                   </Card>
-    
+
                   <Row gutter={[24, 24]}>
                     <Col xs={24} md={12}>
                       <Card title='Tax Withholding' className='h-full'>
@@ -1916,7 +1973,7 @@ export default function Finance() {
       </Row>
     </div>
   );
-    
+
   // Reports content
   const renderReports = () => (
     <div className='reports-content'>
@@ -1953,7 +2010,7 @@ export default function Finance() {
                 </Button>
               </Space>
             </div>
-    
+
             <Tabs defaultActiveKey='summary'>
               <TabPane tab='Summary Reports' key='summary'>
                 <Row gutter={[24, 24]} className='mb-6'>
@@ -2010,7 +2067,7 @@ export default function Finance() {
                     </Card>
                   </Col>
                 </Row>
-    
+
                 <Card title='Recent Reports' className='mb-6'>
                   <Table
                     dataSource={[
@@ -2188,7 +2245,7 @@ export default function Finance() {
                     </Button>
                   </Form>
                 </Card>
-    
+
                 <Card title='Saved Report Templates' className='mb-6'>
                   <Table
                     dataSource={[
@@ -2260,7 +2317,7 @@ export default function Finance() {
                   showIcon
                   className='mb-6'
                 />
-    
+
                 <Card title='Active Scheduled Reports' className='mb-6'>
                   <Table
                     dataSource={[
@@ -2332,7 +2389,7 @@ export default function Finance() {
                     pagination={false}
                   />
                 </Card>
-    
+
                 <Card title='Create Scheduled Report' className='mb-6'>
                   <Form layout='vertical'>
                     <Row gutter={24}>
@@ -2405,7 +2462,7 @@ export default function Finance() {
       </Row>
     </div>
   );
-    
+
   // Settings content
   const renderSettings = () => (
     <div className='settings-content'>
@@ -2417,7 +2474,7 @@ export default function Finance() {
                 Account Settings
               </Title>
             </div>
-    
+
             <Tabs defaultActiveKey='profile'>
               <TabPane tab='Profile' key='profile'>
                 <Row gutter={[24, 24]}>
@@ -2559,9 +2616,9 @@ export default function Finance() {
                       <Button className='mb-4 !rounded-button whitespace-nowrap cursor-pointer'>
                         Setup Authenticator App
                       </Button>
-    
+
                       <Divider />
-    
+
                       <Title level={5}>Recovery Options</Title>
                       <Form layout='vertical'>
                         <Form.Item label='Recovery Email'>
@@ -2579,7 +2636,7 @@ export default function Finance() {
                     </Card>
                   </Col>
                 </Row>
-    
+
                 <Card title='Login History' className='mt-6'>
                   <Table
                     dataSource={[
@@ -2733,7 +2790,7 @@ export default function Finance() {
                         </Col>
                       </Row>
                     </div>
-    
+
                     <div className='mb-6'>
                       <Title level={5}>Push Notifications</Title>
                       <Row gutter={[24, 16]}>
@@ -2797,7 +2854,7 @@ export default function Finance() {
                         </Col>
                       </Row>
                     </div>
-    
+
                     <div className='mb-6'>
                       <Title level={5}>Notification Frequency</Title>
                       <Form.Item>
@@ -2808,7 +2865,7 @@ export default function Finance() {
                         </Radio.Group>
                       </Form.Item>
                     </div>
-    
+
                     <Button
                       type='primary'
                       className='!rounded-button whitespace-nowrap cursor-pointer'>
@@ -2890,7 +2947,7 @@ export default function Finance() {
                       </Col>
                     </Row>
                   </div>
-    
+
                   <Card title='Add New Payment Method' className='mb-6'>
                     <Form layout='vertical'>
                       <Row gutter={24}>
@@ -2960,7 +3017,7 @@ export default function Finance() {
                       </Button>
                     </Form>
                   </Card>
-    
+
                   <Card title='Billing Address'>
                     <Form layout='vertical'>
                       <Row gutter={24}>
@@ -3017,7 +3074,7 @@ export default function Finance() {
       </Row>
     </div>
   );
-    
+
   // Help center content
   const renderHelpCenter = () => {
     // return (
@@ -3035,7 +3092,6 @@ export default function Finance() {
     //               className='text-sm'
     //             />
     //           </div>
-  
     //           <Row gutter={[24, 24]} className='mb-6'>
     //             <Col xs={24}>
     //               <div className='bg-blue-50 p-6 rounded-lg'>
@@ -3073,7 +3129,6 @@ export default function Finance() {
     //               </div>
     //             </Col>
     //           </Row>
-  
     //           <Tabs defaultActiveKey='faq'>
     //             <TabPane tab='Frequently Asked Questions' key='faq'>
     //               <Row gutter={[24, 24]}>
@@ -3184,7 +3239,6 @@ export default function Finance() {
     //                       </Collapse.Panel>
     //                     </Collapse>
     //                   </Card>
-  
     //                   <Card
     //                     title={`${
     //                       userRole === "student" ? "Student" : "Staff"
@@ -3412,7 +3466,6 @@ export default function Finance() {
     //                       </li>
     //                     </ul>
     //                   </Card>
-  
     //                   <Card title='Contact Information' className='mb-6'>
     //                     <ul className='space-y-4'>
     //                       <li className='flex items-start'>
@@ -3463,7 +3516,6 @@ export default function Finance() {
     //                       </li>
     //                     </ul>
     //                   </Card>
-  
     //                   <Card title='Office Hours' className='mb-6'>
     //                     <ul className='space-y-2'>
     //                       <li className='flex justify-between'>
@@ -3732,7 +3784,6 @@ export default function Finance() {
     //                       pagination={false}
     //                     />
     //                   </Card>
-  
     //                   <Card title='Create New Support Ticket' className='mb-6'>
     //                     <Form layout='vertical'>
     //                       <Form.Item label='Subject' required>
@@ -3797,7 +3848,6 @@ export default function Finance() {
     //                         </li>
     //                       </ul>
     //                     </div>
-  
     //                     <div className='mb-4'>
     //                       <Title level={5}>Contact Methods</Title>
     //                       <ul className='space-y-3'>
@@ -3827,7 +3877,6 @@ export default function Finance() {
     //                         </li>
     //                       </ul>
     //                     </div>
-  
     //                     <div>
     //                       <Title level={5}>Response Times</Title>
     //                       <ul className='space-y-2'>
@@ -3846,7 +3895,6 @@ export default function Finance() {
     //                       </ul>
     //                     </div>
     //                   </Card>
-  
     //                   <Card title='Common Issues' className='mb-6'>
     //                     <ul className='space-y-4'>
     //                       <li>
@@ -3886,7 +3934,6 @@ export default function Finance() {
     //                       </li>
     //                     </ul>
     //                   </Card>
-  
     //                   <Card className='text-center'>
     //                     <div className='text-4xl text-blue-500 mb-2'>
     //                       <i className='fas fa-comments'></i>
@@ -3909,10 +3956,8 @@ export default function Finance() {
     //       </Col>
     //     </Row>
     // </Box>);
-      }
-      
-    
-    
+  };
+
   // Payment modal content
   const renderPaymentModal = () => (
     <Modal
@@ -3938,7 +3983,7 @@ export default function Finance() {
               </Row>
             </Card>
           </div>
-    
+
           <div className='mb-6'>
             <Title level={5}>Select Payment Method</Title>
             <Radio.Group defaultValue='card' className='w-full'>
@@ -3988,7 +4033,7 @@ export default function Finance() {
               </Space>
             </Radio.Group>
           </div>
-    
+
           <div className='mb-6'>
             <Title level={5}>Payment Amount</Title>
             <Form layout='vertical'>
@@ -4001,7 +4046,7 @@ export default function Finance() {
               </Form.Item>
             </Form>
           </div>
-    
+
           <div className='flex justify-between'>
             <Button
               onClick={closePaymentModal}
@@ -4036,7 +4081,7 @@ export default function Finance() {
               </Row>
             </Card>
           </div>
-    
+
           <div className='mb-6'>
             <Title level={5}>Earnings</Title>
             <Table
@@ -4086,7 +4131,7 @@ export default function Finance() {
               )}
             />
           </div>
-    
+
           <div className='mb-6'>
             <Title level={5}>Deductions</Title>
             <Table
@@ -4133,7 +4178,7 @@ export default function Finance() {
               )}
             />
           </div>
-    
+
           <div className='flex justify-between'>
             <Button
               onClick={closePaymentModal}
@@ -4158,15 +4203,14 @@ export default function Finance() {
       )}
     </Modal>
   );
-    
+
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <div className='min-h-screen bg-gray-50 sm:pt-10 md:pt-10 lg:mt-0 '>
       <Layout className='min-h-screen'>
-        
         <Layout
           className='transition-all duration-300'
-          style={{ marginLeft: collapsed ? 80 : 250 }}>
-        
+
+          style={{  backgroundColor:"red"}}>
           <Content className='p-6 bg-gray-50 min-h-screen'>
             {loading ? (
               <div className='flex justify-center items-center h-full'>
@@ -4183,7 +4227,6 @@ export default function Finance() {
               </>
             )}
           </Content>
-          
         </Layout>
       </Layout>
       {renderPaymentModal()}
