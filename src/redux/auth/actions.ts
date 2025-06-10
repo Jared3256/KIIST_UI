@@ -45,17 +45,10 @@ export const logout = () => async (dispatch) => {
   const data = await authService.logout();
 
   if (data.success === false) {
-    const auth_state = {
-      current: {},
-      isLoggedIn: true,
-      isLoading: false,
-      isSuccess: true,
-    };
-
     dispatch({
-      type: actionTypes.LOGOUT_FAILED,
-      payload: data.response,
+      type: actionTypes.LOGOUT_SUCCESS,
     });
+    
   } else {
     /* empty */
   }

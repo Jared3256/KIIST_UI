@@ -637,4 +637,253 @@ export const events = [
       time: "10:00 AM - 3:00 PM",
       location: "University Hall",
     },
-  ];
+];
+  
+export const mockDepartments = [
+  {
+    id: 1,
+    name: "Computer Science",
+    head: "Dr. Robert Chen",
+    courses: 15,
+    students: 120,
+  },
+  {
+    id: 2,
+    name: "Business Administration",
+    head: "Prof. Mary Johnson",
+    courses: 18,
+    students: 150,
+  },
+  {
+    id: 3,
+    name: "Engineering",
+    head: "Dr. James Wilson",
+    courses: 20,
+    students: 130,
+  },
+  {
+    id: 4,
+    name: "Medicine",
+    head: "Dr. Sarah Williams",
+    courses: 25,
+    students: 100,
+  },
+];
+
+export const mockCourses = [
+  {
+    id: 1,
+    code: "CS101",
+    title: "Introduction to Programming",
+    credits: 3,
+    department: "Computer Science",
+    lecturer: "Dr. Robert Chen",
+  },
+  {
+    id: 2,
+    code: "BUS201",
+    title: "Principles of Management",
+    credits: 4,
+    department: "Business Administration",
+    lecturer: "Prof. Mary Johnson",
+  },
+  {
+    id: 3,
+    code: "ENG150",
+    title: "Engineering Mechanics",
+    credits: 4,
+    department: "Engineering",
+    lecturer: "Dr. James Wilson",
+  },
+  {
+    id: 4,
+    code: "CS205",
+    title: "Data Structures and Algorithms",
+    credits: 3,
+    department: "Computer Science",
+    lecturer: "Dr. Robert Chen",
+  },
+  {
+    id: 5,
+    code: "BUS305",
+    title: "Marketing Strategies",
+    credits: 3,
+    department: "Business Administration",
+    lecturer: "Prof. Mary Johnson",
+  },
+];
+
+export const mockRegistrations = [
+  {
+    id: 1,
+    student: "John Doe",
+    regNumber: "KIT/001/2025",
+    course: "CS101",
+    status: "Pending",
+  },
+  {
+    id: 2,
+    student: "Jane Smith",
+    regNumber: "KIT/002/2025",
+    course: "BUS201",
+    status: "Approved",
+  },
+  {
+    id: 3,
+    student: "Michael Johnson",
+    regNumber: "KIT/003/2025",
+    course: "ENG150",
+    status: "Rejected",
+  },
+  {
+    id: 4,
+    student: "Sarah Williams",
+    regNumber: "KIT/004/2025",
+    course: "CS101",
+    status: "Approved",
+  },
+];
+
+export const mockActivities = [
+  {
+    id: 1,
+    action: "New student registered",
+    user: "System",
+    time: "2 hours ago",
+  },
+  {
+    id: 2,
+    action: "Course CS101 updated",
+    user: "Dr. Robert Chen",
+    time: "3 hours ago",
+  },
+  {
+    id: 3,
+    action: "Student John Doe suspended",
+    user: "Admin",
+    time: "5 hours ago",
+  },
+  { id: 4, action: "New department created", user: "Admin", time: "1 day ago" },
+  {
+    id: 5,
+    action: "Grades uploaded for CS101",
+    user: "Dr. Robert Chen",
+    time: "2 days ago",
+  },
+];
+
+export const mockStudents = [
+  {
+    id: 1,
+    name: "John Doe",
+    regNumber: "KIT/001/2025",
+    department: "Computer Science",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20African%20male%20student%20with%20short%20hair%20wearing%20a%20smart%20casual%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=1&orientation=squarish",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    regNumber: "KIT/002/2025",
+    department: "Business Administration",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20African%20female%20student%20with%20braided%20hair%20wearing%20a%20smart%20casual%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=2&orientation=squarish",
+  },
+  {
+    id: 3,
+    name: "Michael Johnson",
+    regNumber: "KIT/003/2025",
+    department: "Engineering",
+    status: "Suspended",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20African%20male%20student%20with%20glasses%20wearing%20a%20smart%20casual%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=3&orientation=squarish",
+  },
+  {
+    id: 4,
+    name: "Sarah Williams",
+    regNumber: "KIT/004/2025",
+    department: "Medicine",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20African%20female%20student%20with%20natural%20hair%20wearing%20a%20smart%20casual%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=4&orientation=squarish",
+  },
+  {
+    id: 5,
+    name: "David Brown",
+    regNumber: "KIT/005/2025",
+    department: "Computer Science",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20African%20male%20student%20with%20a%20fade%20haircut%20wearing%20a%20smart%20casual%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=5&orientation=squarish",
+  },
+];
+export const mockLecturers = [
+  {
+    id: 1,
+    name: "Dr. Robert Chen",
+    department: "Computer Science",
+    qualification: "PhD in Computer Science",
+    paymentScale: "Level 4",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20an%20African%20male%20professor%20with%20glasses%20wearing%20a%20formal%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=6&orientation=squarish",
+  },
+  {
+    id: 2,
+    name: "Prof. Mary Johnson",
+    department: "Business Administration",
+    qualification: "PhD in Business Management",
+    paymentScale: "Level 5",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20an%20African%20female%20professor%20with%20elegant%20hairstyle%20wearing%20a%20formal%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=7&orientation=squarish",
+  },
+  {
+    id: 3,
+    name: "Dr. James Wilson",
+    department: "Engineering",
+    qualification: "PhD in Mechanical Engineering",
+    paymentScale: "Level 4",
+    status: "Active",
+    photo:
+      "https://readdy.ai/api/search-image?query=professional%20headshot%20of%20an%20African%20male%20professor%20with%20a%20beard%20wearing%20a%20formal%20outfit%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=100&height=100&seq=8&orientation=squarish",
+  },
+];
+
+export const mockGrades = [
+  {
+    id: 1,
+    student: "John Doe",
+    regNumber: "KIT/001/2025",
+    course: "CS101",
+    assignment: 20,
+    midterm: 25,
+    final: 40,
+    total: 85,
+    grade: "A",
+  },
+  {
+    id: 2,
+    student: "Jane Smith",
+    regNumber: "KIT/002/2025",
+    course: "BUS201",
+    assignment: 18,
+    midterm: 20,
+    final: 35,
+    total: 73,
+    grade: "B",
+  },
+  {
+    id: 3,
+    student: "Michael Johnson",
+    regNumber: "KIT/003/2025",
+    course: "ENG150",
+    assignment: 15,
+    midterm: 18,
+    final: 30,
+    total: 63,
+    grade: "C",
+  },
+];

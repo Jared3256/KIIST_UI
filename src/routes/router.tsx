@@ -26,6 +26,14 @@ import StudentAnalytics from "src/pages/students/student.analytics";
 import StudentProfile from "src/pages/students/student.profile";
 import ActivateAccount from "src/pages/auth/activateAccount";
 import ForgotPassword from "src/pages/auth/forgotPassword";
+import App from "src/pages/test/test";
+import AdminLayout from "src/pages/admin/AdminLayout";
+import Departments from "src/pages/admin/departments";
+import CourseManagement from "src/pages/admin/course.management";
+import AdminDashboard from "src/pages/admin/adminDashboard";
+import TutorManagement from "src/pages/admin/tutor.management";
+import AdminCourseApproval from "src/pages/admin/AdminCourseApproval";
+import AdminStudentManagement from "src/pages/admin/AdminStudentManagement.tsx";
 
 const system_routes = createBrowserRouter([
   {
@@ -107,26 +115,33 @@ const system_routes = createBrowserRouter([
         element: <PersistAccess />,
         children: [
           {
-            path: "dashboard",
-            element: <Dashboard />,
+            path: "admin",
+            element: <AdminLayout />,
             children: [
               {
-                path: "admin",
-                element: <div>Admin Dashboard</div>,
+                path: "department",
+                element: <Departments />,
               },
               {
-                path: "tutor",
-                element: <div>Tutor Dashboard</div>,
+                path: "course",
+                element: <CourseManagement />,
               },
               {
-                path: "student",
-                element: <div>Student Dashboard</div>,
+                path: "dashboard",
+                element: <AdminDashboard />,
               },
+              {
+                path: "tutors",
+                element: <TutorManagement />,
+              },
+              {
+                path: "registration-approvals",
+                element: <AdminCourseApproval />,
+              },{
+              path:"student-management",
+                element:<AdminStudentManagement/>
+              }
             ],
-          },
-          {
-            path: "admin",
-            element: <h1>Admin</h1>,
           },
           {
             path: "tutor",
@@ -176,7 +191,7 @@ const system_routes = createBrowserRouter([
         path: "test",
         element: (
           <>
-            <Finance />
+            <App />
           </>
         ),
       },

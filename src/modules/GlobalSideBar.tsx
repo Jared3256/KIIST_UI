@@ -33,7 +33,13 @@ import { selectAuth } from "src/redux/auth/selectors";
 import { Avatar, Layout, Typography as AntTypography } from "antd";
 import { MoneyRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { BookUser, CalendarCogIcon, GraduationCap } from "lucide-react";
+import {
+  BookUser,
+  CalendarCogIcon,
+  GraduationCap,
+  Hotel,
+  Signature,
+} from "lucide-react";
 import { logout } from "src/redux/auth/actions";
 import { studentData } from "./mockdata";
 
@@ -248,10 +254,14 @@ export default function Sidebar() {
                 )}>
                 <List sx={{ gap: 0.5 }}>
                   <ListItem sx={{ mt: 0.5 }}>
-                    <ListItemButton role='menuitem'>Tutors</ListItemButton>
+                    <ListItemButton
+                      role='menuitem'
+                      onClick={() => navigate(`/v1/${role}/tutors`)}>
+                      Tutors
+                    </ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton>Students</ListItemButton>
+                    <ListItemButton  onClick={() => navigate(`/v1/${role}/student-management`)}>Students</ListItemButton>
                   </ListItem>
                 </List>
               </Toggler>
@@ -285,16 +295,18 @@ export default function Sidebar() {
                 )}>
                 <List sx={{ gap: 0.5 }}>
                   <ListItem sx={{ mt: 0.5 }}>
-                    <ListItemButton role='menuitem'>Expenses</ListItemButton>
+                    <ListItemButton disabled role='menuitem'>
+                      Expenses
+                    </ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton>Expense Category</ListItemButton>
+                    <ListItemButton disabled>Expense Category</ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton>Payment Mode</ListItemButton>
+                    <ListItemButton disabled>Payment Mode</ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton>Invoices</ListItemButton>
+                    <ListItemButton disabled>Invoices</ListItemButton>
                   </ListItem>
                 </List>
               </Toggler>
@@ -328,11 +340,15 @@ export default function Sidebar() {
                 )}>
                 <List sx={{ gap: 0.5 }}>
                   <ListItem sx={{ mt: 0.5 }}>
-                    <ListItemButton role='menuitem'>Courses</ListItemButton>
+                    <ListItemButton
+                      onClick={() => navigate(`/v1/${role}/course`)}
+                      role='menuitem'>
+                      Courses
+                    </ListItemButton>
                   </ListItem>
 
                   <ListItem>
-                    <ListItemButton>Schedule</ListItemButton>
+                    <ListItemButton disabled>Schedule</ListItemButton>
                   </ListItem>
                 </List>
               </Toggler>
@@ -443,6 +459,38 @@ export default function Sidebar() {
               </ListItem>
             </>
           )}
+          {role === "admin" && (
+            <>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    selectedHandler("dashboard");
+                    navigate(`/v1/${role}/department`);
+                  }}
+                  selected={selected["dashboard"]}>
+                  <Hotel />
+                  <ListItemContent>
+                    <Typography level='title-sm'>Department</Typography>
+                  </ListItemContent>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton
+                  onClick={() => {
+                    selectedHandler("dashboard");
+                    navigate(`/v1/${role}/registration-approvals`);
+                  }}
+                  selected={selected["dashboard"]}>
+                  <Signature />
+                  <ListItemContent>
+                    <Typography level='title-sm'>
+                      Registration Approvals
+                    </Typography>
+                  </ListItemContent>
+                </ListItemButton>
+              </ListItem>
+            </>
+          )}
         </List>
         <List
           size='sm'
@@ -497,24 +545,32 @@ export default function Sidebar() {
           </Card>
         )}
       </Box>
-      <Divider />
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <Avatar>
-          {String(current.UserInfo.fullname).toUpperCase().charAt(0)}
-          {String(current.UserInfo.fullname).split(" ")[1].charAt(0)}
-        </Avatar>
-        <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level='title-sm'>{current.UserInfo.fullname}</Typography>
-          <Typography level='body-xs'>{current.UserInfo.email}</Typography>
-        </Box>
-        <IconButton
-          onClick={() => handleLogout()}
-          size='sm'
-          variant='plain'
-          color='neutral'>
-          <LogoutRoundedIcon />
-        </IconButton>
-      </Box>
+
+      {role !== "admin" && (
+        <>
+          {" "}
+          <Divider />
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <Avatar>
+              {String(current.UserInfo.fullname).toUpperCase().charAt(0)}
+              {String(current.UserInfo.fullname).split(" ")[1].charAt(0)}
+            </Avatar>
+            <Box sx={{ minWidth: 0, flex: 1 }}>
+              <Typography level='title-sm'>
+                {current.UserInfo.fullname}
+              </Typography>
+              <Typography level='body-xs'>{current.UserInfo.email}</Typography>
+            </Box>
+            <IconButton
+              onClick={() => handleLogout()}
+              size='sm'
+              variant='plain'
+              color='neutral'>
+              <LogoutRoundedIcon />
+            </IconButton>
+          </Box>
+        </>
+      )}
     </Sheet>
   );
 }

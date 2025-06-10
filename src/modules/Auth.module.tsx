@@ -15,10 +15,10 @@ import { Card, Layout } from "antd";
 import { motion } from "framer-motion";
 
 export default function AuthModule() {
-  const { current } = useSelector(selectAuth);
+  const { current, isLoggedIn } = useSelector(selectAuth);
   const location = useLocation();
   // create a Url to route to
-  const fromUrl = location.state?.from?.pathname || "/v1/dashboard";
+  const fromUrl = location.state?.from?.pathname || "/v1";
   const navigate = useNavigate();
   useEffect(() => {
     if (current.isLoggedIn) {
@@ -26,6 +26,12 @@ export default function AuthModule() {
     }
   });
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/auth/login", { state: {} });
+    }
+  }, [isLoggedIn]);
+  
   const { Footer } = Layout;
   return (
     <CssVarsProvider defaultMode='light' disableTransitionOnChange>
@@ -72,16 +78,8 @@ export default function AuthModule() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}>
-           
-              <Outlet />
-           
+            <Outlet />
           </motion.div>
-
-          {/* <Box component='footer' sx={{ py: 3 }}>
-            <Typography level='body-xs' sx={{ textAlign: "center" }}>
-              © KIIST . {new Date().getFullYear()}
-            </Typography>
-          </Box> */}
         </Box>
       </Box>
     </CssVarsProvider>
