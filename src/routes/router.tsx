@@ -119,6 +119,10 @@ const system_routes = createBrowserRouter([
             element: <AdminLayout />,
             children: [
               {
+                index: true,
+                element: <AdminDashboard />,
+              },
+              {
                 path: "department",
                 element: <Departments />,
               },
@@ -137,10 +141,11 @@ const system_routes = createBrowserRouter([
               {
                 path: "registration-approvals",
                 element: <AdminCourseApproval />,
-              },{
-              path:"student-management",
-                element:<AdminStudentManagement/>
-              }
+              },
+              {
+                path: "student-management",
+                element: <AdminStudentManagement />,
+              },
             ],
           },
           {
