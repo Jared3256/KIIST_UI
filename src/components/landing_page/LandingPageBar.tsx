@@ -28,7 +28,7 @@ export default function LandingPageBar() {
       <div className='flex items-center'>
         <div className='flex items-center mr-8'>
           <div className='hidden md:hidden lg:flex lg:text-3xl text-2xl mr-5 font-bold text-blue-900 mr-2'>
-            <BankOutlined />
+            <BankOutlined  className="cursor-pointer"/>
           </div>
           <Box
             display={{
@@ -37,12 +37,12 @@ export default function LandingPageBar() {
               lg: "none",
             }}
             className='md:flex sm:flex lg:hidden'>
-            <IconButton aria-label='Menu button' onClick={toggleDrawer(true)}>
+            <IconButton aria-label='Menu button' className="cursor-pointer" onClick={toggleDrawer(true)}>
               <MenuIcon color='blue' />
             </IconButton>
           </Box>
 
-          <div onClick={() => navigate("/")}>
+          <div className="cursor-pointer" onClick={() => navigate("/")}>
             <h1 className='lg:text-2xl text-xl font-bold text-blue-900 m-0'>
               Kisii Impact
             </h1>
