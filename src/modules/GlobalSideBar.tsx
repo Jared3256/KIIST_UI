@@ -399,6 +399,12 @@ export default function Sidebar() {
                     </ListItem>
                     <ListItem>
                       <ListItemButton
+                        onClick={() => navigate("/v1/student/transcripts")}>
+                        Transcripts
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemButton
                         onClick={() => navigate("/v1/student/finance")}>
                         School fee
                       </ListItemButton>

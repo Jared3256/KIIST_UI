@@ -34,6 +34,7 @@ import AdminDashboard from "src/pages/admin/adminDashboard";
 import TutorManagement from "src/pages/admin/tutor.management";
 import AdminCourseApproval from "src/pages/admin/AdminCourseApproval";
 import AdminStudentManagement from "src/pages/admin/AdminStudentManagement.tsx";
+import StudentTranscript from "src/pages/students/student.transcript";
 
 const system_routes = createBrowserRouter([
   {
@@ -183,6 +184,10 @@ const system_routes = createBrowserRouter([
               {
                 path: "profile",
                 element: <StudentProfile />,
+              },
+              {
+                path: "transcripts",
+                element: <StudentTranscript />,
               },
             ],
           },
