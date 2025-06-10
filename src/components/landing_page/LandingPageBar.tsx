@@ -42,7 +42,7 @@ export default function LandingPageBar() {
             </IconButton>
           </Box>
 
-          <div>
+          <div onClick={() => navigate("/")}>
             <h1 className='lg:text-2xl text-xl font-bold text-blue-900 m-0'>
               Kisii Impact
             </h1>
@@ -64,9 +64,7 @@ export default function LandingPageBar() {
             prefix={<SearchOutlined className='text-gray-400' />}
             className='rounded-full border-gray-300 w-40'
           /> */}
-          <Button onClick={() => navigate("/auth/login")}>
-            KIIST Portal
-          </Button>
+          <Button onClick={() => navigate("/auth/login")}>KIIST Portal</Button>
         </div>
         <Link to={"/h/admission/register"}>
           <AntButton
