@@ -65,7 +65,7 @@ export default function LandingPageBar() {
             className='rounded-full border-gray-300 w-40'
           /> */}
           <Button onClick={() => navigate("/auth/login")}>
-            Student Portal
+            KIIST Portal
           </Button>
         </div>
         <Link to={"/h/admission/register"}>

@@ -63,7 +63,7 @@ export default function SiginSide(props: { disableCustomTheme?: boolean }) {
               </div>
 
               <p className='text-gray-600 mt-2'>
-                Sign in to access your student portal
+                Sign in to access your portal
               </p>
             </div>
             <SignInCard />
