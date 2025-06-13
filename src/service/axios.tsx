@@ -1,10 +1,8 @@
 import axios from "axios";
-
-const BASE_URL = "http://localhost:3500/api/v1/";
-const BASE_URL2 = "https://kiist-core-production.up.railway.app/api/v1";
+import system_data from "src/config/serverApi.config.ts";
 
 export const axiosPrivate = axios.create({
-  baseURL: BASE_URL2,
+  baseURL: system_data.BASE_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -14,5 +12,5 @@ export const axiosPrivate = axios.create({
 });
 
 export default axios.create({
-  baseURL: BASE_URL2,
+  baseURL: system_data.BASE_URL,
 });

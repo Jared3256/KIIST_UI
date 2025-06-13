@@ -58,7 +58,7 @@ import {
   dataToPersonalStatement,
 } from "src/redux/admission/format.data";
 import axios from "src/service/axios";
-import { SubmitStudentApplication } from "src/service/admissionService";
+import { SubmitStudentApplication } from "src/service/admission.service";
 import { format } from "date-fns";
 
 export default function RegisterStudent() {

@@ -19,18 +19,22 @@ import {
   Tag,
   Typography,
 } from "antd";
-import { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   mockActivities,
   mockCourses,
-  mockDepartments,
   mockLecturers,
 } from "src/components/landing_page/LandingPAgeBarConstants";
 import ModalComponent from "src/components/ModalComponent";
+import {useDispatch, useSelector} from "react-redux";
+import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
+import {selectAuth} from "src/redux/auth/selectors.ts";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import Loading from "src/components/Loading.tsx";
 
 export default function TutorManagement() {
   const { Title, Paragraph } = Typography;
-  const [departments, setDepartments] = useState(mockDepartments);
+  const [departments, setDepartments] = useState([]);
   const [lecturers, setLecturers] = useState(mockLecturers);
   const [searchText, setSearchText] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -39,8 +43,48 @@ export default function TutorManagement() {
   const [form] = Form.useForm();
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [courses, setCourses] = useState(mockCourses);
-  const [activities, setActivities] = useState(mockActivities);
+const dispatch = useDispatch();
+  const {current} = useSelector(selectAuth)
+  const hotAxiosPrivate =  useAxiosPrivate()
+  const [result, setResult] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
+  const GetLecturer = async () => {
+    let data = await admin_crud_request.list({
+      entity:"tutor",token:"token", hotAxiosPrivate:hotAxiosPrivate, role:current.UserInfo.role
+    });
+    setIsSuccess(data.succes)
+    setResult(data.data)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    GetLecturer();
+    setIsLoading(false)
+  }, []);
+
+
+  useEffect(() => {
+    console.log(result.items)
+
+    const rows = result.map((lecturer: any) => ({
+      key: lecturer?._id,
+      photo: lecturer?.photo,
+      name: lecturer?.name,
+      // flatten the nested department object:
+      departmentName: lecturer?.department?.departmentName,
+      departmentCode: lecturer?.department?.departmentCode,
+      qualification: lecturer?.qualification,
+      paymentScale: lecturer?.paymentScale,
+      status: lecturer?.status,
+    }));
+
+    console.log(rows)
+
+    setLecturers(rows)
+
+  }, [isLoading, isSuccess, result]);
   const { Option } = Select;
   const columns = [
     {
@@ -56,8 +100,9 @@ export default function TutorManagement() {
     },
     {
       title: "Department",
-      dataIndex: "department",
+      dataIndex: "departmentName",
       key: "department",
+
     },
     {
       title: "Qualification",
@@ -75,7 +120,7 @@ export default function TutorManagement() {
       dataIndex: "status",
       key: "status",
       render: (status: string) => (
-        <Tag color={status === "Active" ? "green" : "red"}>{status}</Tag>
+        <Tag color={status === "active" ? "green" : "red"}>{status}</Tag>
       ),
     },
     {
@@ -105,7 +150,7 @@ export default function TutorManagement() {
           />
           <Popconfirm
             title='Are you sure you want to delete this lecturer?'
-            //   onConfirm={() => handleDeleteLecturer(record.id)}
+              onConfirm={() => handleDeleteLecturer(record.key)}
             okText='Yes'
             cancelText='No'>
             <Button
@@ -141,102 +186,130 @@ export default function TutorManagement() {
     setIsModalVisible(false);
   };
 
+  // Handle select clicked
+  const handleSelectClicked = async ()=>{
+    let data = await admin_crud_request.list({
+      role:"admin", entity:'department',
+      token:"dff",
+      hotAxiosPrivate,
+    });
+
+    setDepartments(data.data)
+    console.log(data.data)
+  }
+
   // Handle lecturer deletion
-  const handleDeleteLecturer = (lecturerId: number) => {
-    const lecturerToDelete = lecturers.find((l) => l.id === lecturerId);
-    setLecturers(lecturers.filter((lecturer) => lecturer.id !== lecturerId));
-    // Add activity
-    if (lecturerToDelete) {
-      const newActivity = {
-        id: activities.length + 1,
-        action: `Lecturer ${lecturerToDelete.name} deleted`,
-        user: "Admin",
-        time: "Just now",
-      };
-      setActivities([newActivity, ...activities]);
-    }
+  const handleDeleteLecturer = (lecturerId) => {
+  console.log(selectedItem, lecturerId)
+   dispatch(crud.delete({
+     entity:"tutor",
+     entityId:lecturerId,
+     role:"admin",
+     hotAxiosPrivate:hotAxiosPrivate
+   }))
+
+    setLecturers(lecturers.filter((lecturer) => lecturer.key !== lecturerId));
+
   };
   return (
-    <div className='lecturer-management-container'>
-      <div className='flex justify-between items-center mb-6'>
-        <div>
-          <Title level={2}>Lecturer Management</Title>
-          <Paragraph className='text-gray-500'>
-            Manage all lecturers in the system
-          </Paragraph>
-        </div>
-        <Button
-          type='primary'
-          icon={<PlusOutlined />}
-          size='large'
-          onClick={() => showModal("addLecturer", "Add New Lecturer")}
-          className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap'>
-          Add Lecturer
-        </Button>
-      </div>
-      <div className='mb-6'>
-        <Input
-          placeholder='Search by name or department'
-          prefix={<SearchOutlined className='text-gray-400' />}
-          onChange={(e) => setSearchText(e.target.value)}
-          className='w-full md:w-1/3 mb-4'
-        />
-        <div className='flex flex-wrap gap-2'>
-          <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
-            All Lecturers
-          </Button>
-          <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
-            Active
-          </Button>
-          <Select
-            placeholder='Filter by Department'
-            style={{ width: 200 }}
-            className='ml-auto'>
-            <Option value='all'>All Departments</Option>
-            {departments.map((dept) => (
-              <Option key={dept.id} value={dept.name}>
-                {dept.name}
-              </Option>
-            ))}
-          </Select>
-        </div>
-      </div>
-      <Card className='shadow-md'>
-        <Table
-          columns={columns}
-          dataSource={lecturers.filter(
-            (lecturer) =>
-              lecturer.name.toLowerCase().includes(searchText.toLowerCase()) ||
-              lecturer.department
-                .toLowerCase()
-                .includes(searchText.toLowerCase())
-          )}
-          rowKey='id'
-          pagination={{ pageSize: 10 }}
-        />
-      </Card>
+      <div>
+        {
+          isLoading ? <Loading/> :
+          <div className='lecturer-management-container'>
+            <div className='flex justify-between items-center mb-6'>
+              <div>
+                <Title level={2}>Lecturer Management</Title>
+                <Paragraph className='text-gray-500'>
+                  Manage all lecturers in the system
+                </Paragraph>
+              </div>
 
-      <ModalComponent
-        modalTitle={modalTitle}
-        isModalVisible={isModalVisible}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        selectedItem={selectedItem}
-        setCourses={() => {}}
-        setStudents={() => {}}
-        setLecturers={setLecturers}
-        setDepartments={setDepartments}
-        setRegistrations={() => {}}
-        setGrades={() => {}}
-        setIsModalVisible={setIsModalVisible}
-        courses={courses}
-        departments={departments}
-        students={{}}
-        lecturers={lecturers}
-        registrations={{}}
-        modalType={modalType}
-        form={form}
-      />
-    </div>
+              <Button
+                  type='primary'
+                  icon={<PlusOutlined/>}
+                  size='large'
+                  onClick={() => {
+                    if(departments.length<1){
+                      handleSelectClicked()
+                    }
+                    showModal("addLecturer", "Add New Lecturer")}}
+                  className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap'>
+                Add Lecturer
+              </Button>
+            </div>
+            <div className='mb-6'>
+              <Input
+                placeholder='Search by name or department'
+                prefix={<SearchOutlined className='text-gray-400' />}
+                onChange={(e) => setSearchText(e.target.value)}
+                className='w-full md:w-1/3 mb-4'
+              />
+              <div className='flex flex-wrap gap-2'>
+                <Button onClick={async()=>await  GetLecturer()} className='cursor-pointer !rounded-button whitespace-nowrap'>
+                  All Lecturers
+                </Button>
+                <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
+                  Active
+                </Button>
+                <Select
+                    loading={departments.length < 1 ? true: false}
+                    onClick={()=>{
+                      if(departments.length<1){
+                        handleSelectClicked()
+                      }
+                       }}
+                  placeholder='Filter by Department'
+                  style={{ width: 200 }}
+                  className='ml-auto'>
+                  <Option value='all'>All Departments</Option>
+                  {departments.map((dept) => (
+                    <Option key={dept._id} value={dept._id}>
+                      {dept.departmentName}
+                    </Option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <Card className='shadow-md'>
+              <Table loading={isLoading}
+                columns={columns}
+
+                dataSource={lecturers.filter(
+                  (lecturer) =>
+                    lecturer.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                    lecturer.department
+                      .toLowerCase()
+                      .includes(searchText.toLowerCase())
+                )}
+                rowKey='key'
+                pagination={{ pageSize: 10 }}
+              />
+            </Card>
+
+            <ModalComponent
+              modalTitle={modalTitle}
+              isModalVisible={isModalVisible}
+              handleOk={handleOk}
+              handleCancel={handleCancel}
+              selectedItem={selectedItem}
+              setCourses={() => {}}
+              setStudents={() => {}}
+              setLecturers={setLecturers}
+              setDepartments={setDepartments}
+              setRegistrations={() => {}}
+              setGrades={() => {}}
+              setIsModalVisible={setIsModalVisible}
+              courses={courses}
+              departments={departments}
+              students={{}}
+              lecturers={lecturers}
+              registrations={{}}
+              modalType={modalType}
+              form={form}
+            />
+          </div>
+        }
+      </div>
+
   );
 }

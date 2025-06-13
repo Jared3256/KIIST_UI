@@ -1,4 +1,7 @@
-import { SaveStudentDetails, SaveStudentPersonalDetails } from "src/service/admissionService";
+import {
+  SaveStudentDetails,
+  SaveStudentPersonalDetails,
+} from "src/service/admission.service";
 import { dataToDocumentDetails } from "./format.data";
 
 export interface personalInfo {
@@ -91,24 +94,23 @@ const savepersonalDetails = async ({ details }: personalInfo) => {
 };
 
 const saveAcademicDetails = async ({ details, id }: academicInfo) => {
-  const link ="/student/"+id +"/academic" 
-  const res = await SaveStudentDetails(details, link)
+  const link = "/student/" + id + "/academic";
+  const res = await SaveStudentDetails(details, link);
   return res;
 };
 
-const saveProgramSelection = async ({ details,id }: programSelectionInfo) => {
+const saveProgramSelection = async ({ details, id }: programSelectionInfo) => {
   const link = "/student/" + id + "/program";
   const res = await SaveStudentDetails(details, link);
   return res;
 };
 
-const savePersonalStatement = async ({ details ,id}) => {
+const savePersonalStatement = async ({ details, id }) => {
   const link = "/student/" + id + "/statement";
   const res = await SaveStudentDetails(details, link);
   return res;
 };
-const saveDocumentDetails = async ({ details ,id}: documentInfo) => {
- 
+const saveDocumentDetails = async ({ details, id }: documentInfo) => {
   const link = "/student/" + id + "/document";
   const res = await SaveStudentDetails(dataToDocumentDetails(details), link);
   return res;

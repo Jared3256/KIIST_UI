@@ -46,4 +46,6 @@ export default function useAxiosPrivate() {
       axiosPrivate.interceptors.request.eject(requestIntercept);
     };
   }, [refresh]);
+
+  return axiosPrivate;
 }

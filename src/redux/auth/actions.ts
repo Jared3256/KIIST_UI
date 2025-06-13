@@ -1,6 +1,6 @@
 import * as actionTypes from "./types";
 import { jwtDecode } from "jwt-decode";
-import * as authService from "../../service/authService";
+import * as authService from "../../service/auth.service";
 
 interface LoginData {
   email: string;

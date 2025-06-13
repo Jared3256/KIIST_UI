@@ -1,20 +1,26 @@
-import {BookOutlined, PlusOutlined, UserOutlined} from "@ant-design/icons";
+import { BookOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import {
-  Avatar,
-  Button,
-  Divider,
-  Form,
-  Input,
-  List,
-  Modal,
-  Select,
-  Table,
-  Tag,
-  Typography,
-  Upload,
+    Avatar,
+    Button,
+    Divider,
+    Form,
+    Input,
+    List, message,
+    Modal,
+    Select,
+    Table,
+    Tag,
+    Typography,
+    Upload,
 } from "antd";
-import React from "react";
 import ReactECharts from "echarts-for-react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "src/redux/auth/selectors";
+import useAxiosPrivate from "src/service/useAxiosPrivate";
+import axios from "src/service/axios.tsx";
+import system_data from "src/config/serverApi.config.ts";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import {useEffect} from "react";
 
 export default function ModalComponent({
   modalTitle,
@@ -36,12 +42,24 @@ export default function ModalComponent({
   registrations,
   modalType,
   form,
-    grades
+  grades,
 }) {
   const { Option } = Select;
   const { Title, Text, Paragraph } = Typography;
-  const handleFormSubmit = (values: any) => {
-    console.log("Form values:", values);
+  const dispatch = useDispatch();
+  const { current } = useSelector(selectAuth);
+  const hotAxiosPrivate = useAxiosPrivate();
+  
+    const handleFormSubmit = (values: any) => {
+
+
+    const cleaned_values = {}
+
+        Object.keys(values).forEach((key) => {
+            cleaned_values[key] = values[key]?.file?.response?.data?.url || values[key];
+        });
+
+
     // Handle different form submissions based on modalType
     switch (modalType) {
       case "addStudent":
@@ -57,21 +75,35 @@ export default function ModalComponent({
           )
         );
         break;
-      case "addLecturer":
-        setLecturers([
-          ...lecturers,
-          { id: lecturers.length + 1, ...values, status: "Active" },
-        ]);
-        break;
+      case "addLecturer":{
+          const data =  admin_crud_request.post({role: current.UserInfo.role,
+              entity: "tutor",
+              jsonData: { ...cleaned_values },
+              token: "token",
+              hotAxiosPrivate: hotAxiosPrivate,});
+
+          console.log(data)
+
+          setLecturers([
+              ...lecturers,
+              { id: lecturers.length + 1, ...values, status: "active" },
+          ]);
+          break;
+      }
+
       case "editLecturer":
-        setLecturers(
-          lecturers.map((lecturer) =>
-            lecturer.id === selectedItem.id
-              ? { ...lecturer, ...values }
-              : lecturer
-          )
-        );
-        break;
+      {
+
+          setLecturers(
+              lecturers.map((lecturer) =>
+                  lecturer.id === selectedItem.id
+                      ? { ...lecturer, ...values }
+                      : lecturer
+              )
+          );
+          break;
+      }
+
       case "addCourse":
         setCourses([...courses, { id: courses.length + 1, ...values }]);
         break;
@@ -82,12 +114,24 @@ export default function ModalComponent({
           )
         );
         break;
-      case "addDepartment":
+      case "addDepartment": {
         setDepartments([
           ...departments,
           { id: departments.length + 1, ...values, courses: 0, students: 0 },
         ]);
+
+        dispatch(
+          crud.create({
+            role: current.UserInfo.role,
+            entity: "department",
+            jsonData: { ...values },
+            token: "token",
+            hotAxiosPrivate: hotAxiosPrivate,
+          })
+        );
         break;
+      }
+
       case "editDepartment":
         setDepartments(
           departments.map((dept) =>
@@ -144,7 +188,40 @@ export default function ModalComponent({
     if (total >= 50) return "D";
     return "F";
   };
-  // Render modal content based on modal type
+
+    // transcript props
+    const uploadProps = {
+        maxCount: 1,
+        listType: "picture-card",
+        accept: ".jpg,.jpeg,.png",
+        name: "file",
+        action: `${system_data.BASE_URL2}/admin/${current.UserInfo.id}/upload`,
+
+        onChange(info) {
+            if (info.file.status === "done") {
+                console.log(`${info.file.name} file uploaded successfully`)
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === "error") {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+        customRequest({ file, onSuccess, onError }) {
+            const formData = new FormData();
+            formData.append("file", file);
+            axios
+                .post(`${system_data.BASE_URL2}/admin/${current.UserInfo.id}/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((res) => {
+                    onSuccess(res.data, file);
+                })
+                .catch(onError);
+        },
+    };
+
+    // Render modal content based on modal type
   const renderModalContent = () => {
     switch (modalType) {
       case "addStudent":
@@ -157,8 +234,7 @@ export default function ModalComponent({
             initialValues={selectedItem}>
             <Form.Item name='photo' label='Photo'>
               <Upload
-                name='avatar'
-                listType='picture-card'
+                  {...uploadProps}
                 className='avatar-uploader'
                 showUploadList={false}>
                 {selectedItem?.photo ? (
@@ -317,7 +393,8 @@ export default function ModalComponent({
             initialValues={selectedItem}>
             <Form.Item name='photo' label='Photo'>
               <Upload
-                name='avatar'
+                  {...uploadProps}
+                name='photo'
                 listType='picture-card'
                 className='avatar-uploader'
                 showUploadList={false}>
@@ -357,8 +434,8 @@ export default function ModalComponent({
               rules={[{ required: true, message: "Please select department" }]}>
               <Select placeholder='Select department'>
                 {departments.map((dept) => (
-                  <Option key={dept.id} value={dept.name}>
-                    {dept.name}
+                  <Option key={dept._id} value={dept._id}>
+                    {dept.departmentName}
                   </Option>
                 ))}
               </Select>
@@ -379,8 +456,8 @@ export default function ModalComponent({
             </Form.Item>
             <Form.Item name='status' label='Status'>
               <Select placeholder='Select status'>
-                <Option value='Active'>Active</Option>
-                <Option value='Inactive'>Inactive</Option>
+                <Option value='active'>Active</Option>
+                <Option value='inactive'>Inactive</Option>
               </Select>
             </Form.Item>
           </Form>
@@ -664,6 +741,14 @@ export default function ModalComponent({
                 { required: true, message: "Please enter department name" },
               ]}>
               <Input placeholder='e.g. Computer Science' />
+            </Form.Item>
+            <Form.Item
+              name='code'
+              label='Department Code'
+              rules={[
+                { required: true, message: "Please enter department Code" },
+              ]}>
+              <Input placeholder='e.g. CS123' />
             </Form.Item>
             <Form.Item
               name='head'

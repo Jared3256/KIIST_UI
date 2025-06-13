@@ -1,7 +1,7 @@
 {
   "name": "Kisii Impact Institute of science and Technology",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -28,6 +28,7 @@
     "antd": "^5.25.1",
     "axios": "^1.9.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
     "echarts": "^5.6.0",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^12.12.1",
