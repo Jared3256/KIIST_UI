@@ -29,6 +29,7 @@ import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
 import Loading from "src/components/Loading.tsx";
 import * as actionTypes from "src/redux/crud/types.ts";
 import {admin_crud_request} from "src/service/crud.service.ts";
+import {dataToDepartment} from "src/modules/Data.format.ts";
 
 export default function Departments() {
   const { Title, Paragraph } = Typography;
@@ -41,6 +42,11 @@ export default function Departments() {
   const [form] = Form.useForm();
   const [lecturers, setLecturers] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [result, setResult] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const {current } = useSelector(selectAuth)
+  const hotAxiosPrivate = useAxiosPrivate()
 
   function handleDeleteDepartment(id) {
     
@@ -104,17 +110,21 @@ export default function Departments() {
     },
   ];
 
-  const [result, setResult] = useState([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const {current } = useSelector(selectAuth)
-  const hotAxiosPrivate = useAxiosPrivate()
+
 
   useEffect( () => {
-    setIsLoading(true)
-    GetDepartments();
-    GetLecturer()
-    setIsLoading(false)
+    const fetchData = async ()=> {
+      try {
+        setIsLoading(true)
+        await GetDepartments();
+        await GetLecturer()
+      } finally {
+        setIsLoading(false)
+      }
+
+    }
+
+    fetchData()
   }, []);
 
   const GetLecturer = async () => {
@@ -123,16 +133,17 @@ export default function Departments() {
     });
     const result = (data.data)
 
-    const rows = result.map((lecturer: any) => ({
-      key: lecturer?._id,
-      photo: lecturer?.photo,
-      name: lecturer?.name,
+    const rows = result.map((dept: any) => ({
+      key: dept?._id,
+      photo: dept?.photo,
+      name: dept?.name,
       // flatten the nested department object:
-      departmentName: lecturer?.department?.departmentName,
-      departmentCode: lecturer?.department?.departmentCode,
-      qualification: lecturer?.qualification,
-      paymentScale: lecturer?.paymentScale,
-      status: lecturer?.status,
+      departmentName: dept?.department?.departmentName,
+      departmentCode: dept?.department?.departmentCode,
+      qualification: dept?.qualification,
+      paymentScale: dept?.paymentScale,
+      status: dept?.status,
+      courses: dept.courses,
     }));
 
     setLecturers(rows);
@@ -149,20 +160,9 @@ export default function Departments() {
   }
   
   useEffect(() => {
-
-    const rows = result.map((department)=>({
-      key: department?._id,
-      name: department?.departmentName,
-      head: department?.departmentHead.name,
-      code: department?.departmentCode,
-    }))
-
-    console.log(rows)
-    setDepartments(rows)
-
-
-
+    setDepartments(dataToDepartment(result))
   }, [isLoading, isSuccess, result]);
+
   // Handle modal OK
   const handleOk = () => {
     form.submit();
@@ -185,8 +185,7 @@ export default function Departments() {
   };
   return (
       <div >
-        {
-        isLoading ? <Loading/> :
+
           <div className='department-management-container'>
 
 
@@ -216,8 +215,7 @@ export default function Departments() {
               />
             </div>
             <Card className='shadow-md'>
-              <Table
-                  loading={isLoading}
+              <Table loading={isLoading}
                 columns={columns}
                 dataSource={departments.filter((department) =>
                   department.name.toLowerCase().includes("".toLowerCase())
@@ -249,7 +247,7 @@ export default function Departments() {
                 grades={{}}
             />
           </div>
-      }
+
       </div>
 
 

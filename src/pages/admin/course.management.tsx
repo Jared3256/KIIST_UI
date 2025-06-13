@@ -1,16 +1,11 @@
 import {
-  BookOutlined,
-  CheckOutlined,
-  CloseOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
   PlusOutlined,
   SearchOutlined,
-  UndoOutlined,
 } from "@ant-design/icons";
 import {
-  Alert,
   Button,
   Card,
   Form,
@@ -19,17 +14,19 @@ import {
   Select,
   Space,
   Table,
-  Tag,
   Typography,
 } from "antd";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {
   mockActivities,
-  mockCourses,
-  mockDepartments, mockLecturers,
   mockRegistrations,mockGrades
 } from "src/components/landing_page/LandingPAgeBarConstants";
 import ModalComponent from "src/components/ModalComponent";
+import {useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors.ts";
+import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import {dataToCourse, dataToDepartment} from "src/modules/Data.format.ts";
 
 export default function CourseManagement() {
   const [searchText, setSearchText] = useState("");
@@ -39,13 +36,18 @@ export default function CourseManagement() {
   const [modalType, setModalType] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [departments, setDepartments] = useState(mockDepartments);
-  const [lecturers, setLecturers] = useState(mockLecturers);
-  const [courses, setCourses] = useState(mockCourses);
+  const [departments, setDepartments] = useState([]);
+  const [lecturers, setLecturers] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [registrations, setRegistrations] = useState(mockRegistrations);
   const [activities, setActivities] = useState(mockActivities);
   const [form] = Form.useForm();
   const [grades, setGrades] = useState(mockGrades);
+  const [result, setResult] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const {current } = useSelector(selectAuth)
+  const hotAxiosPrivate = useAxiosPrivate()
 
   // Handle registration approval
   const handleApproveRegistration = (registration: any, status: string) => {
@@ -160,6 +162,48 @@ export default function CourseManagement() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  // Function to run on Page load up
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        await GetEntity("course");
+        await GetEntity("department");
+        await GetEntity("tutor");
+      } catch (err) {
+        console.error("Error fetching entities", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Method to get all the courses available to the school
+  const GetEntity = async (entity) => {
+    let data = await admin_crud_request.list({
+      entity:entity,token:"token", hotAxiosPrivate:hotAxiosPrivate, role:current.UserInfo.role
+    });
+
+    setIsSuccess(data.succes)
+
+    if(entity==="course"){
+      console.log(dataToCourse(data.data))
+
+      setCourses(dataToCourse(data.data))
+    }
+    if(entity==="department"){
+      setDepartments(dataToDepartment(data.data))
+    }
+    if(entity==="tutor"){
+
+      setLecturers(data.data)
+    }
+    return data
+  }
+
   return (
     <div className='course-management-container'>
       <div className='flex justify-between items-center mb-6'>
@@ -186,7 +230,7 @@ export default function CourseManagement() {
           className='w-full md:w-1/3 mb-4'
         />
         <div className='flex flex-wrap gap-2'>
-          <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
+          <Button onClick={()=> GetEntity("course")} className='cursor-pointer !rounded-button whitespace-nowrap'>
             All Courses
           </Button>
           <Select
@@ -204,6 +248,7 @@ export default function CourseManagement() {
       </div>
       <Card className='shadow-md'>
         <Table
+            loading={isLoading}
           columns={columns}
           dataSource={courses.filter(
             (course) =>

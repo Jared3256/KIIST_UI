@@ -20,7 +20,7 @@ import useAxiosPrivate from "src/service/useAxiosPrivate";
 import axios from "src/service/axios.tsx";
 import system_data from "src/config/serverApi.config.ts";
 import {admin_crud_request} from "src/service/crud.service.ts";
-import {useEffect} from "react";
+
 
 export default function ModalComponent({
   modalTitle,
@@ -46,7 +46,7 @@ export default function ModalComponent({
 }) {
   const { Option } = Select;
   const { Title, Text, Paragraph } = Typography;
-  const dispatch = useDispatch();
+
   const { current } = useSelector(selectAuth);
   const hotAxiosPrivate = useAxiosPrivate();
   
@@ -104,9 +104,18 @@ export default function ModalComponent({
           break;
       }
 
-      case "addCourse":
-        setCourses([...courses, { id: courses.length + 1, ...values }]);
-        break;
+      case "addCourse":{
+
+          const data =  admin_crud_request.post({role: current.UserInfo.role,
+              entity: "course",
+              jsonData: { ...cleaned_values },
+              token: "token",
+              hotAxiosPrivate: hotAxiosPrivate,});
+
+          setCourses([...courses, { id: courses.length + 1, ...values }]);
+          break;
+      }
+        
       case "editCourse":
         setCourses(
           courses.map((course) =>
@@ -120,15 +129,15 @@ export default function ModalComponent({
           { id: departments.length + 1, ...values, courses: 0, students: 0 },
         ]);
 
-        dispatch(
-          crud.create({
+        const  data =admin_crud_request.post({
             role: current.UserInfo.role,
             entity: "department",
             jsonData: { ...values },
             token: "token",
             hotAxiosPrivate: hotAxiosPrivate,
-          })
-        );
+        });
+
+        console.log(data)
         break;
       }
 
@@ -591,7 +600,7 @@ export default function ModalComponent({
               rules={[{ required: true, message: "Please select department" }]}>
               <Select placeholder='Select department'>
                 {departments.map((dept) => (
-                  <Option key={dept.id} value={dept.name}>
+                  <Option key={dept.id} value={dept.key}>
                     {dept.name}
                   </Option>
                 ))}
@@ -603,7 +612,7 @@ export default function ModalComponent({
               rules={[{ required: true, message: "Please select lecturer" }]}>
               <Select placeholder='Select lecturer'>
                 {lecturers.map((lecturer) => (
-                  <Option key={lecturer.id} value={lecturer.name}>
+                  <Option key={lecturer.id} value={lecturer._id}>
                     {lecturer.name}
                   </Option>
                 ))}
@@ -758,7 +767,7 @@ export default function ModalComponent({
               ]}>
               <Select placeholder='Select head of department'>
                 {lecturers.map((lecturer) => (
-                  <Option key={lecturer.id} value={lecturer.name}>
+                  <Option key={lecturer.id} value={lecturer.key}>
                     {lecturer.name}
                   </Option>
                 ))}

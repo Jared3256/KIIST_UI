@@ -59,9 +59,17 @@ const dispatch = useDispatch();
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    GetLecturer();
-    setIsLoading(false)
+
+    const fetchData = async  ()=>{
+      try {
+        setIsLoading(true)
+        await GetLecturer();
+      }finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+
   }, []);
 
 
@@ -213,8 +221,7 @@ const dispatch = useDispatch();
   };
   return (
       <div>
-        {
-          isLoading ? <Loading/> :
+
           <div className='lecturer-management-container'>
             <div className='flex justify-between items-center mb-6'>
               <div>
@@ -308,7 +315,7 @@ const dispatch = useDispatch();
               form={form}
             />
           </div>
-        }
+        
       </div>
 
   );
