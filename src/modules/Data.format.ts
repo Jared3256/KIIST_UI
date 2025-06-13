@@ -5,20 +5,36 @@ const dataToDepartment = (result: any) => {
         name: department?.departmentName,
         head: department?.departmentHead?.name || department.departmentHead,
         code: department?.departmentCode,
-        courses:department?.courses
+        courses: department?.courses
     }))
 }
 
 
 const dataToCourse = (result: any) => {
+  
     return result.map((item: any) => ({
         key: item._id,
-        code:item.code,
+        code: item.code,
         title: item.title,
-        department:item.department.departmentName,
-        credits:item.credits,
-        lecturer:item.lecturer.name,
-        courses:item.courses,
+        department: item.department.departmentName,
+        credits: item.credits,
+        lecturer: item?.lecturer?.name || "N/A",
+        courses: item.courses,
     }))
 }
-export {dataToDepartment, dataToCourse}
+
+const dataToTutor = (result: any) => {
+
+
+    return result.map((item: any) => ({
+        key: item._id,
+        departmentName: item.department.departmentName,
+        qualification: item.qualification,
+        photo: item.photo,
+        paymentScale: item.paymentScale,
+        name: item.name,
+        courses: item.courses,
+        status: item.status,
+    }))
+}
+export {dataToDepartment, dataToCourse, dataToTutor}
