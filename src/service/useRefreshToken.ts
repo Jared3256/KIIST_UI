@@ -26,7 +26,7 @@ export default function useRefreshToken() {
           return accessToken;
         });
     } catch (err) {
-      console.log(err);
+
     }
   };
 

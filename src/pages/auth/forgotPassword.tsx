@@ -9,7 +9,7 @@ export default function ForgotPassword() {
     const navigate =  useNavigate()
 
     const handlePasswordReset = (values: any) => {
-      console.log("Reset password values:", values);
+
       setResetStep(1);
     };
   return (

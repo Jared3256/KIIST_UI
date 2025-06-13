@@ -84,7 +84,7 @@ export default function Academic() {
                                 <AntForm.Item className={"w-full justify-center"}>
                                     <Button icon={<AddOutlined/>} onClick={() => {
                                         add()
-                                        console.log(fields)
+
                                     }} className={"max-w-1/2 self-center"} type={"dashed"} variant={"dashed"}
                                             block={true}>Add
                                         Institution</Button>

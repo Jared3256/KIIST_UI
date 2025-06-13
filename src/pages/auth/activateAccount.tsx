@@ -36,7 +36,7 @@ export default function ActivateAccount() {
   const handleActivation = () => {
     const code = activationCode.join("");
     if (code.length === 6) {
-      console.log("Activation code:", code);
+
       setActivationStep(1);
       messageApi
         .open({

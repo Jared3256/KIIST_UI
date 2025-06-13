@@ -1,5 +1,4 @@
 const dataToDepartment = (result: any) => {
-    console.log(result[0])
 
     return result.map((department) => ({
         key: department?._id,

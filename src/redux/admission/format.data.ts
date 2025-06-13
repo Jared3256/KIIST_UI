@@ -42,7 +42,7 @@ export const dataToAcademicDetails = (data) => {
     urlsByKey[key] = data[key]?.file?.response?.data?.url || data[key];
   });
 
-  console.log(urlsByKey);
+
   return urlsByKey;
 };
 
@@ -82,7 +82,7 @@ export const dataToDocumentDetails = (data) => {
     urlsByKey[key] = data[key]?.file?.response?.data?.url || data[key];
   });
 
-  console.log(urlsByKey);
+
  
   return urlsByKey;
 };

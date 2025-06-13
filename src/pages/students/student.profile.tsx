@@ -19,7 +19,6 @@ export default function StudentProfile() {
   const { Title, Text } = Typography;
   const { current } = useSelector(selectAuth);
 
-  console.log(current);
   return (
     <div className='p-6'>
       <Box

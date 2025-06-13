@@ -92,7 +92,7 @@
 //
 //       // if (data.success === true) {
 //       if (data.success) {
-//           console.log(data.data)
+//
 //         const result = {
 //           items: data.data ,
 //           pagination: {
@@ -224,7 +224,7 @@
 //       });
 //       let data = await admin_crud_request.remove({ entity, entityId, role, hotAxiosPrivate });
 //
-//       console.log(data)
+//
 //
 //       if (data.success) {
 //         dispatch({

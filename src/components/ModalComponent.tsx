@@ -82,7 +82,7 @@ export default function ModalComponent({
               token: "token",
               hotAxiosPrivate: hotAxiosPrivate,});
 
-          console.log(data)
+
 
           setLecturers([
               ...lecturers,
@@ -137,7 +137,7 @@ export default function ModalComponent({
             hotAxiosPrivate: hotAxiosPrivate,
         });
 
-        console.log(data)
+
         break;
       }
 
@@ -208,7 +208,7 @@ export default function ModalComponent({
 
         onChange(info) {
             if (info.file.status === "done") {
-                console.log(`${info.file.name} file uploaded successfully`)
+
                 message.success(`${info.file.name} file uploaded successfully`);
             } else if (info.file.status === "error") {
                 message.error(`${info.file.name} file upload failed.`);

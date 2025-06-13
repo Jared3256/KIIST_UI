@@ -78,7 +78,7 @@
 //         },
 //       };
 //     case actionTypes.RESET_ACTION:{
-//       console.log("Reset action ")
+//
 //
 //       return {
 //         ...state,

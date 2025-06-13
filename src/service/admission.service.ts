@@ -23,7 +23,7 @@ export const SaveStudentDetails = async (details, link) => {
   await axios
     .put(link, details)
     .then((res) => {
-      console.log(res.data);
+
       server_response = res.data;
     })
     .catch((error) => {
@@ -34,9 +34,9 @@ export const SaveStudentDetails = async (details, link) => {
 
 export const SubmitStudentApplication = async (id, link) => {
   let server_response = {};
-  console.log(id)
+
   await axios.post(link, { applicationId: id }).then((res) => {
-    console.log(res.data);
+
     server_response = res.data;
     localStorage.removeItem("nationalId");
   });

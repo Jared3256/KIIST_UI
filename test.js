@@ -206,4 +206,3 @@ Object.keys(data).forEach((key) => {
   urlsByKey[key] = data[key]?.file?.response?.data?.url || null;
 });
 
-console.log(urlsByKey);

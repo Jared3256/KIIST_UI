@@ -9,7 +9,7 @@ export default function RequireAuthLayout() {
 
   const { current } = useSelector(selectAuth);
 
-  console.log(current);
+
   return current.UserInfo ? (
     current.UserInfo?.enabled ? (
       <SystemLayout />

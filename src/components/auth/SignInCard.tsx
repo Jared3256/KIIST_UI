@@ -44,16 +44,16 @@ export default function SigninCard() {
   const [messageApi, contextHolder] = message.useMessage();
 
   // create a Url to route to
-  // console.log(fromUrl);
+
   // // redux Configurations and details
   const dispatch = useDispatch();
   const { isLoading, isSuccess, current } = useSelector(selectAuth);
   const fromUrl =
     location.state?.from?.pathname || `/v1/${current?.UserInfo?.role}`;
-  console.log(fromUrl, isSuccess);
+
 
   useEffect(() => {
-    console.log("handling success")
+
     handleSuccessLogin();
   }, [isSuccess]);
 

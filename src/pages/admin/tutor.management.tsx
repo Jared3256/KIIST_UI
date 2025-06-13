@@ -74,7 +74,7 @@ const dispatch = useDispatch();
 
 
   useEffect(() => {
-    console.log(result.items)
+
 
     const rows = result.map((lecturer: any) => ({
       key: lecturer?._id,
@@ -88,7 +88,7 @@ const dispatch = useDispatch();
       status: lecturer?.status,
     }));
 
-    console.log(rows)
+
 
     setLecturers(rows)
 
@@ -203,12 +203,12 @@ const dispatch = useDispatch();
     });
 
     setDepartments(data.data)
-    console.log(data.data)
+
   }
 
   // Handle lecturer deletion
   const handleDeleteLecturer = (lecturerId) => {
-  console.log(selectedItem, lecturerId)
+
    dispatch(crud.delete({
      entity:"tutor",
      entityId:lecturerId,
@@ -315,7 +315,7 @@ const dispatch = useDispatch();
               form={form}
             />
           </div>
-        
+
       </div>
 
   );

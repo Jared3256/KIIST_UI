@@ -385,7 +385,7 @@ const App: React.FC = () => {
   };
   // Handle form submit
   const handleFormSubmit = (values: any) => {
-    console.log("Form values:", values);
+
     // Handle different form submissions based on modalType
     switch (modalType) {
       case "addStudent":

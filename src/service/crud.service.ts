@@ -4,7 +4,7 @@ import errorHandler from "src/handlers/errorHandler";
 export const admin_crud_request = {
   post: async ({ role,token, entity, jsonData , hotAxiosPrivate}) => {
     try {
-      console.log({ role, token, entity, jsonData, hotAxiosPrivate });
+
       const response = await hotAxiosPrivate.post(
         `/${role}/${entity}/create`,
         jsonData,
@@ -18,7 +18,7 @@ export const admin_crud_request = {
 
       return response.data;
     } catch (error) {
-      console.log(error)
+
       return errorHandler(error);
     }
   },

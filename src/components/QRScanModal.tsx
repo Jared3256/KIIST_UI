@@ -14,7 +14,7 @@ export default function QRScanModal({
 
   // Handle QR scan
     const handleQrScan = (res) => {
-      console.log(res.data)
+
     // Simulate successful scan
     setTimeout(() => {
       setIsQrModalVisible(false);
@@ -30,7 +30,7 @@ export default function QRScanModal({
       videoRef.current,
       (result) => {
         handleQrScan(result);
-        console.log(`Scanned: ${result}`);
+
         scanner.stop(); // stop scanning
         setIsQrModalVisible(false); // close modal
       },

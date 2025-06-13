@@ -190,7 +190,7 @@ export default function CourseManagement() {
     setIsSuccess(data.succes)
 
     if(entity==="course"){
-      console.log(dataToCourse(data.data))
+
 
       setCourses(dataToCourse(data.data))
     }

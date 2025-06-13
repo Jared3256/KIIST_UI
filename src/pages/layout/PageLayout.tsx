@@ -10,7 +10,7 @@ export default function PageLayout() {
     // Detect network changes
     window.addEventListener("offline", () => {
       navigate("/offline", { state: location });
-      console.log("Internet connection Lost");
+
     });
   }, []);
   return <Outlet />;

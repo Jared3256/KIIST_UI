@@ -62,7 +62,7 @@ const errorHandler = (error) => {
 
   if (response && response.status) {
     const errorText = response.data.message || codeMessage[response.status];
-    console.log("Response ", response, errorText);
+
 
     const { status } = response;
     notification.config({

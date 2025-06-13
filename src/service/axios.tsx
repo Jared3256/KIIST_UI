@@ -2,7 +2,7 @@ import axios from "axios";
 import system_data from "src/config/serverApi.config.ts";
 
 export const axiosPrivate = axios.create({
-  baseURL: system_data.BASE_URL,
+  baseURL: system_data.BASE_URL2,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -12,5 +12,5 @@ export const axiosPrivate = axios.create({
 });
 
 export default axios.create({
-  baseURL: system_data.BASE_URL,
+  baseURL: system_data.BASE_URL2,
 });
