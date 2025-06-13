@@ -6,10 +6,13 @@ import {
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import {useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors.ts";
 
 export default function AdminLayout() {
   const { Header, Content, Footer } = Layout;
   const { Text } = Typography;
+  const {current} = useSelector(selectAuth)
   return (
     <Layout
       className='sm:hidden md:hidden site-layout sm:mt-15 md:mt-15 lg:mt-0'
@@ -72,13 +75,13 @@ export default function AdminLayout() {
                 src='https://readdy.ai/api/search-image?query=professional%20headshot%20of%20an%20African%20male%20administrator%20in%20formal%20attire%20against%20a%20neutral%20background%2C%20high%20quality%20portrait%2C%20professional%20photography&width=40&height=40&seq=12&orientation=squarish'
                 className='mr-2'
               />
-              <div className='hidden md:flex items-center gap-3'>
+              <div className='ml-2 hidden md:flex items-center gap-3'>
                 <Text
                   strong
                   style={{
                     color: "white",
                   }}>
-                  Admin User
+                  {current.UserInfo.fullname}
                 </Text>
                 <div>
                   <Text
