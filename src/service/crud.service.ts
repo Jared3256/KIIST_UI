@@ -38,6 +38,22 @@ export const admin_crud_request = {
             return errorHandler(error);
         }
     },
+    list_spc: async ({role, entity, id, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.get(`/${entity}/${role}/${id}/list`);
+            return response.data;
+        } catch (error) {
+            return errorHandler(error);
+        }
+    },
+    cancel: async ({role, entity, id, jsonData, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.put(`/${role}/${entity}/${id}/cancel`, jsonData);
+            return response.data;
+        } catch (e) {
+            return errorHandler(e);
+        }
+    },
     remove: async ({role, entity, entityId, hotAxiosPrivate}) => {
         try {
             const response = await hotAxiosPrivate.delete(`/${role}/${entity}/${entityId}/remove`,);
@@ -67,3 +83,4 @@ export const admin_crud_request = {
         }
     },
 };
+

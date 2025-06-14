@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import {createBrowserRouter, Navigate} from "react-router";
 
 import PageLayout from "../pages/layout/PageLayout";
 import AuthModule from "../modules/Auth.module";
@@ -35,178 +35,182 @@ import TutorManagement from "src/pages/admin/tutor.management";
 import AdminCourseApproval from "src/pages/admin/AdminCourseApproval";
 import AdminStudentManagement from "src/pages/admin/AdminStudentManagement.tsx";
 import StudentTranscript from "src/pages/students/student.transcript";
+import UnitRegistration from "src/pages/students/UnitRegistration.tsx";
 
 const system_routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <PageLayout />,
-    children: [
-      {
-        index: true,
-        element: <LandingPage />,
-      },
-      {
-        path: "h",
-        element: <Home />,
+    {
+        path: "/",
+        element: <PageLayout/>,
         children: [
-          {
-            index: true,
-            element: <Navigate to={"/h/admission"} replace />,
-          },
-          {
-            path: "admission",
-            element: <LandingHome />,
-            children: [
-              {
+            {
                 index: true,
-                element: <Navigate to={"/h/admission/requirements"} replace />,
-              },
-              {
-                path: "requirements",
-                element: <Requirements />,
-              },
-              {
-                path: "status",
-                element: <AdmissionStatus />,
-              },
-              {
-                path: "forms",
-                element: <AdmissionForms />,
-              },
-              {
-                path: "register",
-                element: <RegisterStudent />,
-              },
-            ],
-          },
-          {
-            path: "courses",
-            element: <Courses />,
-          },
+                element: <LandingPage/>,
+            },
+            {
+                path: "h",
+                element: <Home/>,
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to={"/h/admission"} replace/>,
+                    },
+                    {
+                        path: "admission",
+                        element: <LandingHome/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <Navigate to={"/h/admission/requirements"} replace/>,
+                            },
+                            {
+                                path: "requirements",
+                                element: <Requirements/>,
+                            },
+                            {
+                                path: "status",
+                                element: <AdmissionStatus/>,
+                            },
+                            {
+                                path: "forms",
+                                element: <AdmissionForms/>,
+                            },
+                            {
+                                path: "register",
+                                element: <RegisterStudent/>,
+                            },
+                        ],
+                    },
+                    {
+                        path: "courses",
+                        element: <Courses/>,
+                    },
+                ],
+            },
+            {
+                path: "auth",
+                element: <AuthModule/>,
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to='/auth/login' replace/>,
+                    },
+                    {
+                        path: "login",
+                        element: <Loginv2/>,
+                    },
+                    {
+                        path: "unauthorized",
+                        element: <h1>Unauthorized</h1>,
+                    },
+                    {
+                        path: "activate",
+                        element: <ActivateAccount/>,
+                    },
+                    {
+                        path: "forgot_password",
+                        element: <ForgotPassword/>,
+                    },
+                ],
+            },
+            {
+                path: "v1",
+                element: <PersistAccess/>,
+                children: [
+                    {
+                        path: "admin",
+                        element: <AdminLayout/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <AdminDashboard/>,
+                            },
+                            {
+                                path: "department",
+                                element: <Departments/>,
+                            },
+                            {
+                                path: "course",
+                                element: <CourseManagement/>,
+                            },
+                            {
+                                path: "dashboard",
+                                element: <AdminDashboard/>,
+                            },
+                            {
+                                path: "tutors",
+                                element: <TutorManagement/>,
+                            },
+                            {
+                                path: "registration-approvals",
+                                element: <AdminCourseApproval/>,
+                            },
+                            {
+                                path: "student-management",
+                                element: <AdminStudentManagement/>,
+                            },
+                        ],
+                    },
+                    {
+                        path: "tutor",
+                        element: <h1>Tutor</h1>,
+                    },
+                    {
+                        path: "student",
+                        element: <StudentChecker/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <StudentDashboard/>,
+                            },
+                            {
+                                path: "dashboard",
+                                element: <StudentDashboard/>,
+                            },
+                            {
+                                path: "finance",
+                                element: <Finance/>,
+                            },
+                            {
+                                path: "classes",
+                                element: <StudentClasses/>,
+                            },
+                            {
+                                path: "history",
+                                element: <StudentClassAttendanceHistory/>,
+                            },
+                            {
+                                path: "analytics",
+                                element: <StudentAnalytics/>,
+                            },
+                            {
+                                path: "profile",
+                                element: <StudentProfile/>,
+                            },
+                            {
+                                path: "transcripts",
+                                element: <StudentTranscript/>,
+                            }, {
+                                path: "unit-registration",
+                                element: <UnitRegistration/>
+                            }
+                        ],
+                    },
+                ],
+            },
+            {
+                path: "offline",
+                element: <Offline/>,
+            },
+            {
+                path: "test",
+                element: (
+                    <>
+                        <App/>
+                    </>
+                ),
+            },
         ],
-      },
-      {
-        path: "auth",
-        element: <AuthModule />,
-        children: [
-          {
-            index: true,
-            element: <Navigate to='/auth/login' replace />,
-          },
-          {
-            path: "login",
-            element: <Loginv2 />,
-          },
-          {
-            path: "unauthorized",
-            element: <h1>Unauthorized</h1>,
-          },
-          {
-            path: "activate",
-            element: <ActivateAccount />,
-          },
-          {
-            path: "forgot_password",
-            element: <ForgotPassword />,
-          },
-        ],
-      },
-      {
-        path: "v1",
-        element: <PersistAccess />,
-        children: [
-          {
-            path: "admin",
-            element: <AdminLayout />,
-            children: [
-              {
-                index: true,
-                element: <AdminDashboard />,
-              },
-              {
-                path: "department",
-                element: <Departments />,
-              },
-              {
-                path: "course",
-                element: <CourseManagement />,
-              },
-              {
-                path: "dashboard",
-                element: <AdminDashboard />,
-              },
-              {
-                path: "tutors",
-                element: <TutorManagement />,
-              },
-              {
-                path: "registration-approvals",
-                element: <AdminCourseApproval />,
-              },
-              {
-                path: "student-management",
-                element: <AdminStudentManagement />,
-              },
-            ],
-          },
-          {
-            path: "tutor",
-            element: <h1>Tutor</h1>,
-          },
-          {
-            path: "student",
-            element: <StudentChecker />,
-            children: [
-              {
-                index: true,
-                element: <StudentDashboard />,
-              },
-              {
-                path: "dashboard",
-                element: <StudentDashboard />,
-              },
-              {
-                path: "finance",
-                element: <Finance />,
-              },
-              {
-                path: "classes",
-                element: <StudentClasses />,
-              },
-              {
-                path: "history",
-                element: <StudentClassAttendanceHistory />,
-              },
-              {
-                path: "analytics",
-                element: <StudentAnalytics />,
-              },
-              {
-                path: "profile",
-                element: <StudentProfile />,
-              },
-              {
-                path: "transcripts",
-                element: <StudentTranscript />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "offline",
-        element: <Offline />,
-      },
-      {
-        path: "test",
-        element: (
-          <>
-            <App />
-          </>
-        ),
-      },
-    ],
-  },
+    },
 ]);
 
 export default system_routes;
