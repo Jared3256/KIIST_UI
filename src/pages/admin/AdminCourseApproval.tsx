@@ -21,7 +21,7 @@ export default function AdminCourseApproval() {
     const {current} = useSelector(selectAuth)
     const hotAxiosPrivate = useAxiosPrivate()
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const [temp_registrations, setTempRegistrations] = useState([]);
 
 // Function to run on Page load up
     useEffect(() => {
@@ -63,10 +63,28 @@ export default function AdminCourseApproval() {
 
         if (data) {
             setRegistrations(dataToUnits(data.data))
-
+            setTempRegistrations(dataToUnits(data.data))
         }
     }
 
+    //Filter courses
+    const FilterRegistrations = async (type) => {
+        switch (type) {
+            case "all":
+                setRegistrations([...temp_registrations])
+                break
+            case "pending":
+
+                setRegistrations(temp_registrations.filter(item => item.status === "pending"))
+                break
+            case "approved":
+                setRegistrations(temp_registrations.filter(item => item.status === "approved"))
+                break
+            case "rejected":
+                setRegistrations(temp_registrations.filter(item => item.status === "rejected"))
+                break
+        }
+    }
     // Handle registration approval
     const handleApproveRegistration = async (registration: any, status: string) => {
 
@@ -89,6 +107,11 @@ export default function AdminCourseApproval() {
 
                 setRegistrations(
                     registrations.map((reg) =>
+                        reg.key === registration.key ? {...reg, status} : reg
+                    )
+                );
+                setTempRegistrations(
+                    temp_registrations.map((reg) =>
                         reg.key === registration.key ? {...reg, status} : reg
                     )
                 );
@@ -175,6 +198,19 @@ export default function AdminCourseApproval() {
             ),
         },
     ];
+
+    const handleCourseOnchange = (unit) => {
+
+        if (unit === "all") {
+            setRegistrations(temp_registrations)
+        } else {
+            const filtered = temp_registrations.filter((reg) => reg.course === unit)
+            setRegistrations(filtered)
+
+        }
+
+    }
+
     return (
         <div className='registration-approval-container'>
             <div className='mb-6'>
@@ -191,19 +227,24 @@ export default function AdminCourseApproval() {
                     className='w-full md:w-1/3 mb-4'
                 />
                 <div className='flex flex-wrap gap-2'>
-                    <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
+                    <Button onClick={() => FilterRegistrations("all")}
+                            className='cursor-pointer !rounded-button whitespace-nowrap'>
                         All Registrations
                     </Button>
-                    <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
+                    <Button onClick={() => FilterRegistrations("pending")}
+                            className='cursor-pointer !rounded-button whitespace-nowrap'>
                         Pending
                     </Button>
-                    <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
+                    <Button onClick={() => FilterRegistrations("approved")}
+                            className='cursor-pointer !rounded-button whitespace-nowrap'>
                         Approved
                     </Button>
-                    <Button className='cursor-pointer !rounded-button whitespace-nowrap'>
+                    <Button onClick={() => FilterRegistrations("rejected")}
+                            className='cursor-pointer !rounded-button whitespace-nowrap'>
                         Rejected
                     </Button>
                     <Select
+                        onChange={(e) => handleCourseOnchange(e)}
                         placeholder='Filter by Course'
                         style={{width: 200}}
                         className='ml-auto'>
