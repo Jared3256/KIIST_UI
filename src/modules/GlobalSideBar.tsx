@@ -261,10 +261,10 @@ export default function Sidebar() {
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton
-                                            onClick={() =>
-                                                navigate(`/v1/${role}/student-management`)
-                                            }>
+                                        <ListItemButton disabled={true}
+                                                        onClick={() =>
+                                                            navigate(`/v1/${role}/student-management`)
+                                                        }>
                                             Students
                                         </ListItemButton>
                                     </ListItem>
@@ -387,7 +387,7 @@ export default function Sidebar() {
                                         </ListItemButton>
                                     )}>
                                     <List sx={{gap: 0.5}}>
-                                        
+
                                         <ListItem sx={{mt: 0.5}}>
                                             <ListItemButton role='menuitem'
                                                             onClick={() => navigate("/v1/student/unit-registration")}>
