@@ -274,9 +274,9 @@ export default function UnitRegistration() {
                                     render: (status: string) => (
                                         <Tag
                                             color={
-                                                status === "Approved"
+                                                status === "approved"
                                                     ? "green"
-                                                    : status === "Pending"
+                                                    : status === "pending"
                                                         ? "orange"
                                                         : "red"
                                             }>
