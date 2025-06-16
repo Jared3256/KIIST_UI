@@ -12,6 +12,7 @@ const dataToDepartment = (result: any) => {
 
 const dataToCourse = (result: any) => {
 
+
     return result.map((item: any) => ({
         key: item._id,
         code: item.code,
@@ -39,11 +40,15 @@ const dataToTutor = (result: any) => {
 }
 
 const dataToUnits = (result: any) => {
+
+
     return result.map((item: any) => ({
         key: item._id,
         course: item.unit.code,
-        title: item.unit.title,
+        title: "kfgh" || item.unit.title,
         status: item.status,
+        student: item?.student?.fullname,
+        regNumber: item?.student?.regNumber,
     }))
 }
 export {dataToDepartment, dataToCourse, dataToTutor, dataToUnits}

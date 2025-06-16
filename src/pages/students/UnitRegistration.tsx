@@ -37,14 +37,14 @@ export default function UnitRegistration() {
                 hotAxiosPrivate: hotAxiosPrivate,
             });
 
-       
+
             if (data.success) {
                 await GetRegistrations()
                 filterCourse()
             }
 
         } catch (error) {
-            console.log(error)
+
 
         }
 
@@ -76,7 +76,7 @@ export default function UnitRegistration() {
                 filterCourse()
             }
         } catch (e) {
-            console.log(e)
+
         }
     }
 

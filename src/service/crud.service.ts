@@ -82,5 +82,21 @@ export const admin_crud_request = {
             return errorHandler(error);
         }
     },
+    approve: async ({
+                        token, role, entity, jsonData, hotAxiosToken, adminId, regId
+                    }) => {
+        try {
+            const response = await hotAxiosToken.put(`/${entity}/${regId}/${role}/${adminId}/approve`, jsonData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+
+            return response.data
+        } catch (e) {
+            return errorHandler(e);
+        }
+    }
 };
 

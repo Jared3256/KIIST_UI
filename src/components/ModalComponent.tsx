@@ -531,7 +531,7 @@ export default function ModalComponent({
                     </div>
                 );
             case "assignClasses":
-                console.log(selectedItem)
+
                 return (
                     <Form
                         form={form}
