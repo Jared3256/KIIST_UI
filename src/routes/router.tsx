@@ -36,6 +36,9 @@ import AdminCourseApproval from "src/pages/admin/AdminCourseApproval";
 import AdminStudentManagement from "src/pages/admin/AdminStudentManagement.tsx";
 import StudentTranscript from "src/pages/students/student.transcript";
 import UnitRegistration from "src/pages/students/UnitRegistration.tsx";
+import Test1 from "src/pages/test/test1";
+import Test2 from "src/pages/test/test2.tsx";
+import Test3 from "src/pages/test/test3.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -205,7 +208,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <App/>
+                        <Test1/>
                     </>
                 ),
             },

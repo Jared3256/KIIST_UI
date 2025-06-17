@@ -21,6 +21,8 @@ const dataToCourse = (result: any) => {
         credits: item.credits,
         lecturer: item?.lecturer?.name || "N/A",
         courses: item.courses,
+        status: item.status,
+        prerequisites: item.prerequisites,
     }))
 }
 
@@ -51,4 +53,24 @@ const dataToUnits = (result: any) => {
         regNumber: item?.student?.regNumber,
     }))
 }
-export {dataToDepartment, dataToCourse, dataToTutor, dataToUnits}
+
+const courseCodeToCourseId = (courseCodes, courses) => {
+    // const courseIds = courses.map((item: any) => {
+    //     const  courseId = item.courseId
+    //
+    //     if(courseCodes.includes(courseId)) {
+    //         return courseCodes
+    //     }
+    // })
+
+    const ids = []
+    for (const course in courses) {
+        if (courseCodes.includes(courses[course].code)) {
+            ids.push(courses[course].key)
+        }
+
+    }
+    return ids
+
+}
+export {courseCodeToCourseId, dataToDepartment, dataToCourse, dataToTutor, dataToUnits}
