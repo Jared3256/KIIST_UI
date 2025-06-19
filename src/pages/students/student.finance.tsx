@@ -58,7 +58,7 @@ export default function StudentFinance() {
             hotAxiosPrivate: hotAxiosPrivate,
             role: `${current.UserInfo.role}/${current.UserInfo.entity._id}`
         });
-        
+
         if (data.success) {
             setPaymentHistory(dataToPaymentHistory(data.data).slice(-10))
         }
@@ -133,7 +133,7 @@ export default function StudentFinance() {
             dataIndex: "status",
             key: "status",
             render: (status: string) => (
-                <Tag color={status === "Completed" ? "green" : "gold"}>{status}</Tag>
+                <Tag color={status === "cancelled" ? "red" : status === "completed" ? "green" : "red"}>{status}</Tag>
             ),
         },
         // {
