@@ -1,38 +1,111 @@
-import {ClockCircleOutlined, DollarOutlined} from '@ant-design/icons';
-import {DownloadOutlined} from '@mui/icons-material';
-import {Alert, Button, Card, List, Progress, Statistic, Table, Tag, Typography} from 'antd';
-import React, {useState} from 'react'
+import {
+    Alert,
+    Button,
+    Card,
+    Progress,
+    Statistic,
+    Table,
+    Tag,
+    Typography, List
+} from "antd";
+import {useEffect, useState} from "react";
+import * as echarts from "echarts";
+import {
+    ClockCircleOutlined,
+    DollarOutlined,
+    DownloadOutlined,
 
-export default function Test2() {
-    const {Title, Text, Paragraph} = Typography
-    const feeBreakdown = [
-        {item: "Tuition Fee", amount: 35000},
-        {item: "Library Fee", amount: 5000},
-        {item: "Laboratory Fee", amount: 7000},
-        {item: "Student Activity Fee", amount: 3000},
-    ];
+} from "@ant-design/icons";
+import {useDispatch, useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors.ts";
+import {selectFinance} from "src/redux/finance/selectors";
+import {GetFinance} from "src/redux/finance/actions.ts";
+import useAxiosPrivate from "src/service/useAxiosPrivate";
+import {admin_crud_request} from "src/service/crud.service";
+import PaymentModal from "src/components/PaymentModal";
+import {dataToPaymentHistory} from "src/modules/Data.format.ts";
+
+export default function StudentFinance() {
+    const {current} = useSelector(selectAuth)
+    const {currentFinance} = useSelector(selectFinance)
+    const dispatch = useDispatch()
+    const hotAxiosPrivate = useAxiosPrivate()
+    const {Title, Text,} = Typography;
+    const [paymentHistory, setPaymentHistory] = useState([])
+
     const [feeStatus, setFeeStatus] = useState({
-        totalFee: 50000,
-        amountPaid: 7600,
-        percentagePaid: (7600 / 50000) * 100,
+        totalFee: currentFinance.total_fee,
+        amountPaid: currentFinance.amount_paid,
+        percentagePaid: (currentFinance.amountPaid / currentFinance.total_fee) * 100,
         isDefaulter: true,
         weeksPassed: 3,
     });
-    const paymentHistory = [
-        {
-            id: "PMT001",
-            date: "2025-05-05",
-            amount: 10000,
-            method: "Bank Transfer",
-            status: "Completed",
-        },
-        {
-            id: "PMT002",
-            date: "2025-05-20",
-            amount: 5000,
-            method: "Mobile Money",
-            status: "Completed",
-        },
+    const [userRole, setUserRole] = useState<"student" | "staff">("student");
+    const [activeTab, setActiveTab] = useState("dashboard");
+    const [paymentModalVisible, setPaymentModalVisible] = useState(false);
+
+    const [loading, setLoading] = useState(false);
+
+    console.log("Finance", currentFinance)
+    console.log(paymentHistory)
+
+
+// Method to get all the courses available to the school
+    const GetEntity = async (entity) => {
+        const data = await admin_crud_request.list({
+            entity: `${entity}/payment`,
+            token: "token",
+            hotAxiosPrivate: hotAxiosPrivate,
+            role: `${current.UserInfo.role}/${current.UserInfo.entity._id}`
+        });
+
+
+        if (data.success) {
+            setPaymentHistory(dataToPaymentHistory(data.data))
+        }
+
+
+    }
+
+    const checkFinanceStatus = async () => {
+
+        if (current.UserInfo) {
+
+            dispatch(GetFinance({
+                role: current.UserInfo.role,
+                id: current.UserInfo.entity._id,
+                hotAxiosPrivate: hotAxiosPrivate,
+                entity: "finance"
+            }))
+        }
+    }
+    // Initialize charts after component mounts
+    useEffect(() => {
+        setFeeStatus({
+            totalFee: currentFinance.total_fee,
+            amountPaid: currentFinance.amount_paid,
+            percentagePaid: (currentFinance.amountPaid / currentFinance.total_fee) * 100,
+            isDefaulter: true,
+            weeksPassed: 3,
+        })
+    }, [currentFinance]);
+
+    useEffect(() => {
+        const systemChecker = async () => {
+            await checkFinanceStatus()
+            await GetEntity("finance");
+        }
+
+        systemChecker()
+        setLoading(true);
+        setTimeout(() => setLoading(false), 1000);
+    }, []);
+
+
+    const feeBreakdown = [
+        {item: "Tuition Fee", amount: 11500},
+        {item: "Library Fee", amount: 500},
+        {item: "Computer & Internet", amount: 3000},
     ];
     const columns = [
         {
@@ -66,22 +139,24 @@ export default function Test2() {
                 <Tag color={status === "Completed" ? "green" : "gold"}>{status}</Tag>
             ),
         },
-        {
-            title: "Action",
-            key: "action",
-            render: (_: any, record: any) => (
-                <Button
-                    icon={<DownloadOutlined/>}
-                    size="small"
-                    className="!rounded-button whitespace-nowrap cursor-pointer"
-                >
-                    Receipt
-                </Button>
-            ),
-        },
+        // {
+        //     title: "Action",
+        //     key: "action",
+        //     render: (_: any, record: any) => (
+        //         <Button
+        //             icon={<DownloadOutlined/>}
+        //             size="small"
+        //             className="!rounded-button whitespace-nowrap cursor-pointer"
+        //         >
+        //             Receipt
+        //         </Button>
+        //     ),
+        // },
     ];
+
+
     return (
-        <div className="p-6">
+        <div className="p-6 xs:mt-10 sm:mt-10m md:mt-10 lg:mt-0">
             <div className="mb-8">
                 <Title level={3}>Financial Statement</Title>
                 <Text type="secondary">
@@ -156,7 +231,7 @@ export default function Test2() {
                         footer={
                             <div className="flex justify-between font-medium">
                                 <span>Total:</span>
-                                <span>{feeStatus.totalFee.toLocaleString()} KES</span>
+                                <span>{(26000).toLocaleString() || 0} KES</span>
                             </div>
                         }
                     />
@@ -177,6 +252,7 @@ export default function Test2() {
                     />
                     <div className="mt-6">
                         <Button
+                            onClick={() => setPaymentModalVisible(true)}
                             type="primary"
                             size="large"
                             block
@@ -189,14 +265,15 @@ export default function Test2() {
             </div>
             <Card title="Payment History" className="shadow-sm mb-8">
                 <Table
+                    scroll={{x: 'max-content'}}
                     columns={columns}
                     dataSource={paymentHistory}
                     pagination={false}
-                    rowKey="id"
+                    rowKey="key"
                 />
             </Card>
             <Card title="Payment Methods" className="shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="border p-4 rounded-lg hover:shadow-md transition-shadow">
                         <div className="text-xl mb-2 flex items-center">
                             <i className="fas fa-university mr-2 text-blue-600"></i>
@@ -204,16 +281,16 @@ export default function Test2() {
                         </div>
                         <div className="text-sm">
                             <p>
-                                <strong>Bank:</strong> Equity Bank
+                                <strong>Bank:</strong>KCB
                             </p>
                             <p>
-                                <strong>Account Name:</strong> Kisii Impact Institute
+                                <strong>Account Name:</strong> Kisii Impact Institute of Science & Tech
                             </p>
                             <p>
-                                <strong>Account Number:</strong> 0123456789
+                                <strong>Account Number:</strong> 1290698031
                             </p>
                             <p>
-                                <strong>Branch:</strong> Kisii Town
+                                <strong>Branch:</strong> Kisii Branch
                             </p>
                         </div>
                     </div>
@@ -227,38 +304,21 @@ export default function Test2() {
                                 <strong>Service:</strong> M-Pesa
                             </p>
                             <p>
-                                <strong>Business Number:</strong> 123456
+                                <strong>Paybill Number:</strong> 522533
                             </p>
                             <p>
-                                <strong>Account Number:</strong> Your Student ID
+                                <strong>Account Number:</strong> 7521917#{current.UserInfo.fullname}
                             </p>
                             <p>
-                                <strong>Reference:</strong> Your Name
+                                <strong>Reference:</strong> {current.UserInfo.fullname}
                             </p>
                         </div>
                     </div>
-                    <div className="border p-4 rounded-lg hover:shadow-md transition-shadow">
-                        <div className="text-xl mb-2 flex items-center">
-                            <i className="fas fa-credit-card mr-2 text-purple-600"></i>
-                            <span className="font-medium">Online Payment</span>
-                        </div>
-                        <div className="text-sm">
-                            <p>
-                                <strong>Services:</strong> Visa, Mastercard
-                            </p>
-                            <p>
-                                <strong>Process:</strong> Log in to student portal
-                            </p>
-                            <p>
-                                <strong>Fee:</strong> 2% transaction fee applies
-                            </p>
-                            <p>
-                                <strong>Support:</strong> 24/7 available
-                            </p>
-                        </div>
-                    </div>
+
                 </div>
             </Card>
+            <PaymentModal paymentModalVisible={paymentModalVisible}
+                          closePaymentModal={() => setPaymentModalVisible(false)}/>
         </div>
     );
 }

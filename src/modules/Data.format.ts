@@ -1,3 +1,5 @@
+import {format} from 'date-fns';
+
 const dataToDepartment = (result: any) => {
 
     return result.map((department) => ({
@@ -73,4 +75,40 @@ const courseCodeToCourseId = (courseCodes, courses) => {
     return ids
 
 }
-export {courseCodeToCourseId, dataToDepartment, dataToCourse, dataToTutor, dataToUnits}
+
+const dataToStudentDetails = (results) => {
+    return results.map((result: any) => ({
+        key: result._id,
+        regNumber: result.registrationNumber,
+        name: result.personalDetails.firstname + " " + (result.personalDetails.middlename || result.personalDetails.lastname),
+        status: result.suspended ? "Suspended" : "Active"
+    }))
+}
+
+const dataToPaymentHistory = (result: any) => {
+
+    const idChecker = (receiptId) => {
+        if (String(receiptId).length > 10) {
+            return "NAN"
+        } else {
+            return receiptId
+        }
+    }
+    return result.map((item: any) => ({
+        key: item._id,
+        id: idChecker(item.receiptId),
+        date: format(item.paymentDate, 'MMMM dd, yyyy'),
+        amount: item.amount,
+        method: item.payment,
+        status: item.status,
+    }))
+}
+export {
+    dataToPaymentHistory,
+    courseCodeToCourseId,
+    dataToDepartment,
+    dataToStudentDetails,
+    dataToCourse,
+    dataToTutor,
+    dataToUnits
+}

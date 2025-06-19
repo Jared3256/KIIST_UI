@@ -1,4 +1,4 @@
-import {Avatar, Button, Card, Form, Input,Typography, Popconfirm, Select, Space, Table, Tag} from "antd";
+import {Avatar, Button, Card, Form, Input, Typography, Popconfirm, Select, Space, Table, Tag} from "antd";
 import {
     DeleteOutlined,
     EditOutlined,
@@ -8,12 +8,25 @@ import {
     SearchOutlined,
     UnlockOutlined
 } from "@ant-design/icons";
-import React, {useState} from "react";
-import {mockActivities, mockCourses, mockDepartments, mockLecturers, mockRegistrations, mockGrades, mockStudents} from "../../components/landing_page/LandingPAgeBarConstants"
+import React, {useEffect, useState} from "react";
+import {
+    mockActivities,
+    mockCourses,
+    mockDepartments,
+    mockLecturers,
+    mockRegistrations,
+    mockGrades,
+    mockStudents
+} from "../../components/landing_page/LandingPAgeBarConstants"
 import ModalComponent from "src/components/ModalComponent.tsx";
+import {admin_crud_request} from "src/service/crud.service";
+import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
+import {useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors";
+import {dataToStudentDetails} from "src/modules/Data.format";
 
 export default function AdminStudentManagement() {
-    const {Title, Text, Paragraph}  =Typography
+    const {Title, Text, Paragraph} = Typography
     const [searchText, setSearchText] = useState("");
     const {Option} = Select
     const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -22,7 +35,11 @@ export default function AdminStudentManagement() {
     const [modalTitle, setModalTitle] = useState("");
     const [form] = Form.useForm();
 
-    const [students, setStudents] = useState(mockStudents);
+    const {current} = useSelector(selectAuth);
+    const hotAxiosPrivate = useAxiosPrivate()
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [students, setStudents] = useState([]);
     const [lecturers, setLecturers] = useState(mockLecturers);
     const [courses, setCourses] = useState(mockCourses);
     const [departments, setDepartments] = useState(mockDepartments);
@@ -45,32 +62,38 @@ export default function AdminStudentManagement() {
     const handleOk = () => {
         form.submit();
     };
+
     // Handle modal cancel
     const handleCancel = () => {
         setIsModalVisible(false);
     };
+
     // Handle student deletion
-    const handleDeleteStudent = (studentId: number) => {
-        const studentToDelete = students.find((s) => s.id === studentId);
-        setStudents(students.filter((student) => student.id !== studentId));
-        // Add activity
-        if (studentToDelete) {
-            const newActivity = {
-                id: activities.length + 1,
-                action: `Student ${studentToDelete.name} deleted`,
-                user: "Admin",
-                time: "Just now",
-            };
-            setActivities([newActivity, ...activities]);
+    const handleDeleteStudent = async (studentId: string) => {
+        const studentToDelete = students.find((s) => s.key === studentId);
+
+        const data = await admin_crud_request.remove({
+            role: current.UserInfo.role,
+            entity: "student",
+            entityId: studentId,
+            hotAxiosPrivate: hotAxiosPrivate
+
+
+        })
+
+        if (data.success) {
+            setStudents(students.filter((student) => student.key !== studentId));
         }
+
+
     };
 
     // Handle student suspension
     const handleSuspendStudent = (student: any) => {
         setStudents(
             students.map((s) =>
-                s.id === student.id
-                    ? { ...s, status: s.status === "Active" ? "Suspended" : "Active" }
+                s.key === student.key
+                    ? {...s, status: s.status === "Active" ? "Suspended" : "Active"}
                     : s
             )
         );
@@ -91,7 +114,7 @@ export default function AdminStudentManagement() {
             title: "Photo",
             dataIndex: "photo",
             key: "photo",
-            render: (text: string) => <Avatar src={text} size={40} />,
+            render: (text: string) => <Avatar src={text} size={40}/>,
         },
         {
             title: "Reg Number",
@@ -123,7 +146,7 @@ export default function AdminStudentManagement() {
                 <Space size='middle'>
                     <Button
                         type='text'
-                        icon={<EyeOutlined />}
+                        icon={<EyeOutlined/>}
                         className='text-blue-500 hover:text-blue-700 cursor-pointer !rounded-button whitespace-nowrap'
                         onClick={() =>
                             showModal("viewStudent", "Student Details", record)
@@ -131,7 +154,7 @@ export default function AdminStudentManagement() {
                     />
                     <Button
                         type='text'
-                        icon={<EditOutlined />}
+                        icon={<EditOutlined/>}
                         className='text-green-500 hover:text-green-700 cursor-pointer !rounded-button whitespace-nowrap'
                         onClick={() => showModal("editStudent", "Edit Student", record)}
                     />
@@ -139,9 +162,9 @@ export default function AdminStudentManagement() {
                         type='text'
                         icon={
                             record.status === "Active" ? (
-                                <LockOutlined />
+                                <LockOutlined/>
                             ) : (
-                                <UnlockOutlined />
+                                <UnlockOutlined/>
                             )
                         }
                         className={`${
@@ -153,12 +176,12 @@ export default function AdminStudentManagement() {
                     />
                     <Popconfirm
                         title='Are you sure you want to delete this student?'
-                        onConfirm={() => handleDeleteStudent(record.id)}
+                        onConfirm={() => handleDeleteStudent(record.key)}
                         okText='Yes'
                         cancelText='No'>
                         <Button
                             type='text'
-                            icon={<DeleteOutlined />}
+                            icon={<DeleteOutlined/>}
                             className='text-red-500 hover:text-red-700 cursor-pointer !rounded-button whitespace-nowrap'
                         />
                     </Popconfirm>
@@ -166,6 +189,38 @@ export default function AdminStudentManagement() {
             ),
         },
     ];
+
+    // Method to get all the courses available to the school
+    const GetEntity = async (entity) => {
+        const data = await admin_crud_request.list({
+            entity: entity, token: "token", hotAxiosPrivate: hotAxiosPrivate, role: current.UserInfo.role
+        });
+
+        console.log(dataToStudentDetails(data.data))
+        if (data.success) {
+            setStudents(dataToStudentDetails(data.data))
+        }
+        setIsSuccess(data.succes)
+
+    }
+
+    // Function to run on Page load up
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true);
+                await GetEntity("student");
+
+
+            } catch (err) {
+                console.error("Error fetching entities", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
     return (
         <div className='student-management-container'>
             <div className='flex justify-between items-center mb-6'>
@@ -175,20 +230,12 @@ export default function AdminStudentManagement() {
                         Manage all students in the system
                     </Paragraph>
                 </div>
-                <Button
-                    type='primary'
-                    icon={<PlusOutlined />}
-                    size='large'
-                    onClick={() => showModal("addStudent", "Add New Student")}
-                    className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap'>
-                    Add Student
-                </Button>
             </div>
             <div className='mb-6'>
                 <Input
                     placeholder='Search by name or registration number'
-                    prefix={<SearchOutlined className='text-gray-400' />}
-                    // onChange={(e) => setSearchText(e.target.value)}
+                    prefix={<SearchOutlined className='text-gray-400'/>}
+                    onChange={(e) => setSearchText(e.target.value)}
                     className='w-full md:w-1/3 mb-4'
                 />
                 <div className='flex flex-wrap gap-2'>
@@ -203,7 +250,7 @@ export default function AdminStudentManagement() {
                     </Button>
                     <Select
                         placeholder='Filter by Department'
-                        style={{ width: 200 }}
+                        style={{width: 200}}
                         className='ml-auto'>
                         <Option value='all'>All Departments</Option>
                         {departments.map((dept) => (
@@ -216,6 +263,7 @@ export default function AdminStudentManagement() {
             </div>
             <Card className='shadow-md'>
                 <Table
+                    loading={isLoading}
                     columns={columns}
                     dataSource={students.filter(
                         (student) =>
@@ -224,30 +272,30 @@ export default function AdminStudentManagement() {
                                 .toLowerCase()
                                 .includes(searchText.toLowerCase())
                     )}
-                    rowKey='id'
-                    pagination={{ pageSize: 10 }}
+                    rowKey='key'
+                    pagination={{pageSize: 10}}
                 />
             </Card>
 
             <ModalComponent
-            students={students}
-            lecturers={lecturers}
-            modalType={modalType}
-            isModalVisible={isModalVisible}
-            handleOk={handleOk}
-            handleCancel={handleCancel}
-            selectedItem={selectedItem}
-            setCourses={setCourses}
-            setStudents={setStudents}
-            setLecturers={setLecturers}
-            setDepartments={setDepartments}
-            setRegistrations={setRegistrations}
-            setGrades={setGrades}
-            setIsModalVisible={setIsModalVisible}
-            courses={courses}
-            departments={departments}
-registrations={registrations}
-            grades={grades}
+                students={students}
+                lecturers={lecturers}
+                modalType={modalType}
+                isModalVisible={isModalVisible}
+                handleOk={handleOk}
+                handleCancel={handleCancel}
+                selectedItem={selectedItem}
+                setCourses={setCourses}
+                setStudents={setStudents}
+                setLecturers={setLecturers}
+                setDepartments={setDepartments}
+                setRegistrations={setRegistrations}
+                setGrades={setGrades}
+                setIsModalVisible={setIsModalVisible}
+                courses={courses}
+                departments={departments}
+                registrations={registrations}
+                grades={grades}
             />
         </div>
     );

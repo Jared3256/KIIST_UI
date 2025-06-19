@@ -35,7 +35,7 @@ import {MoneyRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
 import {
     BookUser,
-    CalendarCogIcon,
+    CalendarCogIcon, DollarSign,
     GraduationCap,
     Hotel,
     Signature,
@@ -182,13 +182,17 @@ export default function Sidebar() {
                             <GraduationCap/>
                             <i className='fas fa-graduation-cap text-xl'></i>
                         </div>
-                        <Title level={4} className='mb-0 text-blue-500'>
-                            KIIST Ease
-                        </Title>
+                        <div className={"flex items-start flex-col"}>
+                            <Title level={4} className='mb-0 text-blue-500'>
+                                KIIST
+                            </Title>
+                            <Text type='secondary'>
+                                {role === "student" ? "Student" : "Admin"} Portal
+                            </Text>
+                        </div>
+
                     </div>
-                    <Text type='secondary'>
-                        {role === "student" ? "Student" : "Admin"} Portal
-                    </Text>
+
                 </div>
             </Box>
 
@@ -261,7 +265,7 @@ export default function Sidebar() {
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton disabled={true}
+                                        <ListItemButton disabled={false}
                                                         onClick={() =>
                                                             navigate(`/v1/${role}/student-management`)
                                                         }>
@@ -274,48 +278,60 @@ export default function Sidebar() {
                     )}
 
                     {/* Finance Section only visible to the admin */}
-                    {role === "admin" && (
-                        <ListItem nested>
-                            <Toggler
-                                renderToggle={({open, setOpen}) => (
-                                    <ListItemButton
-                                        selected={selected["finance"]}
-                                        onClick={() => setOpen(!open)}>
-                                        <MoneyRounded/>
-                                        <ListItemContent>
-                                            <Typography level='title-sm'>Finance</Typography>
-                                        </ListItemContent>
-                                        <KeyboardArrowDownIcon
-                                            sx={[
-                                                open
-                                                    ? {
-                                                        transform: "rotate(180deg)",
-                                                    }
-                                                    : {
-                                                        transform: "none",
-                                                    },
-                                            ]}
-                                        />
-                                    </ListItemButton>
-                                )}>
-                                <List sx={{gap: 0.5}}>
-                                    <ListItem sx={{mt: 0.5}}>
-                                        <ListItemButton disabled role='menuitem'>
-                                            Expenses
-                                        </ListItemButton>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemButton disabled>Expense Category</ListItemButton>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemButton disabled>Payment Mode</ListItemButton>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemButton disabled>Invoices</ListItemButton>
-                                    </ListItem>
-                                </List>
-                            </Toggler>
+                    {role === "admin" && (<ListItem>
+                            <ListItemButton
+                                onClick={() => {
+                                    selectedHandler("finance");
+                                    navigate(`/v1/${role}/finance`);
+                                }}
+                                selected={selected["finance"]}>
+                                <DollarSign/>
+                                <ListItemContent>
+                                    <Typography level='title-sm'>Finance</Typography>
+                                </ListItemContent>
+                            </ListItemButton>
                         </ListItem>
+                        // <ListItem nested>
+                        //     <Toggler
+                        //         renderToggle={({open, setOpen}) => (
+                        //             <ListItemButton
+                        //                 selected={selected["finance"]}
+                        //                 onClick={() => setOpen(!open)}>
+                        //                 <MoneyRounded/>
+                        //                 <ListItemContent>
+                        //                     <Typography level='title-sm'>Finance</Typography>
+                        //                 </ListItemContent>
+                        //                 <KeyboardArrowDownIcon
+                        //                     sx={[
+                        //                         open
+                        //                             ? {
+                        //                                 transform: "rotate(180deg)",
+                        //                             }
+                        //                             : {
+                        //                                 transform: "none",
+                        //                             },
+                        //                     ]}
+                        //                 />
+                        //             </ListItemButton>
+                        //         )}>
+                        //         <List sx={{gap: 0.5}}>
+                        //             <ListItem sx={{mt: 0.5}}>
+                        //                 <ListItemButton disabled role='menuitem'>
+                        //                     Expenses
+                        //                 </ListItemButton>
+                        //             </ListItem>
+                        //             <ListItem>
+                        //                 <ListItemButton disabled>Expense Category</ListItemButton>
+                        //             </ListItem>
+                        //             <ListItem>
+                        //                 <ListItemButton disabled>Payment Mode</ListItemButton>
+                        //             </ListItem>
+                        //             <ListItem>
+                        //                 <ListItemButton disabled>Invoices</ListItemButton>
+                        //             </ListItem>
+                        //         </List>
+                        //     </Toggler>
+                        // </ListItem>
                     )}
 
                     {/* Programmes only for the admin and tutors */}
@@ -395,8 +411,8 @@ export default function Sidebar() {
                                             </ListItemButton>
                                         </ListItem>
                                         <ListItem>
-                                            <ListItemButton
-                                                onClick={() => navigate("/v1/student/transcripts")}>
+                                            <ListItemButton disabled={true}
+                                                            onClick={() => navigate("/v1/student/transcripts")}>
                                                 Transcripts
                                             </ListItemButton>
                                         </ListItem>

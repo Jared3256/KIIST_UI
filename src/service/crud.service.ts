@@ -2,6 +2,15 @@ import errorHandler from "src/handlers/errorHandler";
 
 
 export const admin_crud_request = {
+    student_pay: async ({data, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.post("/payment/stkpush", data)
+            return response.data
+
+        } catch (error) {
+            return errorHandler(error);
+        }
+    },
     post: async ({role, token, entity, jsonData, hotAxiosPrivate}) => {
         try {
 
@@ -41,6 +50,14 @@ export const admin_crud_request = {
     list_spc: async ({role, entity, id, hotAxiosPrivate}) => {
         try {
             const response = await hotAxiosPrivate.get(`/${entity}/${role}/${id}/list`);
+            return response.data;
+        } catch (error) {
+            return errorHandler(error);
+        }
+    },
+    finance_get: async ({role, entity, id, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.get(`/${role}/${id}/${entity}/get-info`);
             return response.data;
         } catch (error) {
             return errorHandler(error);

@@ -4,9 +4,6 @@ import PageLayout from "../pages/layout/PageLayout";
 import AuthModule from "../modules/Auth.module";
 import Loginv2 from "../pages/auth/new_login";
 import LandingPage from "src/pages/landing_page/LandingPage";
-import Dashboard from "src/pages/dashboard/Dashboard";
-import GlobalSideBar from "src/modules/GlobalSideBar";
-import GlobalHeader from "src/modules/GlobalHeader";
 import PersistAccess from "src/security/PersistAccess";
 import Home from "src/pages/home/home";
 import LandingHome from "src/pages/landing_page/modules/admission";
@@ -15,9 +12,8 @@ import AdmissionStatus from "src/pages/landing_page/modules/admission/status";
 import AdmissionForms from "src/pages/landing_page/modules/admission/forms";
 import RegisterStudent from "src/pages/landing_page/modules/admission/new student/register";
 import StudentChecker from "src/security/StudentChecker.tsx";
-import StudentFinance from "src/pages/academics/finance/Finance.tsx";
 import Courses from "src/components/landing_page/courses";
-import Finance from "src/pages/finance/finance";
+import StudentFinance from "src/pages/students/student.finance.tsx";
 import Offline from "src/pages/offline/offline";
 import StudentDashboard from "src/pages/students/student.dashboard";
 import StudentClasses from "src/pages/students/student.classes";
@@ -39,6 +35,8 @@ import UnitRegistration from "src/pages/students/UnitRegistration.tsx";
 import Test1 from "src/pages/test/test1";
 import Test2 from "src/pages/test/test2.tsx";
 import Test3 from "src/pages/test/test3.tsx";
+import AdminFinance from "src/pages/admin/AdminFinance.tsx";
+import StudentSuspended from "src/pages/students/student.suspended";
 
 const system_routes = createBrowserRouter([
     {
@@ -150,7 +148,10 @@ const system_routes = createBrowserRouter([
                             {
                                 path: "student-management",
                                 element: <AdminStudentManagement/>,
-                            },
+                            }, {
+                                path: "finance",
+                                element: <AdminFinance/>
+                            }
                         ],
                     },
                     {
@@ -171,7 +172,7 @@ const system_routes = createBrowserRouter([
                             },
                             {
                                 path: "finance",
-                                element: <Finance/>,
+                                element: <StudentFinance/>,
                             },
                             {
                                 path: "classes",
@@ -205,10 +206,14 @@ const system_routes = createBrowserRouter([
                 element: <Offline/>,
             },
             {
+                path: "suspended",
+                element: <StudentSuspended/>
+            },
+            {
                 path: "test",
                 element: (
                     <>
-                        <Test1/>
+                        <AdminFinance/>
                     </>
                 ),
             },
