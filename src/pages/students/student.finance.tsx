@@ -133,7 +133,7 @@ export default function StudentFinance() {
             dataIndex: "status",
             key: "status",
             render: (status: string) => (
-                <Tag color={status === "cancelled" ? "red" : status === "completed" ? "green" : "red"}>{status}</Tag>
+                <Tag color={status === "cancelled" ? "red" : status === "completed" ? "green" : "gold"}>{status}</Tag>
             ),
         },
         // {
