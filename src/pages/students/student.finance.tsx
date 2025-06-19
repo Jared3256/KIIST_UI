@@ -58,13 +58,10 @@ export default function StudentFinance() {
             hotAxiosPrivate: hotAxiosPrivate,
             role: `${current.UserInfo.role}/${current.UserInfo.entity._id}`
         });
-
-
+        
         if (data.success) {
-            setPaymentHistory(dataToPaymentHistory(data.data))
+            setPaymentHistory(dataToPaymentHistory(data.data).slice(-10))
         }
-
-
     }
 
     const checkFinanceStatus = async () => {
