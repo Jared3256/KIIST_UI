@@ -1,4 +1,4 @@
-import {createBrowserRouter, Navigate} from "react-router";
+import {createBrowserRouter, Navigate, Outlet} from "react-router";
 
 import PageLayout from "../pages/layout/PageLayout";
 import AuthModule from "../modules/Auth.module";
@@ -37,6 +37,12 @@ import Test2 from "src/pages/test/test2.tsx";
 import Test3 from "src/pages/test/test3.tsx";
 import AdminFinance from "src/pages/admin/AdminFinance.tsx";
 import StudentSuspended from "src/pages/students/student.suspended";
+import Test4 from "src/pages/test/test4.tsx";
+import SessionReporting from "src/pages/students/SessionReporting";
+import AdminSessionManager from "src/pages/admin/session/admin.session.manager";
+import AdminSessionStudentOverride from "src/pages/admin/session/admin.session.student.override";
+import AdminSessionStudent from "src/pages/admin/session/admin.session.student";
+import AdminSessionActivityLog from "src/pages/admin/session/admin.session.activity.log.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -151,6 +157,29 @@ const system_routes = createBrowserRouter([
                             }, {
                                 path: "finance",
                                 element: <AdminFinance/>
+                            }, {
+                                path: "session",
+                                element: <Outlet/>,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <Navigate to={"/v1/admin/session/session-manager"} replace/>
+                                    },
+                                    {
+                                        path: "session-manager",
+                                        element: <AdminSessionManager/>
+                                    },
+                                    {
+                                        path: "student-override",
+                                        element: <AdminSessionStudentOverride/>
+                                    }, {
+                                        path: "students",
+                                        element: <AdminSessionStudent/>
+                                    }, {
+                                        path: "activity-log",
+                                        element: <AdminSessionActivityLog/>
+                                    }
+                                ]
                             }
                         ],
                     },
@@ -196,6 +225,9 @@ const system_routes = createBrowserRouter([
                             }, {
                                 path: "unit-registration",
                                 element: <UnitRegistration/>
+                            }, {
+                                path: "session-reporting",
+                                element: <SessionReporting/>
                             }
                         ],
                     },
@@ -213,7 +245,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <AdminFinance/>
+                        <Test4/>
                     </>
                 ),
             },

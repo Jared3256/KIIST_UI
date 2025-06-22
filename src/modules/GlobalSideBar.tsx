@@ -31,14 +31,13 @@ import {closeSidebar} from "./utils";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAuth} from "src/redux/auth/selectors";
 import {Avatar, Layout, Typography as AntTypography} from "antd";
-import {MoneyRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
 import {
     BookUser,
     CalendarCogIcon, DollarSign,
     GraduationCap,
     Hotel,
-    Signature,
+    Signature, ClipboardList
 } from "lucide-react";
 import {logout} from "src/redux/auth/actions";
 import {studentData} from "./mockdata";
@@ -375,6 +374,60 @@ export default function Sidebar() {
                             </Toggler>
                         </ListItem>
                     )}
+                    {/* session only for the admin and tutors */}
+                    {(role === "admin") && (
+                        <ListItem nested>
+                            <Toggler
+                                renderToggle={({open, setOpen}) => (
+                                    <ListItemButton
+                                        selected={selected["programmes"]}
+                                        onClick={() => setOpen(!open)}>
+                                        <ClipboardList/>
+                                        <ListItemContent>
+                                            <Typography level='title-sm'>Session Management</Typography>
+                                        </ListItemContent>
+                                        <KeyboardArrowDownIcon
+                                            sx={[
+                                                open
+                                                    ? {
+                                                        transform: "rotate(180deg)",
+                                                    }
+                                                    : {
+                                                        transform: "none",
+                                                    },
+                                            ]}
+                                        />
+                                    </ListItemButton>
+                                )}>
+                                <List sx={{gap: 0.5}}>
+                                    <ListItem sx={{mt: 0.5}}>
+                                        <ListItemButton
+                                            onClick={() => navigate(`/v1/${role}/session/session-manager`)}
+                                            role='menuitem'>
+                                            Session manager
+                                        </ListItemButton>
+                                    </ListItem>
+
+                                    <ListItem>
+                                        <ListItemButton
+                                            onClick={() => navigate(`/v1/${role}/session/student-override`)}>Student
+                                            Override</ListItemButton>
+                                    </ListItem>
+
+                                    <ListItem>
+                                        <ListItemButton disabled={true}
+                                                        onClick={() => navigate(`/v1/${role}/session/activity-log`)}>Activity
+                                            Log</ListItemButton>
+                                    </ListItem>
+
+                                    <ListItem>
+                                        <ListItemButton
+                                            onClick={() => navigate(`/v1/${role}/session/students`)}>Students</ListItemButton>
+                                    </ListItem>
+                                </List>
+                            </Toggler>
+                        </ListItem>
+                    )}
 
                     {/* Academics only for students */}
                     {role === "student" && (
@@ -449,6 +502,12 @@ export default function Sidebar() {
                                         </ListItemButton>
                                     )}>
                                     <List sx={{gap: 0.5}}>
+                                        <ListItem sx={{mt: 0.5}}>
+                                            <ListItemButton role='menuitem'
+                                                            onClick={() => navigate("/v1/student/session-reporting")}>
+                                                Reporting Session
+                                            </ListItemButton>
+                                        </ListItem>
                                         <ListItem sx={{mt: 0.5}}>
                                             <ListItemButton role='menuitem' disabled>
                                                 Defferement

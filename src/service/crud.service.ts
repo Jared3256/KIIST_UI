@@ -11,6 +11,16 @@ export const admin_crud_request = {
             return errorHandler(error);
         }
     },
+    put_spc: async ({data, url, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.put(url, data)
+
+            return response.data
+        } catch (error) {
+
+            return errorHandler(error);
+        }
+    },
     post: async ({role, token, entity, jsonData, hotAxiosPrivate}) => {
         try {
 
@@ -31,12 +41,29 @@ export const admin_crud_request = {
             return errorHandler(error);
         }
     },
+    post_spc: async ({data, url, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.post(url, data)
+            return response.data
+        } catch (error) {
+            return errorHandler(error);
+        }
+    },
     get: async ({role, entity, adminId, entityId, hotAxiosPrivate}) => {
         try {
             const response = await hotAxiosPrivate.get(`/${role}/${adminId}/${entity}/${entityId}/get`,);
             return response.data;
         } catch (error) {
             return errorHandler(error);
+        }
+    },
+    get_spc: async ({url, hotAxiosPrivate}) => {
+        try {
+            const response = await hotAxiosPrivate.get(url);
+
+            return response.data
+        } catch (e) {
+            return errorHandler(e);
         }
     },
     list: async ({role, entity, options, token, hotAxiosPrivate}) => {

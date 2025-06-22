@@ -14,6 +14,9 @@ export const GetFinance = ({role, id, hotAxiosPrivate, entity}) => async (dispat
         role: role,
     })
 
+    console.log(data.data)
+
+
     if (data.success) {
         const userData = data.data
 
