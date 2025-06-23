@@ -36,7 +36,7 @@ export default function StudentFinance() {
     const [feeStatus, setFeeStatus] = useState({
         totalFee: currentFinance.total_fee,
         amountPaid: currentFinance.amount_paid,
-        percentagePaid: (currentFinance.amountPaid / currentFinance.total_fee) * 100,
+        percentagePaid: (currentFinance.amount_paid / currentFinance.total_fee) * 100,
         isDefaulter: true,
         weeksPassed: 3,
     });
@@ -78,7 +78,7 @@ export default function StudentFinance() {
         setFeeStatus({
             totalFee: currentFinance.total_fee,
             amountPaid: currentFinance.amount_paid,
-            percentagePaid: (currentFinance.amountPaid / currentFinance.total_fee) * 100,
+            percentagePaid: (currentFinance.amount_paid / currentFinance.total_fee) * 100,
             isDefaulter: true,
             weeksPassed: 3,
         })
