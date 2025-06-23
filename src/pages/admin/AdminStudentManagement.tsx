@@ -196,7 +196,7 @@ export default function AdminStudentManagement() {
             entity: entity, token: "token", hotAxiosPrivate: hotAxiosPrivate, role: current.UserInfo.role
         });
 
-        console.log(dataToStudentDetails(data.data))
+
         if (data.success) {
             setStudents(dataToStudentDetails(data.data))
         }

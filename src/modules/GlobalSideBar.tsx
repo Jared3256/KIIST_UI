@@ -414,11 +414,11 @@ export default function Sidebar() {
                                             Override</ListItemButton>
                                     </ListItem>
 
-                                    <ListItem>
-                                        <ListItemButton disabled={true}
-                                                        onClick={() => navigate(`/v1/${role}/session/activity-log`)}>Activity
-                                            Log</ListItemButton>
-                                    </ListItem>
+                                    {/*<ListItem>*/}
+                                    {/*    <ListItemButton disabled={true}*/}
+                                    {/*                    onClick={() => navigate(`/v1/${role}/session/activity-log`)}>Activity*/}
+                                    {/*        Log</ListItemButton>*/}
+                                    {/*</ListItem>*/}
 
                                     <ListItem>
                                         <ListItemButton

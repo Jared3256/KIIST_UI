@@ -17,7 +17,6 @@ export default function PaymentModal({paymentModalVisible, closePaymentModal}) {
     const hotAxiosPrivate = useAxiosPrivate()
 
     const handlePayment = async () => {
-        console.log(usePhone, userAmount)
 
         if (payFull) {
             setUserAmount(currentFinance.total_fee - currentFinance.amount_paid)

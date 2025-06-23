@@ -136,7 +136,6 @@ export default function UnitRegistration() {
     //Handle course selection
     const handleCourseSelection = (courseCode: string) => {
 
-        console.log(courseCode)
 
         if (selectedCourses.includes(courseCode)) {
             setSelectedCourses(

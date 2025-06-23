@@ -46,9 +46,6 @@ export default function StudentFinance() {
 
     const [loading, setLoading] = useState(false);
 
-    console.log("Finance", currentFinance)
-    console.log(paymentHistory)
-
 
 // Method to get all the courses available to the school
     const GetEntity = async (entity) => {

@@ -98,7 +98,6 @@ export default function SessionReporting() {
             hotAxiosPrivate: hotAxiosPrivate
         })
 
-        console.log(data)
 
         if (data.success) {
             setSessionFound(true);
@@ -135,7 +134,7 @@ export default function SessionReporting() {
                 setSemesterReporting(data.data)
             }
         } catch (e) {
-            console.log(e)
+
 
         }
     }

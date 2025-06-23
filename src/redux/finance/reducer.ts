@@ -17,8 +17,6 @@ const financeReducer = (state = INITIAL_STATE, action) => {
             };
 
         case actionTypes.FINANCE_REQUEST_SUCCESS:
-            console.log("Setting data")
-            console.log(action.payload)
 
 
             return {

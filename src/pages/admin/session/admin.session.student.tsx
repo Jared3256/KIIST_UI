@@ -1,14 +1,24 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Card, Table, Tabs, Typography} from "antd";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.manager.tsx";
+import useAxiosPrivate from 'src/service/useAxiosPrivate';
+import {useSelector} from 'react-redux';
+import {selectAuth} from 'src/redux/auth/selectors';
+import {dataToNotReportingHistory, dataToReportingHistory} from "src/modules/Data.format.ts";
 
 export default function AdminSessionStudent() {
+    const hotAxiosPrivate = useAxiosPrivate()
+    const {current} = useSelector(selectAuth)
     const {Title} = Typography
     const {TabPane} = Tabs;
+    const [loading, setLoading] = useState(false)
+
 
     const reportedColumns = [
         {
             title: "ID",
-            dataIndex: "id",
+            dataIndex: "regNumber",
             key: "id",
         },
         {
@@ -31,7 +41,7 @@ export default function AdminSessionStudent() {
     const pendingColumns = [
         {
             title: "ID",
-            dataIndex: "id",
+            dataIndex: "regNumber",
             key: "id",
         },
         {
@@ -44,11 +54,11 @@ export default function AdminSessionStudent() {
             dataIndex: "course",
             key: "course",
         },
-        {
-            title: "Year",
-            dataIndex: "year",
-            key: "year",
-        },
+        // {
+        //     title: "Year",
+        //     dataIndex: "year",
+        //     key: "year",
+        // },
         {
             title: "Action",
             key: "action",
@@ -67,70 +77,42 @@ export default function AdminSessionStudent() {
             ),
         },
     ];
-    const reportedStudents = [
-        {
-            id: "STU2023002",
-            name: "Alice Johnson",
-            reportDate: "2025-06-15",
-            amount: 45000,
-        },
-        {
-            id: "STU2023003",
-            name: "Robert Williams",
-            reportDate: "2025-06-16",
-            amount: 45000,
-        },
-        {
-            id: "STU2023004",
-            name: "Emily Davis",
-            reportDate: "2025-06-17",
-            amount: 45000,
-        },
-        {
-            id: "STU2023005",
-            name: "Michael Brown",
-            reportDate: "2025-06-18",
-            amount: 45000,
-        },
-        {
-            id: "STU2023006",
-            name: "Sarah Miller",
-            reportDate: "2025-06-19",
-            amount: 45000,
-        },
-    ];
-    const pendingStudents = [
-        {
-            id: "STU2023001",
-            name: "John Smith",
-            course: "Bachelor of Computer Science",
-            year: 3,
-        },
-        {
-            id: "STU2023007",
-            name: "David Wilson",
-            course: "Bachelor of Business Administration",
-            year: 2,
-        },
-        {
-            id: "STU2023008",
-            name: "Jennifer Lee",
-            course: "Bachelor of Education",
-            year: 4,
-        },
-        {
-            id: "STU2023009",
-            name: "Thomas Anderson",
-            course: "Bachelor of Engineering",
-            year: 1,
-        },
-        {
-            id: "STU2023010",
-            name: "Jessica Taylor",
-            course: "Bachelor of Arts",
-            year: 3,
-        },
-    ];
+
+    const [reportedStudent, setReportedStudents] = useState([])
+    const [pendingStudents, setpendingStudents] = useState([])
+
+    const getStudent = async (status) => {
+        try {
+            const data = await admin_crud_request.get_spc({
+                url: `/admin/${current.UserInfo.id}/session/reporting-history?status=${status}&semester=${getCurrentSemesterName()}`,
+                hotAxiosPrivate: hotAxiosPrivate
+            })
+
+            if (data.success && status === "reported") {
+                setReportedStudents(dataToReportingHistory(data.data))
+
+
+            }
+            if (data.success && status === "not reported") {
+                setpendingStudents(dataToNotReportingHistory(data.data))
+
+            }
+
+        } catch (e) {
+
+        }
+    }
+
+    useEffect(() => {
+        const systemChecker = async () => {
+            setLoading(true)
+            await getStudent("reported")
+            await getStudent("not reported")
+            setLoading(false)
+        }
+
+        systemChecker()
+    }, []);
     return (
         <div>
             <Title level={3}>Students</Title>
@@ -138,7 +120,8 @@ export default function AdminSessionStudent() {
                 <TabPane tab="Reported Students" key="1">
                     <Card className="shadow-sm">
                         <Table
-                            dataSource={reportedStudents}
+                            loading={loading}
+                            dataSource={reportedStudent}
                             columns={reportedColumns}
                             pagination={{pageSize: 10}}
                         />
@@ -147,6 +130,7 @@ export default function AdminSessionStudent() {
                 <TabPane tab="Pending Students" key="2">
                     <Card className="shadow-sm">
                         <Table
+                            loading={loading}
                             dataSource={pendingStudents}
                             columns={pendingColumns}
                             pagination={{pageSize: 10}}

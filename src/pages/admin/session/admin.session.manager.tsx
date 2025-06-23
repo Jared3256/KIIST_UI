@@ -123,7 +123,6 @@ export default function AdminSessionManager() {
             hotAxiosPrivate: hotAxiosPrivate
         })
 
-        console.log(data)
 
         if (data.success) {
             setSessionFound(true);

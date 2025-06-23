@@ -103,7 +103,41 @@ const dataToPaymentHistory = (result: any) => {
         status: item.status,
     }))
 }
+const dataToReportingHistory = (result: any) => {
+
+    return result.map((item: any) => ({
+        key: item._id,
+        regNumber: item.student.registrationNumber,
+        name: item.student.personalDetails.firstname + " " + (item.student.personalDetails.middlename || item?.student.personalDetails?.lastname),
+        reportDate: format(item.reportingDate, 'EEEE, LLLL do yyyy'), //format("MMMM dd, yyyy", new Date(item.reportingDate)),
+        amount: item.feeStatus.total_fee - item.feeStatus.amount_paid
+    }))
+}
+
+const dataToNotReportingHistory = (result: any) => {
+
+    return result.map((item: any) => ({
+        id: item._id,
+        regNumber: item.registrationNumber,
+        name: item.personalDetails.firstname + " " + (item.personalDetails.middlename || item?.personalDetails?.lastname),
+        course: item.programSelection.main.program
+    }))
+}
+
+const dataToStudentOverride = (result: any) => {
+
+    return result.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        overrideDate: format(item.overrideDate, 'EEEE, LLLL do yyyy'),
+        processedBy: item.processedBy,
+        reason: item.reason,
+    }))
+}
 export {
+    dataToStudentOverride,
+    dataToReportingHistory,
+    dataToNotReportingHistory,
     dataToPaymentHistory,
     courseCodeToCourseId,
     dataToDepartment,

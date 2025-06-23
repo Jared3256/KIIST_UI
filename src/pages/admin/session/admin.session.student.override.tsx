@@ -1,14 +1,23 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Card, Divider, Form, Input, message, Modal, Table, Tag, Typography} from "antd";
 import {ExclamationCircleOutlined, SearchOutlined} from "@ant-design/icons";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.manager.tsx";
+import {dataToNotReportingHistory, dataToReportingHistory, dataToStudentOverride} from "src/modules/Data.format.ts";
+import {useSelector} from 'react-redux';
+import {selectAuth} from 'src/redux/auth/selectors';
+import useAxiosPrivate from 'src/service/useAxiosPrivate';
 
 export default function AdminSessionStudentOverride() {
     const {Title, Text} = Typography
-
+    const {current} = useSelector(selectAuth)
+    const [loading, setLoading] = useState(false)
+    const [pendingStudents, setpendingStudents] = useState([])
+    const [overridenStudent, setOverridenStudent] = useState([])
     const pendingColumns = [
         {
             title: "ID",
-            dataIndex: "id",
+            dataIndex: "regNumber",
             key: "id",
         },
         {
@@ -21,11 +30,7 @@ export default function AdminSessionStudentOverride() {
             dataIndex: "course",
             key: "course",
         },
-        {
-            title: "Year",
-            dataIndex: "year",
-            key: "year",
-        },
+
         {
             title: "Action",
             key: "action",
@@ -44,51 +49,45 @@ export default function AdminSessionStudentOverride() {
             ),
         },
     ];
-    const pendingStudents = [
-        {
-            id: "STU2023001",
-            name: "John Smith",
-            course: "Bachelor of Computer Science",
-            year: 3,
-        },
-        {
-            id: "STU2023007",
-            name: "David Wilson",
-            course: "Bachelor of Business Administration",
-            year: 2,
-        },
-        {
-            id: "STU2023008",
-            name: "Jennifer Lee",
-            course: "Bachelor of Education",
-            year: 4,
-        },
-        {
-            id: "STU2023009",
-            name: "Thomas Anderson",
-            course: "Bachelor of Engineering",
-            year: 1,
-        },
-        {
-            id: "STU2023010",
-            name: "Jessica Taylor",
-            course: "Bachelor of Arts",
-            year: 3,
-        },
-    ];
     const [selectedStudent, setSelectedStudent] = useState<any>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [showOverrideModal, setShowOverrideModal] = useState(false);
     const [overrideReason, setOverrideReason] = useState("");
+    const hotAxiosPrivate = useAxiosPrivate()
 
-    const confirmManualReport = () => {
+    const confirmManualReport = async () => {
         if (!overrideReason.trim()) {
             message.error("Please provide a reason for manual reporting");
             return;
         }
-        message.success(
-            `Student ${selectedStudent.name} has been manually reported for the semester`,
-        );
+
+        try {
+            const req_data = {
+                currentSemester: getCurrentSemesterName(),
+                regNumber: selectedStudent.regNumber,
+                name: selectedStudent.name,
+                reason: overrideReason
+            }
+
+            const data = await admin_crud_request.post_spc({
+                hotAxiosPrivate: hotAxiosPrivate,
+                data: req_data,
+                url: `/admin/${selectedStudent.id}/session/student/override`
+            })
+
+
+            if (data.success) {
+                message.success(
+                    `Student ${selectedStudent.name} has been manually reported for the semester`,
+                );
+                await systemChecker()
+
+            }
+        } catch (e) {
+
+        }
+
+
         setShowOverrideModal(false);
         setOverrideReason("");
         setSelectedStudent(null);
@@ -116,6 +115,49 @@ export default function AdminSessionStudentOverride() {
             message.error("Please select a student first");
         }
     };
+
+    const getStudent = async (status) => {
+        try {
+            const data = await admin_crud_request.get_spc({
+                url: `/admin/${current.UserInfo.id}/session/reporting-history?status=${status}&semester=${getCurrentSemesterName()}`,
+                hotAxiosPrivate: hotAxiosPrivate
+            })
+
+            if (data.success && status === "not reported") {
+                setpendingStudents(dataToNotReportingHistory(data.data))
+
+            }
+
+        } catch (e) {
+
+        }
+    }
+
+    const getOverridenSession = async () => {
+        try {
+            const data = await admin_crud_request.get_spc({
+                url: `/admin/session/override/list?semester=${getCurrentSemesterName()}`,
+                hotAxiosPrivate: hotAxiosPrivate
+            })
+
+            if (data.success) {
+                setOverridenStudent(dataToStudentOverride(data.data))
+            }
+        } catch (e) {
+            
+        }
+    }
+
+    const systemChecker = async () => {
+        setLoading(true)
+        await getStudent("not reported")
+        await getOverridenSession()
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        systemChecker()
+    }, []);
     return (
         <div>
             <Title level={3}>Student Reporting Override</Title>
@@ -142,7 +184,7 @@ export default function AdminSessionStudentOverride() {
                         <Title level={5}>Selected Student</Title>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <Text strong>ID:</Text> {selectedStudent.id}
+                                <Text strong>ID:</Text> {selectedStudent.regNumber}
                             </div>
                             <div>
                                 <Text strong>Name:</Text> {selectedStudent.name}
@@ -151,7 +193,7 @@ export default function AdminSessionStudentOverride() {
                                 <Text strong>Course:</Text> {selectedStudent.course}
                             </div>
                             <div>
-                                <Text strong>Year:</Text> {selectedStudent.year}
+                                <Text strong>Year:</Text> {new Date().getUTCFullYear()}
                             </div>
                             <div>
                                 <Text strong>Status:</Text>{" "}
@@ -172,6 +214,7 @@ export default function AdminSessionStudentOverride() {
                 <Divider/>
                 <Title level={5}>Students Pending Reporting</Title>
                 <Table
+                    loading={loading}
                     dataSource={pendingStudents}
                     columns={pendingColumns}
                     pagination={{pageSize: 5}}
@@ -180,28 +223,15 @@ export default function AdminSessionStudentOverride() {
             </Card>
             <Card title="Recently Overridden Students" className="shadow-sm">
                 <Table
-                    dataSource={[
-                        {
-                            id: "STU2023011",
-                            name: "James Wilson",
-                            date: "2025-06-15",
-                            reason: "Technical issues during reporting period",
-                            by: "Admin",
-                        },
-                        {
-                            id: "STU2023012",
-                            name: "Mary Johnson",
-                            date: "2025-06-14",
-                            reason: "Student was hospitalized",
-                            by: "Admin",
-                        },
-                    ]}
+                    loading={loading}
+
+                    dataSource={overridenStudent}
                     columns={[
                         {title: "Student ID", dataIndex: "id", key: "id"},
                         {title: "Name", dataIndex: "name", key: "name"},
-                        {title: "Override Date", dataIndex: "date", key: "date"},
+                        {title: "Override Date", dataIndex: "overrideDate", key: "date"},
                         {title: "Reason", dataIndex: "reason", key: "reason"},
-                        {title: "Processed By", dataIndex: "by", key: "by"},
+                        {title: "Processed By", dataIndex: "processedBy", key: "by"},
                     ]}
                     pagination={{pageSize: 5}}
                 />
@@ -222,7 +252,7 @@ export default function AdminSessionStudentOverride() {
                     <div className="py-4">
                         <p className="mb-4">You are about to manually report student:</p>
                         <p>
-                            <strong>ID:</strong> {selectedStudent.id}
+                            <strong>ID:</strong> {selectedStudent.regNumber}
                         </p>
                         <p>
                             <strong>Name:</strong> {selectedStudent.name}

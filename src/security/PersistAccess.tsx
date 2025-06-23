@@ -31,7 +31,7 @@ export default function PersistAccess() {
 
     const checkSuspensionStatus = async () => {
         if (current?.UserInfo?.entity?.suspended) {
-            console.log("suspended");
+
             navigate("/suspended", {
                 replace: true
             })

@@ -14,13 +14,10 @@ export const GetFinance = ({role, id, hotAxiosPrivate, entity}) => async (dispat
         role: role,
     })
 
-    console.log(data.data)
-
 
     if (data.success) {
         const userData = data.data
 
-        console.log(userData)
 
         dispatch({
             type: actionTypes.FINANCE_REQUEST_SUCCESS,

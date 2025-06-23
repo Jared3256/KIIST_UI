@@ -37,7 +37,6 @@ export default function AdminFinance() {
     const [activeFinanceTab, setActiveFinanceTab] = useState("overview");
     const {current} = useSelector(selectAuth)
 
-    console.log(current)
 
     const renderFinanceOverview = () => {
         return (
