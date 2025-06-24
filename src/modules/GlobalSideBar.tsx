@@ -367,6 +367,14 @@ export default function Sidebar() {
                                         </ListItemButton>
                                     </ListItem>
 
+                                    <ListItem sx={{mt: 0.5}}>
+                                        <ListItemButton
+                                            onClick={() => navigate(`/v1/${role}/grade-management`)}
+                                            role='menuitem'>
+                                            Grade Management
+                                        </ListItemButton>
+                                    </ListItem>
+
                                     <ListItem>
                                         <ListItemButton disabled>Schedule</ListItemButton>
                                     </ListItem>
@@ -510,13 +518,13 @@ export default function Sidebar() {
                                         </ListItem>
                                         <ListItem sx={{mt: 0.5}}>
                                             <ListItemButton role='menuitem' disabled>
-                                                Defferement
+                                                Deferment
                                             </ListItemButton>
                                         </ListItem>
                                         <ListItem sx={{mt: 0.5}}>
                                             <ListItemButton role='menuitem' disabled={true}
                                                             onClick={() => navigate("/v1/student/unit-registration")}>
-                                                Industrial Attachement
+                                                Industrial Attachment
                                             </ListItemButton>
                                         </ListItem>
                                     </List>

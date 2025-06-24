@@ -134,7 +134,19 @@ const dataToStudentOverride = (result: any) => {
         reason: item.reason,
     }))
 }
+
+
+const dataToGradeManagementCourses = (result: any) => {
+    console.log(result)
+
+    return result.map((item: any) => ({
+        id: item._id,
+        title: item.title,
+        code: item.code,
+    }))
+}
 export {
+    dataToGradeManagementCourses,
     dataToStudentOverride,
     dataToReportingHistory,
     dataToNotReportingHistory,

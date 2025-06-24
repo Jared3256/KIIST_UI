@@ -43,6 +43,7 @@ import AdminSessionManager from "src/pages/admin/session/admin.session.manager";
 import AdminSessionStudentOverride from "src/pages/admin/session/admin.session.student.override";
 import AdminSessionStudent from "src/pages/admin/session/admin.session.student";
 import AdminSessionActivityLog from "src/pages/admin/session/admin.session.activity.log.tsx";
+import AdminGradeManagement from "src/pages/admin/AdminGradeManagement.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -138,6 +139,10 @@ const system_routes = createBrowserRouter([
                             {
                                 path: "course",
                                 element: <CourseManagement/>,
+                            },
+                            {
+                                path: "grade-management",
+                                element: <AdminGradeManagement/>
                             },
                             {
                                 path: "dashboard",
@@ -245,7 +250,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <Test4/>
+                        <AdminGradeManagement/>
                     </>
                 ),
             },
