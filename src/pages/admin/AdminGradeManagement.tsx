@@ -106,17 +106,18 @@ export default function AdminGradeManagement() {
 
     // Calculate grade from total
     const calculateGrade = (total: number) => {
-        if (total >= 80) return "A";
-        if (total >= 70) return "B";
-        if (total >= 60) return "C";
-        if (total >= 50) return "D";
-        return "F";
+        if (total >= 80) return "Distinction 1";
+        if (total >= 70) return "Distinction 2";
+        if (total >= 60) return "Credit 1";
+        if (total >= 50) return "Credit 2";
+        if (total >= 40) return "Pass";
+        return "Fail";
     };
 
     // Handle form submit
     const handleFormSubmit = (values: any) => {
 
-        const sendToServer = async () => {
+        const sendToServer = async (path: string) => {
             values = {
                 ...values, semester: getCurrentSemesterName()
             }
@@ -124,7 +125,7 @@ export default function AdminGradeManagement() {
 
             try {
                 const data = await admin_crud_request.post_spc({
-                    data: values, url: "/admin/grade/create", hotAxiosPrivate: hotAxiosPrivate
+                    data: values, url: `/admin/grade/${path}`, hotAxiosPrivate: hotAxiosPrivate
                 })
 
 
@@ -163,14 +164,17 @@ export default function AdminGradeManagement() {
             }
         }
 
-        switch (modalType) {
+        if (modalType === "enterGrades") {
+            console.log("Entering")
 
-            case "enterGrades":
-                sendToServer();
-                break;
-            default:
-                break;
+            sendToServer("create");
+        } else if (modalType === "editGrades") {
+            console.log("Editing")
+
+            sendToServer("edit");
         }
+
+
         setIsModalVisible(false);
     };
 
@@ -220,15 +224,17 @@ export default function AdminGradeManagement() {
 
                 return <Tag
                     color={
-                        cgrade === "A"
+                        cgrade === "Distinction 1"
                             ? "green"
-                            : cgrade === "B"
+                            : cgrade === "Distinction 2"
                                 ? "blue"
-                                : cgrade === "C"
-                                    ? "orange"
-                                    : cgrade === "D"
-                                        ? "gold"
-                                        : "red"
+                                : cgrade === "Credit 1"
+                                    ? "cyan"
+                                    : cgrade === "Credit 2"
+                                        ? "orange"
+                                        : cgrade === "Pass"
+                                            ? "gold"
+                                            : "red"
                     }
                 >
                     {cgrade}
@@ -243,7 +249,7 @@ export default function AdminGradeManagement() {
                     <Button
                         type="primary"
                         icon={<EditOutlined/>}
-                        onClick={() => showModal("enterGrades", "Edit Grades", record)}
+                        onClick={() => showModal("editGrades", "Edit Grades", record)}
                         className="bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap"
                     >
                         Edit

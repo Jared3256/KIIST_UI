@@ -472,8 +472,8 @@ export default function Sidebar() {
                                             </ListItemButton>
                                         </ListItem>
                                         <ListItem>
-                                            <ListItemButton disabled={true}
-                                                            onClick={() => navigate("/v1/student/transcripts")}>
+                                            <ListItemButton
+                                                onClick={() => navigate("/v1/student/transcripts")}>
                                                 Transcripts
                                             </ListItemButton>
                                         </ListItem>
