@@ -31,7 +31,42 @@ export default function StudentTranscript() {
     const [grades, setGrades] = useState([]);
     const {current} = useSelector(selectAuth);
     const [loading, setLoading] = useState(false);
+    const [gradeData, setGradeData] = useState([])
 
+    const labelMap = {
+        "Distinction 1": "D1",
+        "Distinction 2": "D2",
+        "Credit 1": "C1",
+        "Credit 2": "C2",
+        "Pass": "P",
+        "Fail": "F",
+    };
+
+    // Step 1: Initialize counts
+    const gradeCount = {
+        "Distinction 1": 0,
+        "Distinction 2": 0,
+        "Credit 1": 0,
+        "Credit 2": 0,
+        "Pass": 0,
+        "Fail": 0,
+    };
+
+    useEffect(() => {
+
+        grades.forEach((g) => {
+            if (gradeCount[g.grade] !== undefined) {
+                gradeCount[g.grade]++;
+            }
+        });
+
+        const data = Object.entries(gradeCount).map(([key, value]) => ({
+            name: labelMap[key],
+            value,
+        }));
+
+        setGradeData(data)
+    }, [grades]);
 
     const hotAxiosPrivate = useAxiosPrivate();
     const calculateGPA = (grades: any[]) => {
@@ -85,7 +120,7 @@ export default function StudentTranscript() {
 
         }
     }
-    console.log(current)
+
 
     useEffect(() => {
 
@@ -358,14 +393,7 @@ export default function StudentTranscript() {
                                             name: "Grades",
                                             type: "pie",
                                             radius: ["30%", "60%"],
-                                            data: [
-                                                {value: 2, name: "D1"},
-                                                {value: 1, name: "D2"},
-                                                {value: 0, name: "C1"},
-                                                {value: 0, name: "C2"},
-                                                {value: 0, name: "P"},
-                                                {value: 0, name: "F"},
-                                            ],
+                                            data: gradeData,
                                             emphasis: {
                                                 itemStyle: {
                                                     shadowBlur: 10,
