@@ -357,12 +357,13 @@ export default function StudentTranscript() {
                                         {
                                             name: "Grades",
                                             type: "pie",
-                                            radius: ["40%", "70%"],
+                                            radius: ["30%", "60%"],
                                             data: [
-                                                {value: 2, name: "A"},
-                                                {value: 1, name: "B"},
-                                                {value: 0, name: "C"},
-                                                {value: 0, name: "D"},
+                                                {value: 2, name: "D1"},
+                                                {value: 1, name: "D2"},
+                                                {value: 0, name: "C1"},
+                                                {value: 0, name: "C2"},
+                                                {value: 0, name: "P"},
                                                 {value: 0, name: "F"},
                                             ],
                                             emphasis: {
