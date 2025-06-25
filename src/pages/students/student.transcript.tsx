@@ -231,6 +231,7 @@ export default function StudentTranscript() {
                         </div>
                         <Divider orientation='left'>Academic Record</Divider>
                         <Table
+                            scroll={{x: 'max-content'}}
                             loading={loading}
                             columns={[
                                 {
