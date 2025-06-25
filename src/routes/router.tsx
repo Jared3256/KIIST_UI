@@ -44,6 +44,7 @@ import AdminSessionStudentOverride from "src/pages/admin/session/admin.session.s
 import AdminSessionStudent from "src/pages/admin/session/admin.session.student";
 import AdminSessionActivityLog from "src/pages/admin/session/admin.session.activity.log.tsx";
 import AdminGradeManagement from "src/pages/admin/AdminGradeManagement.tsx";
+import ResetPassword from "src/pages/auth/reset-password";
 
 const system_routes = createBrowserRouter([
     {
@@ -118,6 +119,10 @@ const system_routes = createBrowserRouter([
                         path: "forgot_password",
                         element: <ForgotPassword/>,
                     },
+                    {
+                        path: "reset_password/:token",
+                        element: <ResetPassword/>
+                    }
                 ],
             },
             {
