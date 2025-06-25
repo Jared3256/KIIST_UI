@@ -143,46 +143,46 @@ export default function StudentTranscript() {
                         </div>
                     </div>
 
-                    <Box className='mb-3 flex' gap={2} justifyContent={"space-between"}>
-                        <Box display={"flex"} gap={2}>
-                            <Text>Year of study</Text>
-                            <Select
-                                placeholder='Year of study'
-                                style={{width: 80}}
-                                className='ml-auto'>
-                                <Option value='all'>All</Option>
-                                <Option value='one'>1</Option>
-                                <Option value='two'>2</Option>
-                            </Select>
-                            <Text>Semester</Text>
-                            <Select
-                                placeholder='Semester'
-                                style={{width: 80}}
-                                className='ml-auto'>
-                                <Option value='all'>All</Option>
-                                <Option value='one'>1</Option>
-                                <Option value='two'>2</Option>
-                                <Option value='three'>3</Option>
-                            </Select>
-                            <Button
-                                variant='outlined'
-                                icon={<Settings className='w-6 h-6' size={2}/>}
-                                onClick={handleDownloadTranscript}
-                                className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap items-center'>
-                                Generate Transcript
-                            </Button>
-                        </Box>
+                    {/*<Box className='mb-3 flex' gap={2} justifyContent={"space-between"}>*/}
+                    {/*    <Box display={"flex"} gap={2}>*/}
+                    {/*        <Text>Year of study</Text>*/}
+                    {/*        <Select*/}
+                    {/*            placeholder='Year of study'*/}
+                    {/*            style={{width: 80}}*/}
+                    {/*            className='ml-auto'>*/}
+                    {/*            <Option value='all'>All</Option>*/}
+                    {/*            <Option value='one'>1</Option>*/}
+                    {/*            <Option value='two'>2</Option>*/}
+                    {/*        </Select>*/}
+                    {/*        <Text>Semester</Text>*/}
+                    {/*        <Select*/}
+                    {/*            placeholder='Semester'*/}
+                    {/*            style={{width: 80}}*/}
+                    {/*            className='ml-auto'>*/}
+                    {/*            <Option value='all'>All</Option>*/}
+                    {/*            <Option value='one'>1</Option>*/}
+                    {/*            <Option value='two'>2</Option>*/}
+                    {/*            <Option value='three'>3</Option>*/}
+                    {/*        </Select>*/}
+                    {/*        <Button*/}
+                    {/*            variant='outlined'*/}
+                    {/*            icon={<Settings className='w-6 h-6' size={2}/>}*/}
+                    {/*            onClick={handleDownloadTranscript}*/}
+                    {/*            className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap items-center'>*/}
+                    {/*            Generate Transcript*/}
+                    {/*        </Button>*/}
+                    {/*    </Box>*/}
 
-                        <Box>
-                            <Button
-                                type='primary'
-                                icon={<DownloadingOutlined/>}
-                                onClick={handleDownloadTranscript}
-                                className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap'>
-                                Download PDF
-                            </Button>
-                        </Box>
-                    </Box>
+                    {/*    <Box>*/}
+                    {/*        <Button*/}
+                    {/*            type='primary'*/}
+                    {/*            icon={<DownloadingOutlined/>}*/}
+                    {/*            onClick={handleDownloadTranscript}*/}
+                    {/*            className='bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap'>*/}
+                    {/*            Download PDF*/}
+                    {/*        </Button>*/}
+                    {/*    </Box>*/}
+                    {/*</Box>*/}
                     <div
                         id='student-transcript'
                         className='mb-6 p-6 border border-gray-200 rounded-lg'>
