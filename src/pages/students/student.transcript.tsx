@@ -367,11 +367,11 @@ export default function StudentTranscript() {
                                         max: 4,
                                     },
                                     series: [
-                                        {
-                                            data: [3.2, 3.5, 3.7, 3.8],
-                                            type: "line",
-                                            smooth: true,
-                                        },
+                                        // {
+                                        //     data: [3.2, 3.5, 3.7, 3.8],
+                                        //     type: "line",
+                                        //     smooth: true,
+                                        // },
                                     ],
                                     tooltip: {
                                         trigger: "axis",
