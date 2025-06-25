@@ -12,11 +12,8 @@ import {
     Typography,
 } from "antd";
 import React, {useEffect, useState} from "react";
-import {
-    mockCourses,
-    mockGrades,
-} from "src/components/landing_page/LandingPAgeBarConstants";
 
+import PatrickNyabayo from "../../assets/PatrickNyabayo.png"
 import ReactECharts from "echarts-for-react";
 import {Box} from "@mui/joy";
 import {useSelector} from "react-redux";
@@ -26,12 +23,12 @@ import {Settings} from "lucide-react";
 import {admin_crud_request} from "src/service/crud.service.ts";
 import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
 import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.manager.tsx";
+import {dataToStudentTranscript} from "src/modules/Data.format.ts";
 
 export default function StudentTranscript() {
     const {Option} = Select;
     const {Title, Paragraph, Text} = Typography;
     const [grades, setGrades] = useState([]);
-    const [courses, setCourses] = useState(mockCourses);
     const {current} = useSelector(selectAuth);
     const [loading, setLoading] = useState(false);
 
@@ -40,22 +37,27 @@ export default function StudentTranscript() {
     const calculateGPA = (grades: any[]) => {
         if (grades.length === 0) return 0;
         const gradePoints = {
-            A: 4.0,
-            B: 3.0,
-            C: 2.0,
-            D: 1.0,
-            F: 0.0,
+            "Distinction 1": 4.0,
+            "Distinction 2": 3.0,
+            "Credit 1": 2.0,
+            "Credit 2": 1.0,
+            "Pass": 0.0,
+            "Fail": 0.0,
         };
         let totalPoints = 0;
         let totalCredits = 0;
         grades.forEach((grade) => {
-            const course = courses.find((c) => c.code === grade.course);
-            if (course) {
+
+            if (grade) {
                 totalPoints +=
-                    gradePoints[grade.grade as keyof typeof gradePoints] * course.credits;
-                totalCredits += course.credits;
+                    gradePoints[grade.grade as keyof typeof gradePoints] * grade.credits;
+                totalCredits += grade.credits;
+                console.log("credits", totalCredits, totalPoints)
+
             }
         });
+        console.log("return", totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0)
+
         return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0;
     };
 
@@ -74,8 +76,8 @@ export default function StudentTranscript() {
             })
 
             if (data.success) {
-                console.log(data.data)
-
+                console.log(dataToStudentTranscript(data.data))
+                setGrades(dataToStudentTranscript(data.data))
             }
             setLoading(false)
         } catch (e) {
@@ -83,6 +85,7 @@ export default function StudentTranscript() {
 
         }
     }
+    console.log(current)
 
     useEffect(() => {
 
@@ -159,7 +162,7 @@ export default function StudentTranscript() {
                             </Title>
                             <Text type='secondary'>P.O. Box 123, Kisii, Kenya</Text>
                             <Divider/>
-                            <Title level={4}>OFFICIAL ACADEMIC TRANSCRIPT</Title>
+                            <Title level={4}>PROVISIONAL ACADEMIC TRANSCRIPT</Title>
                         </div>
                         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>
                             <div>
@@ -186,7 +189,7 @@ export default function StudentTranscript() {
                                 <Text strong>Cumulative GPA: </Text>
                                 <Text>
                                     {calculateGPA(
-                                        grades.filter((g) => g.regNumber === "KIT/001/2025")
+                                        grades
                                     )}
                                 </Text>
                             </div>
@@ -197,36 +200,37 @@ export default function StudentTranscript() {
                             columns={[
                                 {
                                     title: "Course Code",
-                                    dataIndex: "course",
+                                    dataIndex: "code",
                                     key: "course",
                                 },
                                 {
                                     title: "Course Title",
                                     key: "title",
-                                    render: (text, record) => {
-                                        const course = courses.find(
-                                            (c) => c.code === record.course
-                                        );
-                                        return course ? course.title : "";
-                                    },
+                                    dataIndex: "title",
                                 },
                                 {
-                                    title: "Credits",
-                                    key: "credits",
-                                    render: (text, record) => {
-                                        const course = courses.find(
-                                            (c) => c.code === record.course
-                                        );
-                                        return course ? course.credits : "";
-                                    },
+                                    title: "CAT",
+                                    key: "cat",
+                                    dataIndex: "cat"
                                 },
+                                {
+                                    title: "Main",
+                                    key: "main",
+                                    dataIndex: "main"
+                                },
+                                // {
+                                //     title: "Credits",
+                                //     key: "credits",
+                                //     dataIndex: "credits",
+                                //
+                                // },
                                 {
                                     title: "Grade",
                                     dataIndex: "grade",
                                     key: "grade",
                                 },
                             ]}
-                            dataSource={grades.filter((g) => g.regNumber === "KIT/001/2025")}
+                            dataSource={grades}
                             rowKey='id'
                             pagination={false}
                             footer={() => (
@@ -234,18 +238,15 @@ export default function StudentTranscript() {
                                     <Text strong>
                                         Total Credits:{" "}
                                         {grades
-                                            .filter((g) => g.regNumber === "KIT/001/2025")
                                             .reduce((total, grade) => {
-                                                const course = courses.find(
-                                                    (c) => c.code === grade.course
-                                                );
-                                                return total + (course ? course.credits : 0);
+
+                                                return total + (grade ? grade.credits : 0);
                                             }, 0)}
                                     </Text>
                                     <Text strong>
                                         Cumulative GPA:{" "}
                                         {calculateGPA(
-                                            grades.filter((g) => g.regNumber === "KIT/001/2025")
+                                            grades
                                         )}
                                     </Text>
                                 </div>
@@ -259,20 +260,16 @@ export default function StudentTranscript() {
                                     display={"flex"}
                                     flexDirection={"column"}
                                     className='mt-2 flex flex-column'>
-                                    {/* <img
-                    src='https://readdy.ai/api/search-image?query=professional%20signature%20on%20white%20background%2C%20clean%2C%20minimal%2C%20high%20quality&width=150&height=80&seq=10&orientation=landscape'
-                    alt="Registrar's Signature"
-                    className='h-15'
-                  /> */}
+
                                     <Image
-                                        src='https://readdy.ai/api/search-image?query=professional%20signature%20on%20white%20background%2C%20clean%2C%20minimal%2C%20high%20quality&width=150&height=80&seq=10&orientation=landscape'
+                                        src={PatrickNyabayo}
                                         alt="Registrar's Signature"
                                         preview={false}
                                         height={"60px"}
                                     />
-                                    <Text>Dr. James Wilson</Text>
+                                    <Text>Mr. Patrick Nyabayo</Text>
                                     <br/>
-                                    <Text type='secondary'>Registrar</Text>
+                                    <Text type='secondary'>Registrar | Director</Text>
                                 </Box>
                             </div>
                             <div className='text-center'>
@@ -281,7 +278,7 @@ export default function StudentTranscript() {
                                     <div className='mt-2'>
                                         {/* <Text type='secondary'>Digital Verification</Text> */}
                                         <QRCode
-                                            value={`${current.UserInfo.fullname}-KIIST/ART/0001/2025 - Computer Science`}
+                                            value={`${current.UserInfo.fullname}-${current.UserInfo.entity.registrationNumber}-${format(new Date(), "MMMM d, yyyy")}-${format(current.UserInfo.entity.createdAt, "MMMM d, yyyy")}`}
                                             icon=''
                                         />
                                     </div>
@@ -308,10 +305,10 @@ export default function StudentTranscript() {
                             <Text strong>Credits Completed: </Text>
                             <Text>
                                 {grades
-                                    .filter((g) => g.regNumber === "KIT/001/2025")
+
                                     .reduce((total, grade) => {
-                                        const course = courses.find((c) => c.code === grade.course);
-                                        return total + (course ? course.credits : 0);
+
+                                        return total + (grade ? grade.credits : 0);
                                     }, 0)}
                             </Text>
                         </div>
@@ -383,7 +380,7 @@ export default function StudentTranscript() {
                         <div>
                             <Text strong>Total Courses: </Text>
                             <Text>
-                                {grades.filter((g) => g.regNumber === "KIT/001/2025").length}
+                                {grades.length}
                             </Text>
                         </div>
                     </Card>

@@ -145,7 +145,32 @@ const dataToGradeManagementCourses = (result: any) => {
         code: item.code,
     }))
 }
+
+const dataToStudentTranscript = (result: any) => {
+    const calculateGrade = (total: number) => {
+        if (total >= 80) return "Distinction 1";
+        if (total >= 70) return "Distinction 2";
+        if (total >= 60) return "Credit 1";
+        if (total >= 50) return "Credit 2";
+        if (total >= 40) return "Pass";
+        return "Fail";
+    };
+
+    return result.map((item: any) => ({
+        key: item._id,
+        code: item.course.code,
+        title: item.course.title,
+        credits: item.course.credits,
+        total: item.assignment + item.final,
+        cat: item.assignment,
+        main: item.final,
+        grade: calculateGrade(item.assignment + item.final)
+
+    }))
+}
+
 export {
+    dataToStudentTranscript,
     dataToGradeManagementCourses,
     dataToStudentOverride,
     dataToReportingHistory,
