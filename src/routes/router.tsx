@@ -22,7 +22,6 @@ import StudentAnalytics from "src/pages/students/student.analytics";
 import StudentProfile from "src/pages/students/student.profile";
 import ActivateAccount from "src/pages/auth/activateAccount";
 import ForgotPassword from "src/pages/auth/forgotPassword";
-import App from "src/pages/test/test";
 import AdminLayout from "src/pages/admin/AdminLayout";
 import Departments from "src/pages/admin/departments";
 import CourseManagement from "src/pages/admin/course.management";
@@ -32,12 +31,8 @@ import AdminCourseApproval from "src/pages/admin/AdminCourseApproval";
 import AdminStudentManagement from "src/pages/admin/AdminStudentManagement.tsx";
 import StudentTranscript from "src/pages/students/student.transcript";
 import UnitRegistration from "src/pages/students/UnitRegistration.tsx";
-import Test1 from "src/pages/test/test1";
-import Test2 from "src/pages/test/test2.tsx";
-import Test3 from "src/pages/test/test3.tsx";
 import AdminFinance from "src/pages/admin/AdminFinance.tsx";
 import StudentSuspended from "src/pages/students/student.suspended";
-import Test4 from "src/pages/test/test4.tsx";
 import SessionReporting from "src/pages/students/SessionReporting";
 import AdminSessionManager from "src/pages/admin/session/admin.session.manager";
 import AdminSessionStudentOverride from "src/pages/admin/session/admin.session.student.override";
@@ -45,6 +40,7 @@ import AdminSessionStudent from "src/pages/admin/session/admin.session.student";
 import AdminSessionActivityLog from "src/pages/admin/session/admin.session.activity.log.tsx";
 import AdminGradeManagement from "src/pages/admin/AdminGradeManagement.tsx";
 import ResetPassword from "src/pages/auth/reset-password";
+import Test5 from "src/pages/test/test5";
 
 const system_routes = createBrowserRouter([
     {
@@ -255,7 +251,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <AdminGradeManagement/>
+                        <Test5/>
                     </>
                 ),
             },

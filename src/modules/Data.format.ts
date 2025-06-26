@@ -14,7 +14,6 @@ const dataToDepartment = (result: any) => {
 
 const dataToCourse = (result: any) => {
 
-
     return result.map((item: any) => ({
         key: item._id,
         code: item.code,
@@ -45,26 +44,19 @@ const dataToTutor = (result: any) => {
 
 const dataToUnits = (result: any) => {
 
-
     return result.map((item: any) => ({
         key: item._id,
         course: item.unit.code,
-        title: "kfgh" || item.unit.title,
+        title: item.unit.title || "NAN",
         status: item.status,
         student: item?.student?.fullname,
         regNumber: item?.student?.regNumber,
+        credits: item?.unit?.credits,
+        instructor: item.unit?.instructor?.name || "NAN",
     }))
 }
 
 const courseCodeToCourseId = (courseCodes, courses) => {
-    // const courseIds = courses.map((item: any) => {
-    //     const  courseId = item.courseId
-    //
-    //     if(courseCodes.includes(courseId)) {
-    //         return courseCodes
-    //     }
-    // })
-
     const ids = []
     for (const course in courses) {
         if (courseCodes.includes(courses[course].code)) {

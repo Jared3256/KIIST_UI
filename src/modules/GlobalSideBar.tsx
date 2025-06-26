@@ -40,7 +40,6 @@ import {
     Signature, ClipboardList
 } from "lucide-react";
 import {logout} from "src/redux/auth/actions";
-import {studentData} from "./mockdata";
 
 function Toggler({
                      defaultExpanded = false,
@@ -677,7 +676,7 @@ export default function Sidebar() {
                     {" "}
                     <Divider/>
                     <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
-                        <Avatar>
+                        <Avatar src={current.UserInfo.bio}>
                             {String(current.UserInfo.fullname).toUpperCase().charAt(0)}
                             {String(current.UserInfo.fullname).split(" ")[1].charAt(0)}
                         </Avatar>

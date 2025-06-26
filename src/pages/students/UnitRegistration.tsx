@@ -229,7 +229,6 @@ export default function UnitRegistration() {
                 setIsLoading(false);
             }
         };
-
         fetchData();
     }, []);
 
