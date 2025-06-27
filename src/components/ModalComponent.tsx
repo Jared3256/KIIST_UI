@@ -44,6 +44,8 @@ export default function ModalComponent({
                                            form,
                                            grades,
                                        }) {
+
+
     const {Option} = Select;
     const {Title, Text, Paragraph} = Typography;
 
@@ -185,7 +187,7 @@ export default function ModalComponent({
                 }
                 break;
             case "assignClasses": {
-                const modValue = {...values, lecturer: selectedItem._id}
+                const modValue = {...values, lecturer: selectedItem.key}
 
                 const data = admin_crud_request.assign_class({
                     role: current.UserInfo.role,
@@ -444,6 +446,17 @@ export default function ModalComponent({
                             <Input placeholder='Enter full name'/>
                         </Form.Item>
                         <Form.Item
+                            name='email'
+                            label='Email Address'
+                            rules={[
+                                {
+                                    type: 'email',
+                                    message: 'The input is not valid E-mail!',
+                                }, {required: true, message: "Please enter lecturer email address"},
+                            ]}>
+                            <Input placeholder='Enter valid email address' type={"email"}/>
+                        </Form.Item>
+                        <Form.Item
                             name='qualification'
                             label='Qualification'
                             rules={[
@@ -457,8 +470,8 @@ export default function ModalComponent({
                             rules={[{required: true, message: "Please select department"}]}>
                             <Select placeholder='Select department'>
                                 {departments.map((dept) => (
-                                    <Option key={dept._id} value={dept._id}>
-                                        {dept.departmentName}
+                                    <Option key={dept.key} value={dept.key}>
+                                        {dept.name}
                                     </Option>
                                 ))}
                             </Select>

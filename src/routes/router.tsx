@@ -41,6 +41,10 @@ import AdminSessionActivityLog from "src/pages/admin/session/admin.session.activ
 import AdminGradeManagement from "src/pages/admin/AdminGradeManagement.tsx";
 import ResetPassword from "src/pages/auth/reset-password";
 import Test5 from "src/pages/test/test5";
+import TutorChecker from "src/security/TutorChecker";
+import TutorDashboard from "src/pages/tutor/tutor.dashboard";
+import TutorCourse from "src/pages/tutor/tutor.course";
+import TutorGradeManagement from "src/pages/tutor/tutor.grade.management.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -191,7 +195,26 @@ const system_routes = createBrowserRouter([
                     },
                     {
                         path: "tutor",
-                        element: <h1>Tutor</h1>,
+                        element: <TutorChecker/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <TutorDashboard/>,
+                            },
+                            {
+                                path: "dashboard",
+                                element: <TutorDashboard/>,
+                            },
+                            {
+                                path: "course",
+                                element: <TutorCourse/>,
+                            },
+                            {
+                                path: "grade-management",
+                                element: <TutorGradeManagement/>
+                            }
+                        ]
+
                     },
                     {
                         path: "student",

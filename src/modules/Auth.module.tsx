@@ -21,7 +21,7 @@ export default function AuthModule() {
     const fromUrl = location.state?.from?.pathname || "/v1";
     const navigate = useNavigate();
     useEffect(() => {
-        console.log(location)
+
 
         if (!String(location.pathname).includes("reset_password")) {
             if (current.isLoggedIn) {

@@ -185,7 +185,7 @@ export default function Sidebar() {
                                 KIIST
                             </Title>
                             <Text type='secondary'>
-                                {role === "student" ? "Student" : "Admin"} Portal
+                                {String(role).toLocaleUpperCase()} Portal
                             </Text>
                         </div>
 
@@ -677,8 +677,8 @@ export default function Sidebar() {
                     <Divider/>
                     <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
                         <Avatar src={current.UserInfo.bio}>
-                            {String(current.UserInfo.fullname).toUpperCase().charAt(0)}
-                            {String(current.UserInfo.fullname).split(" ")[1].charAt(0)}
+                            {String(current?.UserInfo?.fullname)?.toUpperCase()?.charAt(0)}
+                            {String(current?.UserInfo?.fullname)?.split(" ")[1]?.charAt(0)}
                         </Avatar>
                         <Box sx={{minWidth: 0, flex: 1}}>
                             <Typography level='title-sm'>

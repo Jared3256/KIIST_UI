@@ -129,13 +129,26 @@ const dataToStudentOverride = (result: any) => {
 
 
 const dataToGradeManagementCourses = (result: any) => {
-    console.log(result)
 
     return result.map((item: any) => ({
         id: item._id,
         title: item.title,
         code: item.code,
     }))
+}
+
+const dataToTaughtGradeManagementCourses = (result: any, courses: any) => {
+
+
+    const courseCodes = courses.map(course => course.code),
+        filtered = result.filter((item: any) => courseCodes.includes(item.code))
+
+    return filtered.map((item: any) => ({
+            id: item._id,
+            title: item.title,
+            code: item.code,
+        })
+    )
 }
 
 const dataToStudentTranscript = (result: any) => {
@@ -161,7 +174,27 @@ const dataToStudentTranscript = (result: any) => {
     }))
 }
 
+
+const dataToAssignedUnits = (result: any) => {
+
+
+    const units = result.units
+    const schedule = result.schedule
+
+    const data = units.map((item: any) => ({
+        key: item._id,
+        code: item.code,
+        title: item.title,
+        credits: item.credits,
+        students: item.students,
+
+    }))
+
+    return [data, schedule.join("\n")]
+}
 export {
+    dataToTaughtGradeManagementCourses,
+    dataToAssignedUnits,
     dataToStudentTranscript,
     dataToGradeManagementCourses,
     dataToStudentOverride,

@@ -78,7 +78,7 @@ export default function TutorManagement() {
                 await GetEntity("department");
                 await GetEntity("tutor");
             } catch (err) {
-                console.error("Error fetching entities", err);
+
             } finally {
                 setIsLoading(false);
             }

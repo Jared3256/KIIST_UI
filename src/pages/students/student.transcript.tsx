@@ -87,11 +87,10 @@ export default function StudentTranscript() {
                 totalPoints +=
                     gradePoints[grade.grade as keyof typeof gradePoints] * grade.credits;
                 totalCredits += grade.credits;
-                console.log("credits", totalCredits, totalPoints)
 
             }
         });
-        console.log("return", totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0)
+
 
         return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0;
     };
@@ -111,7 +110,7 @@ export default function StudentTranscript() {
             })
 
             if (data.success) {
-                console.log(dataToStudentTranscript(data.data))
+
                 setGrades(dataToStudentTranscript(data.data))
             }
             setLoading(false)

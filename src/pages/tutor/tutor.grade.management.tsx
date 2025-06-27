@@ -1,15 +1,28 @@
-import {PlusOutlined} from "@ant-design/icons";
-import {EditOutlined} from "@mui/icons-material";
-import {Alert, Button, Card, Empty, Form, Input, InputNumber, Modal, Select, Space, Table, Tag, Typography} from "antd";
-import {useEffect, useState} from "react";
-import {admin_crud_request} from "src/service/crud.service.ts";
-import {dataToGradeManagementCourses, dataToUnits} from "src/modules/Data.format.ts";
-import useAxiosPrivate from "src/service/useAxiosPrivate";
+import {
+    Alert,
+    Button,
+    Card,
+    Form,
+    Select,
+    Tag,
+    Typography,
+    Empty,
+    Table,
+    Space,
+    Modal,
+    Input,
+    InputNumber
+} from "antd";
+import {useEffect, useState} from "react"
 import {useSelector} from "react-redux";
-import {selectAuth} from "src/redux/auth/selectors.ts";
-import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.manager.tsx";
+import {selectAuth} from "src/redux/auth/selectors";
+import {admin_crud_request} from "src/service/crud.service";
+import useAxiosPrivate from "src/service/useAxiosPrivate";
+import {getCurrentSemesterName} from "../admin/session/admin.session.manager";
+import {dataToTaughtGradeManagementCourses, dataToUnits} from "src/modules/Data.format";
+import {EditOutlined} from "@mui/icons-material";
 
-export default function AdminGradeManagement() {
+export default function TutorGradeManagement() {
     const [modalType, setModalType] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -18,7 +31,6 @@ export default function AdminGradeManagement() {
     const {Option} = Select
     const {Title, Text, Paragraph} = Typography;
     const [registrations, setRegistrations] = useState([]);
-    const [temp_registrations, setTempRegistrations] = useState([]);
     const [courses, setCourses] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [grades, setGrades] = useState([]);
@@ -48,12 +60,16 @@ export default function AdminGradeManagement() {
     }, []);
     // Method to get all the courses available to the school
     const GetEntity = async (entity) => {
-        let data = await admin_crud_request.list({
-            entity: entity, token: "token", hotAxiosPrivate: hotAxiosPrivate, role: current.UserInfo.role
-        });
+        let ddata = await admin_crud_request.get_spc({
+            hotAxiosPrivate: hotAxiosPrivate,
+            url: `/tutor/${current.UserInfo.entity._id}/unit/list`
+        })
 
+        let data = await admin_crud_request.get_spc({
+            url: "/admin/course/list", hotAxiosPrivate
+        })
         if (entity === "course") {
-            setCourses(dataToGradeManagementCourses(data.data))
+            setCourses(dataToTaughtGradeManagementCourses(data.data, ddata.data.units))
         }
 
         return data
@@ -65,18 +81,19 @@ export default function AdminGradeManagement() {
         })
 
         if (data.success) {
+            console.log(data.data)
 
             setGrades(data.data)
         }
     }
     const GetRegistrations = async () => {
         const data = await admin_crud_request.list_spc({
-            entity: "unit", id: current.UserInfo.id, hotAxiosPrivate: hotAxiosPrivate, role: current.UserInfo.role
+            entity: "unit", id: current.UserInfo.id, hotAxiosPrivate: hotAxiosPrivate, role: "admin"
         });
 
         if (data.data) {
             setRegistrations(dataToUnits(data.data))
-            setTempRegistrations(dataToUnits(data.data))
+            console.log(dataToUnits(data.data).filter(item => item.status === "approved"))
 
         }
     }
@@ -119,6 +136,7 @@ export default function AdminGradeManagement() {
             values = {
                 ...values, semester: getCurrentSemesterName()
             }
+            console.log(values)
 
             try {
                 const data = await admin_crud_request.post_spc({
@@ -162,6 +180,7 @@ export default function AdminGradeManagement() {
         }
 
         if (modalType === "enterGrades") {
+            console.log("Entering")
 
             sendToServer("create");
         } else if (modalType === "editGrades") {
@@ -257,6 +276,8 @@ export default function AdminGradeManagement() {
 
     // Get approved registrations for the selected course
     const getApprovedRegistrations = (courseCode: string) => {
+        console.log(courseCode)
+
         return registrations.filter(
             (reg) => reg.status === "approved" && reg.course === courseCode,
         );
@@ -285,17 +306,7 @@ export default function AdminGradeManagement() {
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item>
-                        <Button
-                            disabled={true}
-                            type="primary"
-                            icon={<PlusOutlined/>}
-                            onClick={() => showModal("enterGrades", "Enter New Grades")}
-                            className="bg-blue-600 hover:bg-blue-700 cursor-pointer !rounded-button whitespace-nowrap"
-                        >
-                            Enter Grades
-                        </Button>
-                    </Form.Item>
+
                 </Form>
                 <Alert
                     message="Note"
@@ -393,6 +404,7 @@ export default function AdminGradeManagement() {
                                     ),
                                 },
                             ]}
+                            scroll={{x: "max-content"}}
                             dataSource={getApprovedRegistrations(searchText)}
                             rowKey="id"
                             pagination={{pageSize: 10}}
@@ -491,14 +503,14 @@ export default function AdminGradeManagement() {
                     </Form.Item>
                     <Form.Item
                         name="assignment"
-                        label="Assignment (30)"
+                        label="CAT (30)"
                         rules={[
-                            {required: true, message: "Please enter assignment marks"},
+                            {required: true, message: "Please enter CAT marks"},
                             {
                                 type: "number",
                                 min: 0,
                                 max: 30,
-                                message: "Assignment marks must be between 0 and 30",
+                                message: "CAT marks must be between 0 and 30",
                             },
                         ]}
                     >
@@ -525,4 +537,4 @@ export default function AdminGradeManagement() {
             </Modal>
         </div>
     );
-};
+}
