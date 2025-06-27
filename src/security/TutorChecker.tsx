@@ -18,15 +18,9 @@ export default function TutorChecker() {
     }, []);
     return (
 
-        <Layout
-            className='sm:hidden md:hidden site-layout sm:mt-15 md:mt-15 lg:mt-0'
-            style={{transition: "all 0.2s"}}>
-            <Content className='p-2' style={{minHeight: "100%"}}>
-                <div className='bg-white p-6 rounded-lg shadow-sm min-h-full'>
-                    <Outlet/>
-                </div>
-            </Content>
-        </Layout>
+        <Box width={"100%"}>
+            <Outlet/>
+        </Box>
 
 
     )

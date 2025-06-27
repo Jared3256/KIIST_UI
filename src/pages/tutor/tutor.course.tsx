@@ -88,7 +88,7 @@ export default function TutorCourse() {
     }
 
     return (
-        <div className='course-management-container xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0'>
+        <div className='course-management-container mt-10 p-4'>
             <div className='flex justify-between items-center mb-6 mt-10'>
                 <div>
                     <Title level={2}>Assigned Units</Title>

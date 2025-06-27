@@ -11,7 +11,7 @@ import {
     Space,
     Modal,
     Input,
-    InputNumber
+    InputNumber, Grid
 } from "antd";
 import {useEffect, useState} from "react"
 import {useSelector} from "react-redux";
@@ -38,6 +38,9 @@ export default function TutorGradeManagement() {
     const hotAxiosPrivate = useAxiosPrivate()
     const {current} = useSelector(selectAuth)
     let selectedStudent: string = ""
+    const {useBreakpoint} = Grid;
+    const screens = useBreakpoint();
+    const isMobile = !screens.md;
 
     // ###########################################################################
 
@@ -283,7 +286,7 @@ export default function TutorGradeManagement() {
         );
     };
     return (
-        <div className="grade-management-container">
+        <div className="grade-management-container mt-10 px-5 pt-7">
             <div className="mb-6">
                 <Title level={2}>Grade Management</Title>
                 <Paragraph className="text-gray-500">
@@ -291,7 +294,7 @@ export default function TutorGradeManagement() {
                 </Paragraph>
             </div>
             <div className=" flex-row mb-6">
-                <Form layout="inline" className="mb-4" style={{marginBottom: "15px"}}>
+                <Form layout={isMobile ? "vertical" : "inline"} className="mb-4" style={{marginBottom: "15px"}}>
                     <Form.Item label="Select Course" className="mb-4">
                         <Select
                             loading={loading}
@@ -316,9 +319,10 @@ export default function TutorGradeManagement() {
                     className="mb-4 mt-4"
                 />
             </div>
-            <Card className="shadow-md">
+            <Card className="shadow-md" style={{overflowX: "auto", width: "100%"}}>
                 {searchText ? (
                     <Table
+                        scroll={{x: 'max-content'}}
                         columns={columns}
                         dataSource={grades.filter((grade) => grade.course === searchText)}
                         rowKey="id"
@@ -404,7 +408,7 @@ export default function TutorGradeManagement() {
                                     ),
                                 },
                             ]}
-                            scroll={{x: "max-content"}}
+                            scroll={{x: 'max-content'}}
                             dataSource={getApprovedRegistrations(searchText)}
                             rowKey="id"
                             pagination={{pageSize: 10}}
