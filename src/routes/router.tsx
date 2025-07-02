@@ -40,11 +40,18 @@ import AdminSessionStudent from "src/pages/admin/session/admin.session.student";
 import AdminSessionActivityLog from "src/pages/admin/session/admin.session.activity.log.tsx";
 import AdminGradeManagement from "src/pages/admin/AdminGradeManagement.tsx";
 import ResetPassword from "src/pages/auth/reset-password";
-import Test5 from "src/pages/test/test5";
 import TutorChecker from "src/security/TutorChecker";
 import TutorDashboard from "src/pages/tutor/tutor.dashboard";
 import TutorCourse from "src/pages/tutor/tutor.course";
 import TutorGradeManagement from "src/pages/tutor/tutor.grade.management.tsx";
+import OnlineCat from "src/pages/test/OnlineCAT.tsx";
+import TutorAssignment from "src/pages/tutor/tutor.assignment.tsx";
+import TutorAssignmentCreate from "src/pages/tutor/tutor.assignment.create.tsx";
+import TutorCATs from "src/pages/tutor/tutor.cats.tsx";
+import TutorCatsCreate from "src/pages/tutor/tutor.cats.create.tsx";
+import StudentAssignments from "src/pages/students/exams/student.assignments.tsx";
+import StudentCATs from "src/pages/students/exams/student.cats.tsx";
+import OnlineCAT3 from "src/pages/test/OnlineCAT3.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -212,6 +219,21 @@ const system_routes = createBrowserRouter([
                             {
                                 path: "grade-management",
                                 element: <TutorGradeManagement/>
+                            },
+                            {
+                                path: "assignment",
+                                element: <TutorAssignment/>
+                            }, {
+                                path: "assignment/create",
+                                element: <TutorAssignmentCreate/>
+                            },
+                            {
+                                path: "CAT",
+                                element: <TutorCATs/>
+                            },
+                            {
+                                path: "CAT/create",
+                                element: <TutorCatsCreate/>
                             }
                         ]
 
@@ -257,6 +279,25 @@ const system_routes = createBrowserRouter([
                             }, {
                                 path: "session-reporting",
                                 element: <SessionReporting/>
+                            },
+                            {
+                                path: "exams",
+                                element: <Outlet/>,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <Navigate to={"/v1/student/exams/assignments"}/>
+
+                                    },
+                                    {
+                                        path: "assignments",
+                                        element: <StudentAssignments/>
+                                    },
+                                    {
+                                        path: "cats",
+                                        element: <StudentCATs/>
+                                    }
+                                ]
                             }
                         ],
                     },
@@ -274,7 +315,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <Test5/>
+                        <OnlineCAT3/>
                     </>
                 ),
             },

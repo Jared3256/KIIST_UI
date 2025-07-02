@@ -14,7 +14,6 @@ export default function TutorCourse() {
     const {Title, Paragraph} = Typography;
     const {Option} = Select;
 
-    const [departments, setDepartments] = useState([]);
 
     const [courses, setCourses] = useState([]);
     const [message, setMessage] = useState("");
@@ -68,7 +67,7 @@ export default function TutorCourse() {
         fetchData();
     }, []);
 
-    // Method to get all the courses available to the school
+    // Method to get all the courses available to you
     const GetEntity = async (entity) => {
         let data = await admin_crud_request.get_spc({
             hotAxiosPrivate: hotAxiosPrivate,

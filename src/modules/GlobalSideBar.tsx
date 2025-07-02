@@ -374,10 +374,24 @@ export default function Sidebar() {
                                         </ListItemButton>
                                     </ListItem>
 
-                                    <ListItem>
-                                        <ListItemButton disabled>Schedule</ListItemButton>
-                                    </ListItem>
+                                    {/*<ListItem>*/}
+                                    {/*    <ListItemButton disabled>Schedule</ListItemButton>*/}
+                                    {/*</ListItem>*/}
+                                    {role === "tutor" && <ListItem>
+                                        <ListItemButton
+                                            onClick={() => navigate(`/v1/${role}/assignment`)}>Assignment</ListItemButton>
+                                    </ListItem>}
+
+                                    {role === "tutor" && <ListItem>
+                                        <ListItemButton
+                                            onClick={() => navigate(`/v1/${role}/CAT`)}>CATs</ListItemButton>
+                                    </ListItem>}
+
+                                    {role === "tutor" && <ListItem>
+                                        <ListItemButton disabled>Student Progress</ListItemButton>
+                                    </ListItem>}
                                 </List>
+
                             </Toggler>
                         </ListItem>
                     )}
@@ -436,6 +450,51 @@ export default function Sidebar() {
                         </ListItem>
                     )}
 
+
+                    {role === "student" && (
+                        <>
+                            <ListItem nested>
+                                <Toggler
+                                    renderToggle={({open, setOpen}) => (
+                                        <ListItemButton
+                                            selected={selected["programmes"]}
+                                            onClick={() => setOpen(!open)}>
+                                            <BookUser/>
+                                            <ListItemContent>
+                                                <Typography level='title-sm'>Exams</Typography>
+                                            </ListItemContent>
+                                            <KeyboardArrowDownIcon
+                                                sx={[
+                                                    open
+                                                        ? {
+                                                            transform: "rotate(180deg)",
+                                                        }
+                                                        : {
+                                                            transform: "none",
+                                                        },
+                                                ]}
+                                            />
+                                        </ListItemButton>
+                                    )}>
+                                    <List sx={{gap: 0.5}}>
+
+                                        <ListItem sx={{mt: 0.5}}>
+                                            <ListItemButton role='menuitem'
+                                                            onClick={() => navigate("/v1/student/exams/assignments")}>
+                                                Assignments
+                                            </ListItemButton>
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemButton
+                                                onClick={() => navigate("/v1/student/exams/cats")}>
+                                                Continuous Assessment
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                </Toggler>
+                            </ListItem>
+                        </>
+                    )}
                     {/* Academics only for students */}
                     {role === "student" && (
                         <>

@@ -1,4 +1,4 @@
-import {format} from 'date-fns';
+import {format, subHours, subMinutes} from 'date-fns';
 
 const dataToDepartment = (result: any) => {
 
@@ -192,7 +192,64 @@ const dataToAssignedUnits = (result: any) => {
 
     return [data, schedule.join("\n")]
 }
+
+
+const dataToLecturerCat = (result: any) => {
+
+    return result.map((item: any) => ({
+        key: item._id,
+        title: item.code.title,
+        due_date: format(new Date(item.due_date), "MMMM d, yyyy"),
+        duration: item.duration,
+        status: item?.status || "NAN",
+    }))
+}
+
+const dataToStudentCATs = (result: any) => {
+
+    console.log(result)
+
+    return result.map((item: any) => ({
+        key: item.code._id,
+        title: item.code.title,
+        due_date: format(new Date(item.due_date), "MMMM d, yyyy"),
+        scheduled_date: format(subHours(subMinutes(new Date(item.due_time), item.duration), 1), "MMMM dd, yyyy HH:mm:ss"),
+        duration: item.duration,
+        startTime: subHours(subMinutes(item.due_time, item.duration), 1),
+        endTime: subHours(item.due_time, 1),
+        progress: 0,
+        status: item.status || "pending",
+        questions: item.questions,
+        code: item.code.code
+    }))
+}
+
+const dataToCatQuestions = (result: any) => {
+    return result.map((item: any) => ({
+        key: item._id,
+        question: item.question, variant: "essay",
+        answer: "",
+    }))
+}
+
+const dataToCompletedCATS = (result: any) => {
+    console.log(result)
+    return result.map((item: any) => ({
+        key: item._id,
+        title: item.code.title,
+        status: "submitted",
+        progress: 100,
+        grade: item.grade,
+        feedback: "test feedback",
+        code: item.code.code,
+        submited_date: format(new Date(item.submited_date), "MMMM d, yyyy"),
+    }))
+}
 export {
+    dataToCompletedCATS,
+    dataToCatQuestions,
+    dataToStudentCATs,
+    dataToLecturerCat,
     dataToTaughtGradeManagementCourses,
     dataToAssignedUnits,
     dataToStudentTranscript,

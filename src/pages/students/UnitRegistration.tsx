@@ -240,6 +240,7 @@ export default function UnitRegistration() {
     }
 
     useEffect(() => {
+
         filterCourse()
     }, [registrations]);
 
