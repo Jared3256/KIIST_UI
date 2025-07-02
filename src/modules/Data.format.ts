@@ -1,4 +1,4 @@
-import {format, subHours, subMinutes} from 'date-fns';
+import {addMinutes, format, subHours, subMinutes} from 'date-fns';
 
 const dataToDepartment = (result: any) => {
 
@@ -213,10 +213,10 @@ const dataToStudentCATs = (result: any) => {
         key: item.code._id,
         title: item.code.title,
         due_date: format(new Date(item.due_date), "MMMM d, yyyy"),
-        scheduled_date: format(subHours(subMinutes(new Date(item.due_time), item.duration), 1), "MMMM dd, yyyy HH:mm:ss"),
+        scheduled_date: format(subHours(item.due_time, 3), "MMMM dd, yyyy HH:mm:ss"),
         duration: item.duration,
-        startTime: subHours(subMinutes(item.due_time, item.duration), 1),
-        endTime: subHours(item.due_time, 1),
+        startTime: subHours(item.due_time, 3),
+        endTime: addMinutes(subHours(item.due_time, 3), item.duration),
         progress: 0,
         status: item.status || "pending",
         questions: item.questions,

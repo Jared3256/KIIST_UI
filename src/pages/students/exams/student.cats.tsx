@@ -314,6 +314,7 @@ export default function StudentCATs() {
         if (!startTime || !endTime) return "No time restriction";
 
         const start = new Date(startTime);
+        console.log("My time", start, startTime)
         const end = new Date(endTime);
 
         return `${start.toLocaleTimeString([], {
