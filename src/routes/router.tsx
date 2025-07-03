@@ -52,6 +52,10 @@ import TutorCatsCreate from "src/pages/tutor/tutor.cats.create.tsx";
 import StudentAssignments from "src/pages/students/exams/student.assignments.tsx";
 import StudentCATs from "src/pages/students/exams/student.cats.tsx";
 import OnlineCAT3 from "src/pages/test/OnlineCAT3.tsx";
+import OnlineCAT4 from "src/pages/test/OnlineCAT4.tsx";
+import TutorProfile from "src/pages/tutor/tutor.profile.tsx";
+import TutorMyClassess from "src/pages/tutor/tutor.my.classess.tsx";
+import TutorSalary from "src/pages/tutor/tutor.salary.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -234,6 +238,16 @@ const system_routes = createBrowserRouter([
                             {
                                 path: "CAT/create",
                                 element: <TutorCatsCreate/>
+                            },
+                            {
+                                path: "profile",
+                                element: <TutorProfile/>
+                            }, {
+                                path: "my-classes",
+                                element: <TutorMyClassess/>
+                            }, {
+                                path: "salary",
+                                element: <TutorSalary/>
                             }
                         ]
 
@@ -315,7 +329,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <OnlineCAT3/>
+                        <OnlineCAT4/>
                     </>
                 ),
             },

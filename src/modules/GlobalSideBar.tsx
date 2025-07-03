@@ -37,7 +37,8 @@ import {
     CalendarCogIcon, DollarSign,
     GraduationCap,
     Hotel,
-    Signature, ClipboardList
+    Signature, ClipboardList,
+    LassoSelect, PoundSterling as CirclePoundSterling, CircleUserRound
 } from "lucide-react";
 import {logout} from "src/redux/auth/actions";
 
@@ -395,6 +396,44 @@ export default function Sidebar() {
                             </Toggler>
                         </ListItem>
                     )}
+
+                    {/* Section only for the Tutors*/}
+                    {role === "tutor" && <>
+                        <ListItemButton
+                            onClick={() => {
+                                selectedHandler("myClasses");
+                                navigate(`/v1/${role}/my-classes`);
+                            }}
+                            selected={selected["myClassess"]}>
+                            <LassoSelect/>
+                            <ListItemContent>
+                                <Typography level='title-sm'>My Classes</Typography>
+                            </ListItemContent>
+                        </ListItemButton>
+                        <ListItemButton
+                            onClick={() => {
+                                selectedHandler("salary");
+                                navigate(`/v1/${role}/salary`);
+                            }}
+                            selected={selected["salary"]}>
+                            <CirclePoundSterling/>
+                            <ListItemContent>
+                                <Typography level='title-sm'>Salary</Typography>
+                            </ListItemContent>
+                        </ListItemButton>
+                        <ListItemButton
+                            onClick={() => {
+                                selectedHandler("Profile");
+                                navigate(`/v1/${role}/Profile`);
+                            }}
+                            selected={selected["Profile"]}>
+                            <CircleUserRound/>
+                            <ListItemContent>
+                                <Typography level='title-sm'>Profile</Typography>
+                            </ListItemContent>
+                        </ListItemButton>
+                    </>}
+
                     {/* session only for the admin and tutors */}
                     {(role === "admin") && (
                         <ListItem nested>
