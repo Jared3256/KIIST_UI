@@ -607,7 +607,7 @@ export default function StudentCATs() {
                                             Question {currentQuestion + 1} of {cat_question.length}
                                         </Title>
                                         <Progress
-                                            percent={((currentQuestion + 1) / cat_question.length) * 100}
+                                            percent={Math.floor(((currentQuestion + 1) / cat_question.length) * 100)}
                                             steps={cat_question.length}
                                             strokeColor="#1890ff"
                                         />
