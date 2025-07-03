@@ -5,7 +5,7 @@ import {DollarOutlined, PrinterOutlined} from "@ant-design/icons";
 function TutorSalary() {
 
     const {Text} = Typography
-    return <div className="p-6">
+    return <div className="p-6 xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <Card className="shadow-md">
                 <Statistic

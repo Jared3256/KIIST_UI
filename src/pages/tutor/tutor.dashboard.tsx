@@ -725,7 +725,7 @@ export default function TutorDashboard() {
         }
     }, []);
     return (
-        <Content className="bg-gray-50 sm:mt-10 md:mt-10">
+        <Content className="bg-gray-50 xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0">
             <div className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                     <Card className="shadow-md">

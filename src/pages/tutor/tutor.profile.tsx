@@ -72,7 +72,7 @@ function TutorProfile() {
     const {current} = useSelector(selectAuth)
 
     console.log(current.UserInfo)
-    return <div className="p-6 sm:mt-10">
+    return <div className="p-6 xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
                 <Card className="shadow-md text-center">
@@ -187,7 +187,7 @@ function TutorProfile() {
                                 dataIndex: "schedule",
                                 key: "schedule",
                             },
-                            
+
                         ]}
                         pagination={false}
                     />

@@ -205,7 +205,7 @@ function TutorMyClassess() {
         setSelectedClass(classId);
         setActiveSubTab("overview");
     };
-    return <div className="p-6">
+    return <div className="p-6 xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0">
         <div className="flex justify-between items-center mb-6">
             <Title level={4}>My Classes</Title>
         </div>
