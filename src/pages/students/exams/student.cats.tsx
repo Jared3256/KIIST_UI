@@ -24,6 +24,7 @@ import {dataToCatQuestions, dataToCompletedCATS, dataToStudentCATs, dataToUnits}
 import {useSelector} from 'react-redux';
 import {selectAuth} from 'src/redux/auth/selectors';
 import {differenceInMinutes} from 'date-fns';
+import {useNavigate} from 'react-router';
 
 const upcomingAssignments = [
     {
@@ -157,6 +158,7 @@ export default function StudentCATs() {
     const [cat_question, setCatQuestion] = useState([]);
     const [registrations, setRegistrations] = useState([])
     const [unitCode, setUnitCode] = useState([])
+    const navigate = useNavigate()
 
 
     const GetAllCATs = async () => {
@@ -395,10 +397,22 @@ export default function StudentCATs() {
                 });
             }
         };
+
+        const handleBeforeUnload = (e) => {
+            if (isExamMode) {
+                handleSubmitExam()
+                e.preventDefault();
+                e.returnValue = "";
+            }
+        }
+
+
         window.addEventListener("blur", handleBlur);
+        window.addEventListener("beforeunload", handleBeforeUnload);
 
         return () => {
             window.removeEventListener("blur", handleBlur);
+            window.addEventListener("beforeunload", handleBeforeUnload);
         };
     }, [isExamMode]);
 

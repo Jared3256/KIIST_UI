@@ -9,12 +9,12 @@ export default function PageLayout() {
     useEffect(() => {
         // Detect network changes
         window.addEventListener("offline", () => {
-            navigate("/offline", {state: location});
+            // navigate("/offline", {state: location});
 
         });
 
         window.addEventListener("online", () => {
-            navigate(location.state.pathname);
+            // navigate(location.state.pathname);
 
         });
     }, []);
