@@ -894,7 +894,7 @@ export default function TutorDashboard() {
                         <div className="mt-4">
                             <Button
                                 type="primary"
-                                onClick={() => handleViewSalaryDetails(salaryHistory[0])}
+                                // onClick={() => handleViewSalaryDetails(salaryHistory[0])}
                                 className="!rounded-button whitespace-nowrap"
                             >
                                 View Details
