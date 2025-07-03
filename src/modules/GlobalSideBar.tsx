@@ -479,7 +479,7 @@ export default function Sidebar() {
                                     <List sx={{gap: 0.5}}>
 
                                         <ListItem sx={{mt: 0.5}}>
-                                            <ListItemButton role='menuitem'
+                                            <ListItemButton role='menuitem' disabled
                                                             onClick={() => navigate("/v1/student/exams/assignments")}>
                                                 Assignments
                                             </ListItemButton>
@@ -686,14 +686,14 @@ export default function Sidebar() {
                         mb: 2,
                     }}>
                     <ListItem>
-                        <ListItemButton selected={selected["support"]}>
+                        <ListItemButton disabled={true} selected={selected["support"]}>
                             <SupportRoundedIcon/>
                             Support
                         </ListItemButton>
                     </ListItem>
 
                     <ListItem>
-                        <ListItemButton selected={selected["settings"]}>
+                        <ListItemButton disabled selected={selected["settings"]}>
                             <SettingsRoundedIcon/>
                             Settings
                         </ListItemButton>

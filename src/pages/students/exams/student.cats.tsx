@@ -23,6 +23,7 @@ import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.mana
 import {dataToCatQuestions, dataToCompletedCATS, dataToStudentCATs, dataToUnits} from "src/modules/Data.format.ts";
 import {useSelector} from 'react-redux';
 import {selectAuth} from 'src/redux/auth/selectors';
+import {differenceInMinutes} from 'date-fns';
 
 const upcomingAssignments = [
     {
@@ -259,14 +260,18 @@ export default function StudentCATs() {
                 setExamSubmitted(true);
                 setIsExamMode(false);
                 setExamInProgress(false);
-                setExamSubmissionLoading(false);
+
                 notification.success({
                     message: "Examination Submitted",
                     description: "Your examination has been successfully submitted.",
                 });
+
             }
+
         } catch (e) {
             console.log(e)
+        } finally {
+            setExamSubmissionLoading(false);
         }
 
     };
@@ -291,13 +296,20 @@ export default function StudentCATs() {
         setExamReadyVisible(false);
         setIsExamMode(true);
         setExamInProgress(true);
-        setTimeRemaining(3600); // Reset timer to 1 hour
+        setTimeRemaining(genereteTimeRemaining());
+        genereteTimeRemaining()
         setCurrentQuestion(0);
         setExamSubmitted(false);
         setTabSwitchCount(0);
         setTabSwitchWarning(false);
         setExamAnswers(sampleQuestions.map(() => null));
     };
+
+    const genereteTimeRemaining = () => {
+        const currentTime = new Date()
+
+        return (differenceInMinutes(selectedCat.endTime, currentTime) + 1) * 60
+    }
     // Check if CAT is currently available based on time window
 
     const isCatAvailable = (cat: any): boolean => {
@@ -314,7 +326,6 @@ export default function StudentCATs() {
         if (!startTime || !endTime) return "No time restriction";
 
         const start = new Date(startTime);
-        console.log("My time", start, startTime)
         const end = new Date(endTime);
 
         return `${start.toLocaleTimeString([], {
@@ -352,10 +363,29 @@ export default function StudentCATs() {
         };
     }, [isExamMode, timeRemaining, examSubmitted]);
 
-    // Tab switch detection
     useEffect(() => {
-        const handleVisibilityChange = () => {
-            if (isExamMode && document.visibilityState === "hidden") {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                await handleSubmitExam()
+                await GetAllCompletedCATs()
+            } catch (err) {
+                console.error("Error fetching entities", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (tabSwitchCount == 2) {
+            fetchData();
+        }
+
+    }, [tabSwitchCount]);
+
+    useEffect(() => {
+        const handleBlur = () => {
+            if (isExamMode) {
+                setTabSwitchCount((prev) => prev + 1)
                 setTabSwitchWarning(true);
                 notification.warning({
                     message: "Tab Switch Detected",
@@ -365,10 +395,10 @@ export default function StudentCATs() {
                 });
             }
         };
+        window.addEventListener("blur", handleBlur);
 
-        document.addEventListener("visibilitychange", handleVisibilityChange);
         return () => {
-            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            window.removeEventListener("blur", handleBlur);
         };
     }, [isExamMode]);
 
@@ -543,7 +573,7 @@ export default function StudentCATs() {
 
                                 <div className="flex items-center gap-4 sm:mt-5 xs:mt-5">
                                     <Text className="text-white">
-                                        Tab Switches: {tabSwitchCount}/3
+                                        Tab Switches: {tabSwitchCount}/2
                                     </Text>
                                     <Button
                                         type="primary"
@@ -561,7 +591,7 @@ export default function StudentCATs() {
 
                                 <Alert
                                     message="Warning: Tab Switch Detected"
-                                    description={`Switching tabs during an examination is not allowed. This incident has been logged. (${tabSwitchCount}/3)`}
+                                    description={`Switching tabs during an examination is not allowed. This incident has been logged. (${tabSwitchCount}/2)`}
                                     type="warning"
                                     showIcon
                                     closable
@@ -669,6 +699,7 @@ export default function StudentCATs() {
                                     submitted.
                                 </Text>
                                 <Button
+                                    loading={examSubmissionLoading}
                                     type="primary"
                                     danger
                                     onClick={handleSubmitExam}
