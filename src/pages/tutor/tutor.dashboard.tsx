@@ -23,6 +23,11 @@ import {
 } from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
 import * as echarts from "echarts";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import {dataToAssignedUnits} from "src/modules/Data.format.ts";
+import {useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors.ts";
+import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
 // Mock data for classes
 
 const classes = [
@@ -612,7 +617,12 @@ export default function TutorDashboard() {
     const {Content} = Layout
     const {Text, Title} = Typography
     const [feedbackForm] = Form.useForm();
+    const {current} = useSelector(selectAuth)
+    const hotAxiosPrivate = useAxiosPrivate()
 
+    const [students, setStudents] = useState<number>(0)
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState<boolean>(false)
     const [chartInstance, setChartInstance] = useState<echarts.ECharts | null>(
         null,
     );
@@ -649,6 +659,7 @@ export default function TutorDashboard() {
         });
     };
 
+
     const handleSubmitGrade = () => {
         feedbackForm.validateFields().then((values) => {
             // In a real application, this would update the database
@@ -664,7 +675,31 @@ export default function TutorDashboard() {
         setSelectedSalary(salary);
         setSalaryDetailsVisible(true);
     };
+    // Method to get all the courses available to you
+    const GetEntity = async (entity) => {
+        let data = await admin_crud_request.get_spc({
+            hotAxiosPrivate: hotAxiosPrivate,
+            url: `/tutor/${current.UserInfo.entity._id}/unit/list`
+        })
 
+        if (entity === "course") {
+            const d = dataToAssignedUnits(data.data)
+            console.log(d)
+
+            setCourses(d[0])
+
+        }
+        return data
+    }
+
+    //Count the number of students
+    useEffect(() => {
+        let student_number = 0;
+        courses.map((course) => {
+            student_number += course.students
+        })
+        setStudents(student_number)
+    }, [courses]);
     // Initialize charts
     useEffect(() => {
 
@@ -715,6 +750,18 @@ export default function TutorDashboard() {
                     },
                 ],
             };
+            const fetchData = async () => {
+                try {
+                    setLoading(true);
+                    await GetEntity("course");
+                } catch (err) {
+                    console.error("Error fetching entities", err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchData();
             myChart.setOption(option);
             setChartInstance(myChart);
 
@@ -730,8 +777,9 @@ export default function TutorDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                     <Card className="shadow-md">
                         <Statistic
+                            loading={loading}
                             title="Total Classes"
-                            value={classes.length}
+                            value={courses.length}
                             prefix={<BookOutlined/>}
                             valueStyle={{color: "#1890ff"}}
                         />
@@ -739,8 +787,9 @@ export default function TutorDashboard() {
                     </Card>
                     <Card className="shadow-md">
                         <Statistic
+                            loading={loading}
                             title="Total Students"
-                            value={students.length}
+                            value={students}
                             prefix={<TeamOutlined/>}
                             valueStyle={{color: "#52c41a"}}
                         />
@@ -748,8 +797,9 @@ export default function TutorDashboard() {
                     </Card>
                     <Card className="shadow-md">
                         <Statistic
+                            loading={loading}
                             title="Pending Assignments"
-                            value={assignments.filter((a) => a.status === "pending").length}
+                            value={0}
                             prefix={<FileTextOutlined/>}
                             valueStyle={{color: "#faad14"}}
                         />
@@ -757,13 +807,14 @@ export default function TutorDashboard() {
                     </Card>
                     <Card className="shadow-md">
                         <Statistic
+                            loading={loading}
                             title="Average Attendance"
-                            value={89}
+                            value={0}
                             suffix="%"
                             prefix={<CheckCircleOutlined/>}
                             valueStyle={{color: "#722ed1"}}
                         />
-                        <Progress percent={89} status="active" strokeColor="#722ed1"/>
+                        <Progress percent={0} status="active" strokeColor="#722ed1"/>
                     </Card>
                 </div>
 

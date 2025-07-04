@@ -14,10 +14,16 @@ import {
     Typography
 } from "antd";
 import {CheckCircleOutlined, EnvironmentOutlined, TeamOutlined} from "@ant-design/icons";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import {getCurrentSemesterName} from "../admin/session/admin.session.manager";
 import {format} from "date-fns";
+import {admin_crud_request} from "src/service/crud.service.ts";
+import {dataToAssignedUnits} from "src/modules/Data.format.ts";
+import {useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors.ts";
+import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
+import Loading from "src/components/Loading";
 
 // Mock data for students
 const students = [
@@ -157,12 +163,17 @@ const classes = [
 ];
 
 function TutorMyClassess() {
+    const {current} = useSelector(selectAuth)
+    const hotAxiosPrivate = useAxiosPrivate()
     const {Title, Text, Paragraph} = Typography
     const [selectedClass, setSelectedClass] = useState<number | null>(null);
     const [attendanceList, setAttendanceList] = useState<any[]>([]);
     const [attendanceDate, setAttendanceDate] = useState<string>("");
     const [attendanceModalVisible, setAttendanceModalVisible] =
         useState<boolean>(false);
+    const [students, setStudents] = useState<number>(0)
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const handleSubmitAttendance = () => {
         // In a real application, this would update the database
@@ -183,83 +194,113 @@ function TutorMyClassess() {
     const getClassById = (classId: number) => {
         return classes.find((c) => c.id === classId);
     };
-    const handleTakeAttendance = (classId: number) => {
-        setSelectedClass(classId);
+    const handleTakeAttendance = (classId) => {
+        console.log(courses.filter((course) => course.key === classId)[0])
+        setSelectedClass(courses.filter((course) => course.key === classId)[0]);
         setAttendanceDate(new Date().toISOString().split("T")[0]);
-
-        // Generate attendance list for the selected class
-        const classStudents = students.slice(
-            0,
-            getClassById(classId)?.students || 0,
-        );
-        setAttendanceList(
-            classStudents.map((student) => ({
-                ...student,
-                present: true,
-            })),
-        );
-
         setAttendanceModalVisible(true);
     };
     const handleClassSelect = (classId: number) => {
         setSelectedClass(classId);
-        setActiveSubTab("overview");
     };
+
+    const GetEntity = async (entity) => {
+        let data = await admin_crud_request.get_spc({
+            hotAxiosPrivate: hotAxiosPrivate,
+            url: `/tutor/${current.UserInfo.entity._id}/unit/list`
+        })
+
+        if (entity === "course") {
+            const d = dataToAssignedUnits(data.data)
+            console.log(d)
+
+            setCourses(d[0])
+
+        }
+        return data
+    }
+    //Count the number of students
+    useEffect(() => {
+        let student_number = 0;
+        courses.map((course) => {
+            student_number += course.students
+        })
+        setStudents(student_number)
+    }, [courses]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                await GetEntity("course");
+            } catch (err) {
+                console.error("Error fetching entities", err);
+            } finally {
+                setLoading(false)
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return <div className="p-6 xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0">
         <div className="flex justify-between items-center mb-6">
             <Title level={4}>My Classes</Title>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {classes.map((classItem) => (
-                <Card
-                    key={classItem.id}
-                    className="shadow-md hover:shadow-lg transition-shadow cursor-pointer"
-                    onClick={() => handleClassSelect(classItem.id)}
-                >
-                    <div className="flex justify-between">
-                        <div>
-                            <Title level={4}>{classItem.code}</Title>
-                            <Paragraph>{classItem.name}</Paragraph>
-                        </div>
-                        <Tag color="blue">{classItem.semester}</Tag>
-                    </div>
-                    <Divider/>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Statistic
-                            title="Students"
-                            value={classItem.students}
-                            prefix={<TeamOutlined/>}
-                        />
-                        <Statistic
-                            title="Attendance"
-                            value={classItem.attendance}
-                            suffix="%"
-                            prefix={<CheckCircleOutlined/>}
-                        />
-                    </div>
-                    <Divider/>
-                    <div className="flex justify-between items-center">
-                        <Space>
-                            <EnvironmentOutlined/>
-                            <Text>{classItem.location}</Text>
-                        </Space>
-                        <Button
-                            type="primary"
-                            size="small"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleTakeAttendance(classItem.id);
-                            }}
-                            className="!rounded-button whitespace-nowrap"
-                        >
-                            Take Attendance
-                        </Button>
-                    </div>
-                </Card>
-            ))}
-        </div>
 
+        <Loading isLoading={loading}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {courses.map((course) => (
+                    <>{course.students > 0 &&
+                        <Card
+                            key={course.key}
+                            className="shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                            onClick={() => handleClassSelect(course.key)}
+                        >
+                            <div className="flex justify-between">
+                                <div>
+                                    <Title level={4}>{course.code}</Title>
+                                    <Paragraph>{course.title}</Paragraph>
+                                </div>
+                                <Tag color="blue">{getCurrentSemesterName()}</Tag>
+                            </div>
+                            <Divider/>
+                            <div className="grid grid-cols-2 gap-4">
+                                <Statistic
+                                    title="Students"
+                                    value={course.students}
+                                    prefix={<TeamOutlined/>}
+                                />
+                                <Statistic
+                                    title="Attendance"
+                                    value={course.attendance}
+                                    suffix="%"
+                                    prefix={<CheckCircleOutlined/>}
+                                />
+                            </div>
+                            <Divider/>
+                            <div className="flex justify-between items-center">
+                                <Space>
+                                    <EnvironmentOutlined/>
+                                    <Text>Available LH</Text>
+                                </Space>
+                                <Button
+                                    type="primary"
+                                    size="small"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleTakeAttendance(course.key);
+                                    }}
+                                    className="!rounded-button whitespace-nowrap"
+                                >
+                                    Take Attendance
+                                </Button>
+                            </div>
+                        </Card>}</>
+                ))}
+            </div>
+        </Loading>
         <Modal
             title="Take Attendance"
             open={attendanceModalVisible}
@@ -286,8 +327,8 @@ function TutorMyClassess() {
             <div className="mb-4">
                 <div className="flex justify-between items-center">
                     <Text strong>
-                        Class: {getClassById(selectedClass || 0)?.code} -{" "}
-                        {getClassById(selectedClass || 0)?.name}
+                        Class: {selectedClass?.code} -{" "}
+                        {selectedClass?.title}
                     </Text>
                     <DatePicker
                         value={dayjs(attendanceDate)}
@@ -300,9 +341,9 @@ function TutorMyClassess() {
 
             <div className={"flex justify-center items-center my-20"}>
                 <QRCode
-                    size={180}
+                    size={240}
                     color={"blue"}
-                    value={`${getClassById(selectedClass || 0)?.code} - ${getClassById(selectedClass || 0)?.name} - kiist.vercel.app - ${dayjs(attendanceDate)}`}
+                    value={`${selectedClass?.code} - ${selectedClass?.title} - https://kiist.vercel.app - ${dayjs(attendanceDate)}`}
                     icon=''
                     errorLevel={'L'}
                 />

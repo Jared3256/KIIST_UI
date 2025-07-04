@@ -7,72 +7,15 @@ import {
     MailOutlined,
     PhoneOutlined
 } from "@ant-design/icons";
-import React from "react";
 import {selectAuth} from "src/redux/auth/selectors.ts";
 import {useSelector} from "react-redux";
-
-const classes = [
-    {
-        id: 1,
-        code: "CS101",
-        name: "Introduction to Computer Science",
-        schedule: "Monday, Wednesday, Friday 9:00 AM - 11:00 AM",
-        location: "Block A, Room 205",
-        students: 45,
-        attendance: 92,
-        assignments: 5,
-        cats: 3,
-        semester: "Fall 2025",
-        department: "Computer Science",
-    },
-    {
-        id: 2,
-        code: "CS205",
-        name: "Database Management Systems",
-        schedule: "Tuesday, Thursday 2:00 PM - 4:00 PM",
-        location: "Block B, Room 103",
-        students: 38,
-        attendance: 85,
-        assignments: 4,
-        cats: 2,
-        semester: "Fall 2025",
-        department: "Computer Science",
-    },
-    {
-        id: 3,
-        code: "CS310",
-        name: "Advanced Programming Techniques",
-        schedule: "Monday, Wednesday 1:00 PM - 3:00 PM",
-        location: "ICT Center, Lab 3",
-        students: 32,
-        attendance: 88,
-        assignments: 6,
-        cats: 3,
-        semester: "Fall 2025",
-        department: "Computer Science",
-    },
-    {
-        id: 4,
-        code: "CS401",
-        name: "Network Security",
-        schedule: "Friday 9:00 AM - 12:00 PM",
-        location: "Block C, Room 301",
-        students: 28,
-        attendance: 90,
-        assignments: 3,
-        cats: 2,
-        semester: "Fall 2025",
-        department: "Computer Science",
-    },
-];
 
 function TutorProfile() {
 
     const {Title, Text} = Typography
     const {current} = useSelector(selectAuth)
 
-    console.log(current.UserInfo)
-    return <div className="p-6 xs:mt-10 sm:mt-10 md:mt-10 lg:mt-0">
+    return <div className="p-6 mt-10 sm:mt-10 md:mt-10 lg:mt-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
                 <Card className="shadow-md text-center">
