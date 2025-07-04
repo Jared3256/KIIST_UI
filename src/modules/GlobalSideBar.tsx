@@ -38,7 +38,7 @@ import {
     GraduationCap,
     Hotel,
     Signature, ClipboardList,
-    LassoSelect, PoundSterling as CirclePoundSterling, CircleUserRound
+    LassoSelect, PoundSterling as CirclePoundSterling, CircleUserRound, Webhook, Feather
 } from "lucide-react";
 import {logout} from "src/redux/auth/actions";
 
@@ -498,7 +498,7 @@ export default function Sidebar() {
                                         <ListItemButton
                                             selected={selected["programmes"]}
                                             onClick={() => setOpen(!open)}>
-                                            <BookUser/>
+                                            <Webhook/>
                                             <ListItemContent>
                                                 <Typography level='title-sm'>Exams</Typography>
                                             </ListItemContent>
@@ -589,7 +589,7 @@ export default function Sidebar() {
                                         <ListItemButton
                                             selected={selected["programmes"]}
                                             onClick={() => setOpen(!open)}>
-                                            <BookUser/>
+                                            <Feather/>
                                             <ListItemContent>
                                                 <Typography level='title-sm'>Admission</Typography>
                                             </ListItemContent>
