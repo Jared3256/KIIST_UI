@@ -1,0 +1,4 @@
+https://kiist.vercel.app/
+https://kiist.vercel.app/auth
+https://kiist.vercel.app/auth/login
+https://kiist.vercel.app/auth/forgot-password
