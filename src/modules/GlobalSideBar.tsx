@@ -609,6 +609,7 @@ export default function Sidebar() {
                                     <List sx={{gap: 0.5}}>
                                         <ListItem sx={{mt: 0.5}}>
                                             <ListItemButton
+                                                disabled
                                                 onClick={() => navigate("/v1/student/classes")}
                                                 role='menuitem'>
                                                 Classes
@@ -616,14 +617,15 @@ export default function Sidebar() {
                                         </ListItem>
                                         <ListItem sx={{mt: 0.5}}>
                                             <ListItemButton
+                                                disabled
                                                 role='menuitem'
                                                 onClick={() => navigate("/v1/student/history")}>
                                                 Attendance History
                                             </ListItemButton>
                                         </ListItem>
                                         <ListItem>
-                                            <ListItemButton
-                                                onClick={() => navigate("/v1/student/analytics")}>
+                                            <ListItemButton disabled
+                                                            onClick={() => navigate("/v1/student/analytics")}>
                                                 Analytics
                                             </ListItemButton>
                                         </ListItem>
