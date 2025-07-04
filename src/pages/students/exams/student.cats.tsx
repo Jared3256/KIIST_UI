@@ -23,7 +23,7 @@ import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.mana
 import {dataToCatQuestions, dataToCompletedCATS, dataToStudentCATs, dataToUnits} from "src/modules/Data.format.ts";
 import {useSelector} from 'react-redux';
 import {selectAuth} from 'src/redux/auth/selectors';
-import {differenceInMinutes} from 'date-fns';
+import {differenceInMinutes, isBefore} from 'date-fns';
 import {useNavigate} from 'react-router';
 
 const upcomingAssignments = [
@@ -137,14 +137,14 @@ export default function StudentCATs() {
     const [currentFeedback, setCurrentFeedback] = useState<any>(null);
     const [isExamMode, setIsExamMode] = useState<boolean>(false);
     const [examSubmitted, setExamSubmitted] = useState<boolean>(false);
-    const [examInProgress, setExamInProgress] = useState<boolean>(false);
+    const [, setExamInProgress] = useState<boolean>(false);
     const [timeRemaining, setTimeRemaining] = useState<number>(3600); // 1 hour in seconds
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [tabSwitchCount, setTabSwitchCount] = useState<number>(0);
     const [feedbackDrawerVisible, setFeedbackDrawerVisible] =
         useState<boolean>(false);
 
-    const [tabSwitchWarning, setTabSwitchWarning] = useState<boolean>(false);
+    const [, setTabSwitchWarning] = useState<boolean>(false);
     const [examAnswers, setExamAnswers] = useState<any[]>(
         sampleQuestions.map(() => null),
     );
@@ -169,8 +169,7 @@ export default function StudentCATs() {
             })
 
             if (data.success) {
-                console.log(dataToStudentCATs(data.data))
-                setAllCATs(dataToStudentCATs(data.data))
+                setAllCATs(dataToStudentCATs(data.data).filter((filt) => isBefore(new Date(), filt.endTime)))
             }
         } catch (e) {
             console.log(e)
@@ -241,8 +240,6 @@ export default function StudentCATs() {
         setExamAnswers(newAnswers);
     };
     const handleSubmitExam = async () => {
-        console.log(console.log(cat_question)
-        )
 
         setExamSubmissionLoading(true);
 
