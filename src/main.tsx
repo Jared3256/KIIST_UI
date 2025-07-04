@@ -5,7 +5,6 @@ import "./index.css";
 import PageLoader from "./components/PageLoader";
 import {Provider} from "react-redux";
 import store from "./redux/store";
-import {Analytics} from "@vercel/analytics/next"
 
 import "@ant-design/v5-patch-for-react-19";
 import Cursor from "./components/cursor";
@@ -13,11 +12,11 @@ import Cursor from "./components/cursor";
 const KiistApp = lazy(() => import("./engine/KIIST"));
 
 createRoot(document.getElementById("root")!).render(
-    <StrictMode><Analytics>
+    <StrictMode>
         <Suspense fallback={<PageLoader/>}>
             <Provider store={store}>
                 <KiistApp/>
             </Provider>
-        </Suspense></Analytics>
+        </Suspense>
     </StrictMode>
 );

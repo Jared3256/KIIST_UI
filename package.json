@@ -25,7 +25,6 @@
     "@mui/x-data-grid-premium": "^8.5.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.7",
-    "@vercel/analytics": "^1.5.0",
     "antd": "^5.25.1",
     "axios": "^1.9.0",
     "date-fns": "^4.1.0",
