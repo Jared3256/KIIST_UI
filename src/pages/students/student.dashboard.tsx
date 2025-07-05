@@ -38,6 +38,7 @@ import {dataToUnits} from "src/modules/Data.format.ts";
 import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
 import Loading from "src/components/Loading.tsx";
 import {format, isThisWeek, isToday} from "date-fns";
+import {getCurrentSemesterName} from "../admin/session/admin.session.manager";
 
 
 export default function StudentDashboard() {
@@ -51,6 +52,7 @@ export default function StudentDashboard() {
     const [attendance, setAttendance] = useState([]);
     const [attended, setAttended] = useState([])
     const [remaining, setRemaining] = useState(0)
+    const [overView, setOverView] = useState(0)
 
     // User module
 
@@ -148,6 +150,20 @@ export default function StudentDashboard() {
         setIsQrModalVisible(true);
     };
 
+    const GetOverview = async () => {
+        try {
+            const data = await admin_crud_request.get_spc({
+                url: `/student/attendance/overview?regNumber=${current.UserInfo.entity.registrationNumber}&semester=${getCurrentSemesterName()}`,
+                hotAxiosPrivate: hotAxiosPrivate
+            })
+
+            if (data.success) {
+                setOverView(data.data)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
     const getAttendance = async () => {
         const data = await admin_crud_request.get_spc({
             url: `/student/attendance/list?id=${current.UserInfo.entity.registrationNumber}`,
@@ -190,7 +206,7 @@ export default function StudentDashboard() {
                 setIsLoading(true);
                 await GetRegistrations()
                 await getAttendance()
-
+                await GetOverview()
             } catch (err) {
                 console.error("Error fetching entities", err);
             } finally {
@@ -230,19 +246,11 @@ export default function StudentDashboard() {
             <Box mb={4}>
                 <Alert
                     message='Attendance Alert'
-                    description='Your attendance in Machine Learning (CS4053) is below 80%. Please improve your attendance to avoid academic penalties.'
+                    description='Your attendance in some units is below 80%. Please improve your attendance to avoid academic penalties.'
                     type='warning'
                     showIcon
                     icon={<WarningOutlined/>}
                     className='mb-6'
-                    action={
-                        <Button
-                            size='small'
-                            type='text'
-                            className='!rounded-button whitespace-nowrap'>
-                            View Details
-                        </Button>
-                    }
                 />
             </Box>
 
@@ -251,15 +259,16 @@ export default function StudentDashboard() {
                 <Col xs={24} sm={12}>
                     <Card className='h-full shadow-sm hover:shadow-md transition-shadow'>
                         <Statistic
+                            loading={isLoading}
                             title='Overall Attendance'
-                            value={studentData.overallAttendance}
+                            value={overView}
                             suffix='%'
                             valueStyle={{
                                 color:
-                                    studentData.overallAttendance >= 85 ? "#3f8600" : "#cf1322",
+                                    overView >= 85 ? "#3f8600" : "#cf1322",
                             }}
                             prefix={
-                                studentData.overallAttendance >= 85 ? (
+                                overView >= 85 ? (
                                     <CheckCircleOutlined/>
                                 ) : (
                                     <WarningOutlined/>
@@ -267,9 +276,9 @@ export default function StudentDashboard() {
                             }
                         />
                         <Progress
-                            percent={studentData.overallAttendance}
+                            percent={overView}
                             status={
-                                studentData.overallAttendance >= 85 ? "success" : "exception"
+                                overView >= 85 ? "success" : "exception"
                             }
                             className='mt-2'
                         />
@@ -330,7 +339,7 @@ export default function StudentDashboard() {
                                 </div>
                             </div>
                             <div className='flex flex-col items-end justify-between bg-red'>
-                               
+
                                 <Button
                                     type='primary'
                                     icon={<ScanOutlined/>}
