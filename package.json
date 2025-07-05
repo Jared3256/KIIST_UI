@@ -32,6 +32,7 @@
     "echarts": "^5.6.0",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^12.12.1",
+    "gsap": "^3.13.0",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.510.0",
     "moment": "^2.30.1",

@@ -11,6 +11,11 @@ import {
 import {useEffect} from "react";
 import * as echarts from "echarts";
 import {Link, useNavigate} from "react-router";
+import {gsap} from "gsap";
+
+import {SplitText} from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
 
 const FlowingSection = ({bgImage, title, subtitle}) => {
 

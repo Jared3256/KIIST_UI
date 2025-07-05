@@ -1,25 +1,64 @@
 import {CheckCircleOutlined, WarningOutlined} from "@ant-design/icons";
-import {Alert, Button, message, Modal, Typography} from "antd";
+import {Alert, Button, message, Modal, notification, Typography} from "antd";
 import React, {useEffect, useRef} from "react";
 import QrScanner from "qr-scanner";
+import {useSelector} from "react-redux";
+import {selectAuth} from "src/redux/auth/selectors";
+import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
+import {admin_crud_request} from "src/service/crud.service";
+import { getCurrentSemesterName } from "src/pages/admin/session/admin.session.manager";
 
 export default function QRScanModal({
                                         isQrModalVisible,
                                         setIsQrModalVisible,
                                         selectedClass,
+                                        getAttendance
                                     }) {
     const {Title, Text} = Typography;
     const videoRef = useRef(null);
     const qrScannerRef = useRef(null);
+    const {current} = useSelector(selectAuth)
+    const hotAxiosPrivate = useAxiosPrivate();
 
     // Handle QR scan
-    const handleQrScan = (res) => {
+    const handleQrScan = async (result) => {
 
-        // Simulate successful scan
-        setTimeout(() => {
+        const student_attendance = {
+            regNumber: current.UserInfo.entity.registrationNumber,
+            date: new Date(),
+            code: selectedClass.course,
+            title: selectedClass.title,
+            status: "pending",
+            semester:getCurrentSemesterName()
+        }
+        try {
+            if (String(result.data).startsWith(selectedClass.course)) {
+                console.log(student_attendance)
+
+                const data = await admin_crud_request.post_spc({
+                    data: student_attendance,
+                    hotAxiosPrivate: hotAxiosPrivate,
+                    url: "/student/attendance/create",
+                })
+
+                if (data.success) {
+                    console.log(data.data)
+                    getAttendance()
+                }
+            } else {
+                notification.config({
+                    duration: 20,
+                    maxCount: 1,
+                });
+
+                notification.error({
+                    message: "Invalid QR code",
+                    description: "You need to scan the correct class code",
+                });
+            }
+        } finally {
             setIsQrModalVisible(false);
-            // Show success message
-        }, 2000);
+        }
     };
 
     useEffect(() => {
@@ -68,9 +107,9 @@ export default function QRScanModal({
             {selectedClass && (
                 <div className='text-center'>
                     <div className='mb-4'>
-                        <Title level={4}>{selectedClass.courseName}</Title>
+                        <Title level={4}>{selectedClass.title}</Title>
                         <Text type='secondary'>
-                            {selectedClass.courseCode} | {selectedClass.venue}
+                            {selectedClass.course} | Available LH
                         </Text>
                     </div>
 
@@ -108,18 +147,14 @@ export default function QRScanModal({
                     <div className='mb-4'>
                         <Alert
                             message={
-                                selectedClass.distance <= 0.2
-                                    ? "You are within the class location range"
-                                    : "You are not within the class location range"
+
+                                "Ensure to capture the correct QR"
                             }
-                            type={selectedClass.distance <= 0.2 ? "success" : "error"}
+                            type={"success"}
                             showIcon
                             icon={
-                                selectedClass.distance <= 0.2 ? (
-                                    <CheckCircleOutlined/>
-                                ) : (
-                                    <WarningOutlined/>
-                                )
+
+                                <CheckCircleOutlined/>
                             }
                         />
                     </div>
