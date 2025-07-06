@@ -84,8 +84,6 @@ export default function TutorGradeManagement() {
         })
 
         if (data.success) {
-            console.log(data.data)
-
             setGrades(data.data)
         }
     }
@@ -96,8 +94,6 @@ export default function TutorGradeManagement() {
 
         if (data.data) {
             setRegistrations(dataToUnits(data.data))
-            console.log(dataToUnits(data.data).filter(item => item.status === "approved"))
-
         }
     }
     // ###########################################################################
@@ -139,7 +135,6 @@ export default function TutorGradeManagement() {
             values = {
                 ...values, semester: getCurrentSemesterName()
             }
-            console.log(values)
 
             try {
                 const data = await admin_crud_request.post_spc({
@@ -183,12 +178,8 @@ export default function TutorGradeManagement() {
         }
 
         if (modalType === "enterGrades") {
-            console.log("Entering")
-
             sendToServer("create");
         } else if (modalType === "editGrades") {
-            console.log("Editing")
-
             sendToServer("edit");
         }
 
@@ -279,8 +270,6 @@ export default function TutorGradeManagement() {
 
     // Get approved registrations for the selected course
     const getApprovedRegistrations = (courseCode: string) => {
-        console.log(courseCode)
-
         return registrations.filter(
             (reg) => reg.status === "approved" && reg.course === courseCode,
         );

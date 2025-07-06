@@ -195,7 +195,6 @@ function TutorMyClassess() {
         return classes.find((c) => c.id === classId);
     };
     const handleTakeAttendance = (classId) => {
-        console.log(courses.filter((course) => course.key === classId)[0])
         setSelectedClass(courses.filter((course) => course.key === classId)[0]);
         setAttendanceDate(new Date().toISOString().split("T")[0]);
         setAttendanceModalVisible(true);
@@ -212,8 +211,6 @@ function TutorMyClassess() {
 
         if (entity === "course") {
             const d = dataToAssignedUnits(data.data)
-            console.log(d)
-
             setCourses(d[0])
 
         }

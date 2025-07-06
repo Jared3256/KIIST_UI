@@ -206,7 +206,7 @@ const dataToLecturerCat = (result: any) => {
 }
 
 const dataToStudentCATs = (result: any) => {
-    
+
     return result.map((item: any) => ({
         key: item.code._id,
         title: item.code.title,
@@ -231,7 +231,7 @@ const dataToCatQuestions = (result: any) => {
 }
 
 const dataToCompletedCATS = (result: any) => {
-    console.log(result)
+
     return result.map((item: any) => ({
         key: item._id,
         title: item.code.title,

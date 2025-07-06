@@ -33,8 +33,6 @@ export default function TutorCATs() {
 
 
         if (data.success) {
-            console.log(dataToLecturerCat(data.data))
-
             setCats(dataToLecturerCat(data.data))
         }
 

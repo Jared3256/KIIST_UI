@@ -165,7 +165,7 @@ export default function AdminGradeManagement() {
 
             sendToServer("create");
         } else if (modalType === "editGrades") {
-            console.log("Editing")
+
 
             sendToServer("edit");
         }

@@ -189,12 +189,11 @@ export default function StudentDashboard() {
         }
     }
 
+
     useEffect(() => {
         setAttended(attendance)
         const regCodes = Array.from(new Set(registrations.map((r) => r.course)))
         const remCodes = Array.from(new Set(attendance.map((r) => r.code)))
-
-        console.log(regCodes, remCodes)
         const rem = regCodes.filter((code) => !remCodes.includes(code)).length
         setRemaining(rem)
 

@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {selectAuth} from "src/redux/auth/selectors";
 import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
 import {admin_crud_request} from "src/service/crud.service";
-import { getCurrentSemesterName } from "src/pages/admin/session/admin.session.manager";
+import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.manager";
 
 export default function QRScanModal({
                                         isQrModalVisible,
@@ -29,11 +29,10 @@ export default function QRScanModal({
             code: selectedClass.course,
             title: selectedClass.title,
             status: "pending",
-            semester:getCurrentSemesterName()
+            semester: getCurrentSemesterName()
         }
         try {
             if (String(result.data).startsWith(selectedClass.course)) {
-                console.log(student_attendance)
 
                 const data = await admin_crud_request.post_spc({
                     data: student_attendance,
@@ -42,7 +41,6 @@ export default function QRScanModal({
                 })
 
                 if (data.success) {
-                    console.log(data.data)
                     getAttendance()
                 }
             } else {
