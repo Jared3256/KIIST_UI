@@ -93,6 +93,7 @@ const dataToPaymentHistory = (result: any) => {
         amount: item.amount,
         method: item.payment,
         status: item.status,
+        studentId: item?.student
     }))
 }
 const dataToReportingHistory = (result: any) => {
@@ -102,7 +103,8 @@ const dataToReportingHistory = (result: any) => {
         regNumber: item.student.registrationNumber,
         name: item.student.personalDetails.firstname + " " + (item.student.personalDetails.middlename || item?.student.personalDetails?.lastname),
         reportDate: format(item.reportingDate, 'EEEE, LLLL do yyyy'), //format("MMMM dd, yyyy", new Date(item.reportingDate)),
-        amount: item.feeStatus.total_fee - item.feeStatus.amount_paid
+        amount: item.feeStatus.total_fee - item.feeStatus.amount_paid,
+
     }))
 }
 
@@ -243,7 +245,22 @@ const dataToCompletedCATS = (result: any) => {
         submited_date: format(new Date(item.submited_date), "MMMM d, yyyy"),
     }))
 }
+
+const dataToStudentFinanceInfo = (result: any) => {
+    console.log(result)
+    return result.map((item: any) => ({
+        balance: item.total_fee - item.amount_paid,
+        name: item.student.personalDetails.firstname + " " + item.student.personalDetails.lastname,
+        status: item.total_fee - item.amount_paid > 50000 ? "Critical" : item.total_fee - item.amount_paid > 10000 ? "Pending" : "Good",
+        regNumber: item.student.registrationNumber,
+        studentId: item.student._id,
+        total_fee: item.total_fee,
+        amount_paid: item.amount_paid,
+        course: item.student.programSelection?.main?.department
+    }))
+}
 export {
+    dataToStudentFinanceInfo,
     dataToCompletedCATS,
     dataToCatQuestions,
     dataToStudentCATs,

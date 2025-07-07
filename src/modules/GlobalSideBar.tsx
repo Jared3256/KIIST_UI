@@ -277,60 +277,53 @@ export default function Sidebar() {
                     )}
 
                     {/* Finance Section only visible to the admin */}
-                    {role === "admin" && (<ListItem>
-                            <ListItemButton
-                                onClick={() => {
-                                    selectedHandler("finance");
-                                    navigate(`/v1/${role}/finance`);
-                                }}
-                                selected={selected["finance"]}>
-                                <DollarSign/>
-                                <ListItemContent>
-                                    <Typography level='title-sm'>Finance</Typography>
-                                </ListItemContent>
-                            </ListItemButton>
+                    {role === "admin" && (<ListItem nested>
+                            <Toggler
+                                renderToggle={({open, setOpen}) => (
+                                    <ListItemButton
+                                        selected={selected["users"]}
+                                        onClick={() => setOpen(!open)}>
+                                        <DollarSign/>
+                                        <ListItemContent>
+                                            <Typography level='title-sm'>Finance</Typography>
+                                        </ListItemContent>
+                                        <KeyboardArrowDownIcon
+                                            sx={[
+                                                open
+                                                    ? {
+                                                        transform: "rotate(180deg)",
+                                                    }
+                                                    : {
+                                                        transform: "none",
+                                                    },
+                                            ]}
+                                        />
+                                    </ListItemButton>
+                                )}>
+                                <List sx={{gap: 0.5}}>
+                                    <ListItem sx={{mt: 0.5}}>
+                                        <ListItemButton
+                                            onClick={() => {
+                                                selectedHandler("finance");
+                                                navigate(`/v1/${role}/finance`);
+                                            }}
+                                            selected={selected["finance"]}>
+                                            Finance
+                                        </ListItemButton>
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemButton disabled={false}
+                                                        onClick={() =>
+                                                            navigate(`/v1/${role}/finance/student-finance`)
+                                                        }>
+                                            Student Finance
+                                        </ListItemButton>
+                                    </ListItem>
+                                </List>
+                            </Toggler>
+
                         </ListItem>
-                        // <ListItem nested>
-                        //     <Toggler
-                        //         renderToggle={({open, setOpen}) => (
-                        //             <ListItemButton
-                        //                 selected={selected["finance"]}
-                        //                 onClick={() => setOpen(!open)}>
-                        //                 <MoneyRounded/>
-                        //                 <ListItemContent>
-                        //                     <Typography level='title-sm'>Finance</Typography>
-                        //                 </ListItemContent>
-                        //                 <KeyboardArrowDownIcon
-                        //                     sx={[
-                        //                         open
-                        //                             ? {
-                        //                                 transform: "rotate(180deg)",
-                        //                             }
-                        //                             : {
-                        //                                 transform: "none",
-                        //                             },
-                        //                     ]}
-                        //                 />
-                        //             </ListItemButton>
-                        //         )}>
-                        //         <List sx={{gap: 0.5}}>
-                        //             <ListItem sx={{mt: 0.5}}>
-                        //                 <ListItemButton disabled role='menuitem'>
-                        //                     Expenses
-                        //                 </ListItemButton>
-                        //             </ListItem>
-                        //             <ListItem>
-                        //                 <ListItemButton disabled>Expense Category</ListItemButton>
-                        //             </ListItem>
-                        //             <ListItem>
-                        //                 <ListItemButton disabled>Payment Mode</ListItemButton>
-                        //             </ListItem>
-                        //             <ListItem>
-                        //                 <ListItemButton disabled>Invoices</ListItemButton>
-                        //             </ListItem>
-                        //         </List>
-                        //     </Toggler>
-                        // </ListItem>
+
                     )}
 
                     {/* Programmes only for the admin and tutors */}

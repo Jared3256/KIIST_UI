@@ -56,6 +56,8 @@ import OnlineCAT4 from "src/pages/test/OnlineCAT4.tsx";
 import TutorProfile from "src/pages/tutor/tutor.profile.tsx";
 import TutorMyClassess from "src/pages/tutor/tutor.my.classess.tsx";
 import TutorSalary from "src/pages/tutor/tutor.salary.tsx";
+import FinanceManager from "src/pages/test/FinanceManager.tsx";
+import AdminStudentFinanceManagement from "src/pages/admin/AdminStudentFinanceManagement.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -177,7 +179,20 @@ const system_routes = createBrowserRouter([
                                 element: <AdminStudentManagement/>,
                             }, {
                                 path: "finance",
-                                element: <AdminFinance/>
+                                element: <Outlet/>,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <Navigate to={"/v1/admin/finance/finance"}/>
+                                    }, {
+                                        path: "finance",
+                                        element: <AdminFinance/>
+                                    },
+                                    {
+                                        path: "student-finance",
+                                        element: <AdminStudentFinanceManagement/>
+                                    }
+                                ]
                             }, {
                                 path: "session",
                                 element: <Outlet/>,
@@ -329,7 +344,7 @@ const system_routes = createBrowserRouter([
                 path: "test",
                 element: (
                     <>
-                        <OnlineCAT4/>
+                        <FinanceManager/>
                     </>
                 ),
             },
