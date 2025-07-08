@@ -78,8 +78,6 @@ export default function TutorCourse() {
 
         if (entity === "course") {
             const d = dataToAssignedUnits(data.data)
-            console.log(d)
-
             setCourses(d[0])
             setMessage(d[1])
         }

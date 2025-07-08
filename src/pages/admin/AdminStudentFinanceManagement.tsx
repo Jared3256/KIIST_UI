@@ -157,6 +157,8 @@ function AdminStudentFinanceManagement() {
     const [paymentHistory, setPaymentHistory] = useState([])
     const [selectedStudent, setSelectedStudent] = useState<any>(null);
     const [paymentModalVisible, setPaymentModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [paymentLoading, setPaymentLoading] = useState(false)
     const {Content} = Layout,
         [activeTab, setActiveTab] = useState("1"),
         [searchText, setSearchText] = useState(""),
@@ -187,9 +189,9 @@ function AdminStudentFinanceManagement() {
                         strong
                         style={{
                             color:
-                                balance > 50000
+                                balance > 10000
                                     ? "#f5222d"
-                                    : balance > 10000
+                                    : balance > 75000
                                         ? "#faad14"
                                         : "#52c41a",
                         }}
@@ -238,7 +240,7 @@ function AdminStudentFinanceManagement() {
                         >
                             Record Payment
                         </Button>
-                        {record.balance > 50000 && (
+                        {record.balance > 10000 && (
                             <Button
                                 type="default"
                                 size="small"
@@ -290,13 +292,35 @@ function AdminStudentFinanceManagement() {
             placement: "topRight",
         });
     };
-    const handlePaymentSubmit = (values: any) => {
-        notification.success({
-            message: "Payment Recorded",
-            description: `Successfully recorded payment of ${values.amount} for ${selectedStudent.name} (${selectedStudent.id}).`,
-            placement: "topRight",
-        });
-        setPaymentModalVisible(false);
+    const handlePaymentSubmit = async (values: any) => {
+
+        setPaymentLoading(true)
+        const req_data = {
+            ...values, studentId: students.filter((std) => std.regNumber === values.studentId)[0].studentId
+        }
+
+        try {
+            const data = await admin_crud_request.post_spc({
+                data: req_data,
+                hotAxiosPrivate: hotAxiosPrivate,
+                url: "/admin/student/finance/payment/create"
+            })
+
+            if (data.success) {
+
+                notification.success({
+                    message: "Payment Recorded",
+                    description: `Successfully recorded payment of ${values.amount} for ${selectedStudent.name}.`,
+                    placement: "topRight",
+                });
+                await systemChecker()
+            }
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setPaymentModalVisible(false);
+            setPaymentLoading(false);
+        }
     };
 
     const GetEntity = async (info) => {
@@ -344,12 +368,13 @@ function AdminStudentFinanceManagement() {
 
         setFilteredStudents(filtered);
     }, [searchText, filters]);
-
+    const systemChecker = async () => {
+        setLoading(true)
+        await GetEntity("info")
+        await GetEntity("history")
+        setLoading(false)
+    }
     useEffect(() => {
-        const systemChecker = async () => {
-            await GetEntity("info")
-            await GetEntity("history")
-        }
         systemChecker()
     }, []);
     return <Content>
@@ -395,9 +420,11 @@ function AdminStudentFinanceManagement() {
 
                 <Card bordered={false} className="shadow-sm">
                     <Table dataSource={filteredStudents}
+                           loading={loading}
                            columns={columns}
                            rowKey={"studentId"}
                            pagination={{pageSize: 10}}
+                           scroll={{x: "max-content"}}
                            expandable={{
                                expandedRowRender: (record) => (
                                    <div className="p-4">
@@ -631,10 +658,14 @@ function AdminStudentFinanceManagement() {
 
         {/* Payment Modal */}
         <Modal
+            loading={paymentLoading}
             title={`Record Payment for ${selectedStudent?.name || ""}`}
             open={paymentModalVisible}
             onCancel={() => setPaymentModalVisible(false)}
-
+            onClose={() => {
+                form.resetFields()
+                setSelectedStudent({})
+            }}
             footer={[
                 <Button
                     key="cancel"
@@ -707,10 +738,8 @@ function AdminStudentFinanceManagement() {
                         ]}
                     >
                         <Select placeholder="Select payment method">
-                            <Option value="cash">Cash</Option>
-                            <Option value="cheque">Cheque</Option>
-                            <Option value="bank">Bank Deposit</Option>
-                            <Option value="mobile">Mobile Money</Option>
+                            <Option value="Bank">Bank Deposit</Option>
+                            <Option value="Mpesa">Mobile Money</Option>
                         </Select>
                     </Form.Item>
 

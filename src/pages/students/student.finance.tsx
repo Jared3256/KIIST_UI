@@ -24,6 +24,8 @@ import useAxiosPrivate from "src/service/useAxiosPrivate";
 import {admin_crud_request} from "src/service/crud.service";
 import PaymentModal from "src/components/PaymentModal";
 import {dataToPaymentHistory} from "src/modules/Data.format.ts";
+import {getCurrentSemesterName} from "../admin/session/admin.session.manager";
+import {addWeeks, differenceInWeeks, format} from "date-fns";
 
 export default function StudentFinance() {
     const {current} = useSelector(selectAuth)
@@ -32,6 +34,9 @@ export default function StudentFinance() {
     const hotAxiosPrivate = useAxiosPrivate()
     const {Title, Text,} = Typography;
     const [paymentHistory, setPaymentHistory] = useState([])
+    const [percentage, setPercentage] = useState(50)
+    const [weeks, setWeeks] = useState(0)
+    const [nextPaymentDue, setNextPayment] = useState("")
 
     const [feeStatus, setFeeStatus] = useState({
         totalFee: currentFinance.total_fee,
@@ -45,7 +50,6 @@ export default function StudentFinance() {
     const [paymentModalVisible, setPaymentModalVisible] = useState(false);
 
     const [loading, setLoading] = useState(false);
-
 
 // Method to get all the courses available to the school
     const GetEntity = async (entity) => {
@@ -61,6 +65,41 @@ export default function StudentFinance() {
         }
     }
 
+    const calculateFeePolicy = () => {
+        let month = 1;
+        const month_name = getCurrentSemesterName().split(" - ")[0]
+        switch (month_name) {
+            case "January":
+                month = 1
+                break
+            case "May":
+                month = 5
+                break
+            case "September":
+                month = 9
+                break
+            default:
+                break
+        }
+
+        const date = new Date()
+        const year = date.getFullYear()
+        const start = new Date(year, month - 1, 1)
+
+        const number_of_weeks = differenceInWeeks(new Date(), start)
+        setWeeks(number_of_weeks)
+
+        if (number_of_weeks >= 9) {
+            setPercentage(100)
+            setNextPayment(format(addWeeks(start, 9), "MMMM dd, yyyy"))
+        } else if (number_of_weeks >= 5) {
+            setPercentage(75)
+            setNextPayment(format(addWeeks(start, 8), "MMMM dd, yyyy"))
+        } else {
+            setPercentage(50)
+            setNextPayment(format(addWeeks(start, 5), "MMMM dd, yyyy"))
+        }
+    }
     const checkFinanceStatus = async () => {
 
         if (current.UserInfo) {
@@ -91,6 +130,7 @@ export default function StudentFinance() {
         }
 
         systemChecker()
+        calculateFeePolicy()
         setLoading(true);
         setTimeout(() => setLoading(false), 1000);
     }, []);
@@ -154,7 +194,7 @@ export default function StudentFinance() {
             <div className="mb-8">
                 <Title level={3}>Financial Statement</Title>
                 <Text type="secondary">
-                    Academic Year: 2025/2026, Semester: May - August
+                    Academic Year: {new Date().getFullYear()}/{new Date().getFullYear() + 1}, {getCurrentSemesterName()}
                 </Text>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -195,16 +235,16 @@ export default function StudentFinance() {
                 <Card title="Payment Progress" className="shadow-sm">
                     <Progress
                         percent={feeStatus.percentagePaid}
-                        status={feeStatus.percentagePaid >= 50 ? "success" : "exception"}
+                        status={feeStatus.percentagePaid >= percentage ? "success" : "exception"}
                         strokeWidth={20}
                     />
                     <div className="mt-4 text-center">
                         <Text
-                            type={feeStatus.percentagePaid >= 50 ? "success" : "danger"}
+                            type={feeStatus.percentagePaid >= percentage ? "success" : "danger"}
                         >
-                            {feeStatus.percentagePaid >= 50
-                                ? "You have paid more than 50% of your fees. All features are accessible."
-                                : "You need to pay at least 50% of your fees to access all features after 4 weeks of semester."}
+                            {feeStatus.percentagePaid >= percentage
+                                ? `You have paid more than ${percentage}% of your fees. All features are accessible.`
+                                : `You need to pay at least ${percentage}% of your fees to access all features after ${weeks} weeks of semester.`}
                         </Text>
                     </div>
                 </Card>
@@ -235,12 +275,12 @@ export default function StudentFinance() {
                         <ClockCircleOutlined className="text-2xl text-orange-500 mr-4"/>
                         <div>
                             <div className="text-lg font-medium">Next Payment Due</div>
-                            <div className="text-red-500 font-medium">June 30, 2025</div>
+                            <div className="text-red-500 font-medium">{nextPaymentDue}</div>
                         </div>
                     </div>
                     <Alert
                         message="Important Notice"
-                        description="Students who have not paid at least 50% of their fees by the 4th week of the semester will have restricted access to certain features including transcripts and course registration."
+                        description={`Students who have not paid at least ${percentage}% of their fees by the ${weeks}${weeks === 1 ? 'st' : weeks === 2 ? 'nd' : 'th'} week of the semester will have restricted access to certain features including transcripts and course registration.`}
                         type="warning"
                         showIcon
                     />

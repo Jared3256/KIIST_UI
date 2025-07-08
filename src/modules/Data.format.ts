@@ -247,11 +247,11 @@ const dataToCompletedCATS = (result: any) => {
 }
 
 const dataToStudentFinanceInfo = (result: any) => {
-    console.log(result)
+
     return result.map((item: any) => ({
         balance: item.total_fee - item.amount_paid,
         name: item.student.personalDetails.firstname + " " + item.student.personalDetails.lastname,
-        status: item.total_fee - item.amount_paid > 50000 ? "Critical" : item.total_fee - item.amount_paid > 10000 ? "Pending" : "Good",
+        status: item.total_fee - item.amount_paid > 10000 ? "Critical" : item.total_fee - item.amount_paid > 7500 ? "Pending" : "Good",
         regNumber: item.student.registrationNumber,
         studentId: item.student._id,
         total_fee: item.total_fee,
