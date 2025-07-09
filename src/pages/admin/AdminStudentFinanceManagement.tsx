@@ -154,10 +154,12 @@ function AdminStudentFinanceManagement() {
     const statuses = ["Good", "Pending", "Critical"];
     const [form] = Form.useForm();
     const {Text, Title} = Typography
+
     const [paymentHistory, setPaymentHistory] = useState([])
     const [selectedStudent, setSelectedStudent] = useState<any>(null);
     const [paymentModalVisible, setPaymentModalVisible] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [reminderLoading, setReminderLoading] = useState(false)
     const [paymentLoading, setPaymentLoading] = useState(false)
     const {Content} = Layout,
         [activeTab, setActiveTab] = useState("1"),
@@ -285,12 +287,28 @@ function AdminStudentFinanceManagement() {
         form.resetFields();
     };
 
-    const sendNotification = (student: any) => {
-        notification.success({
-            message: "Notification Sent",
-            description: `Balance reminder sent to ${student.name} (${student.id}).`,
-            placement: "topRight",
-        });
+    const sendNotification = async (student: any) => {
+        try {
+            setReminderLoading(true)
+            const data = await admin_crud_request.post_spc({
+                data: {},
+                hotAxiosPrivate: hotAxiosPrivate,
+                url: `/admin/student/finance/reminder/create?id=${student.studentId}`
+            })
+
+            if (data.success) {
+                notification.success({
+                    message: "Notification Sent",
+                    description: `Balance reminder sent to ${student.name}.`,
+                    placement: "topRight",
+                });
+            }
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setReminderLoading(false)
+        }
+
     };
     const handlePaymentSubmit = async (values: any) => {
 
@@ -563,6 +581,7 @@ function AdminStudentFinanceManagement() {
                                                    {/*    Print Statement*/}
                                                    {/*</Button>*/}
                                                    <Button
+                                                       loading={reminderLoading}
                                                        icon={<MailOutlined/>}
                                                        className="!rounded-button whitespace-nowrap"
                                                    >
