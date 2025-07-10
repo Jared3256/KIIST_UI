@@ -59,6 +59,7 @@ import TutorSalary from "src/pages/tutor/tutor.salary.tsx";
 import FinanceManager from "src/pages/test/FinanceManager.tsx";
 import AdminStudentFinanceManagement from "src/pages/admin/AdminStudentFinanceManagement.tsx";
 import About from "src/components/landing_page/About.tsx";
+import AdminInitialRegistration from "src/pages/admin/AdminInitialRegistration.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -72,6 +73,10 @@ const system_routes = createBrowserRouter([
             {
                 path: "about",
                 element: <About/>
+            },
+            {
+                path: "admin-registration",
+                element: <AdminInitialRegistration/>
             },
             {
                 path: "h",
