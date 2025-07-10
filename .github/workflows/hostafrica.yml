@@ -1,0 +1,37 @@
+name: Build and Push to Host Africa
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: ["master"]
+ 
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: 🧱 Setup Node
+      uses: actions/setup-node@v3
+      with:
+          node-version: '18'
+
+    - name: 📦 Install Dependencies
+      run: npm ci
+
+    - name: 🏗️ Build React App
+      run: |
+          npm run build
+
+    - name: 🚚 Deploy via FTP to HostAfrica
+      uses: SamKirkland/FTP-Deploy-Action@v4
+      with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./dist 
+          server-dir: /public_html/shan/ 
