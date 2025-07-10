@@ -1,3 +1,6 @@
+User-agent: *
+Disallow:
+
 https://kiist.vercel.app/
 https://kiist.vercel.app/auth
 https://kiist.vercel.app/auth/login
