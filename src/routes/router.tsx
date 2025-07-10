@@ -58,6 +58,7 @@ import TutorMyClassess from "src/pages/tutor/tutor.my.classess.tsx";
 import TutorSalary from "src/pages/tutor/tutor.salary.tsx";
 import FinanceManager from "src/pages/test/FinanceManager.tsx";
 import AdminStudentFinanceManagement from "src/pages/admin/AdminStudentFinanceManagement.tsx";
+import About from "src/components/landing_page/About.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -67,6 +68,10 @@ const system_routes = createBrowserRouter([
             {
                 index: true,
                 element: <LandingPage/>,
+            },
+            {
+                path: "about",
+                element: <About/>
             },
             {
                 path: "h",

@@ -43,7 +43,7 @@ export default function LandingPageBar() {
                     </Box>
 
                     <div className="cursor-pointer" onClick={() => navigate("/")}>
-                        <h1 className='lg:text-2xl text-xl font-bold text-blue-900 m-0'>
+                        <h1 className='lg:text-xl text-xl font-bold text-blue-900 m-0'>
                             Kisii Impact
                         </h1>
                         <div className='hidden lg:flex'>
@@ -131,6 +131,7 @@ const MenuItem = ({mode}) => {
                 Home
             </Menu.Item>
             <Menu.Item
+                onClick={() => navigate("/about")}
                 key='about'
                 className='font-medium text-gray-800 hover:text-purple-700'>
                 About
