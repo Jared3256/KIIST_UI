@@ -1,2 +1,8 @@
 @import "tailwindcss";
 
+/* Ensure these are not hidden */
+.swiper-button-prev,
+.swiper-button-next {
+    color: blue;
+    z-index: 50;
+}

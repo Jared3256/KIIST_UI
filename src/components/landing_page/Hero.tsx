@@ -143,7 +143,7 @@ export default function Hero() {
             <div className="bg-yellow-100 border-b border-yellow-200 p-3 text-center">
                 <p className="m-0 text-yellow-800">
                     <span className="font-bold">Important Notice:</span> Applications for
-                    Fall 2025 semester close on July 15th.
+                    Fall 2025 semester close on July 25th.
                     <Button
                         onClick={() => navigate("/h/admission/register")}
                         type="link"
@@ -200,7 +200,7 @@ export default function Hero() {
                                         value={5200}
                                         className="text-center"
                                     />
-                                    <p className="text-gray-600 mt-2">From 28 counties</p>
+                                    <p className="text-gray-600 mt-2">From 18 counties</p>
                                 </Card>
                             </Col>
                             <Col xs={24} sm={12} md={6}>
@@ -225,11 +225,11 @@ export default function Hero() {
                                     </div>
                                     <Statistic
                                         title="Research Papers"
-                                        value={150}
+                                        value={77}
                                         className="text-center"
                                     />
                                     <p className="text-gray-600 mt-2">
-                                        Published in last 5 years
+                                        Published in last 1 year
                                     </p>
                                 </Card>
                             </Col>
@@ -240,7 +240,7 @@ export default function Hero() {
                                     </div>
                                     <Statistic
                                         title="Industry Partners"
-                                        value={75}
+                                        value={25}
                                         className="text-center"
                                     />
                                     <p className="text-gray-600 mt-2">Global connections</p>

@@ -3,7 +3,6 @@ import {createBrowserRouter, Navigate, Outlet} from "react-router";
 import PageLayout from "../pages/layout/PageLayout";
 import AuthModule from "../modules/Auth.module";
 import Loginv2 from "../pages/auth/new_login";
-import LandingPage from "src/pages/landing_page/LandingPage";
 import PersistAccess from "src/security/PersistAccess";
 import Home from "src/pages/home/home";
 import LandingHome from "src/pages/landing_page/modules/admission";
@@ -44,15 +43,12 @@ import TutorChecker from "src/security/TutorChecker";
 import TutorDashboard from "src/pages/tutor/tutor.dashboard";
 import TutorCourse from "src/pages/tutor/tutor.course";
 import TutorGradeManagement from "src/pages/tutor/tutor.grade.management.tsx";
-import OnlineCat from "src/pages/test/OnlineCAT.tsx";
 import TutorAssignment from "src/pages/tutor/tutor.assignment.tsx";
 import TutorAssignmentCreate from "src/pages/tutor/tutor.assignment.create.tsx";
 import TutorCATs from "src/pages/tutor/tutor.cats.tsx";
 import TutorCatsCreate from "src/pages/tutor/tutor.cats.create.tsx";
 import StudentAssignments from "src/pages/students/exams/student.assignments.tsx";
 import StudentCATs from "src/pages/students/exams/student.cats.tsx";
-import OnlineCAT3 from "src/pages/test/OnlineCAT3.tsx";
-import OnlineCAT4 from "src/pages/test/OnlineCAT4.tsx";
 import TutorProfile from "src/pages/tutor/tutor.profile.tsx";
 import TutorMyClassess from "src/pages/tutor/tutor.my.classess.tsx";
 import TutorSalary from "src/pages/tutor/tutor.salary.tsx";
@@ -60,6 +56,8 @@ import FinanceManager from "src/pages/test/FinanceManager.tsx";
 import AdminStudentFinanceManagement from "src/pages/admin/AdminStudentFinanceManagement.tsx";
 import About from "src/components/landing_page/About.tsx";
 import AdminInitialRegistration from "src/pages/admin/AdminInitialRegistration.tsx";
+import LandingPageV2 from "src/pages/landing_page_v2/landing.page.v2.tsx";
+import AcedmicDepartmentPage from "src/pages/landing_page_v2/acedemic_departments/acedmic.department.page.tsx";
 
 const system_routes = createBrowserRouter([
     {
@@ -68,7 +66,11 @@ const system_routes = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <LandingPage/>,
+                element: <LandingPageV2/>,
+            },
+            {
+                path: "academic-departments",
+                element: <AcedmicDepartmentPage/>
             },
             {
                 path: "about",

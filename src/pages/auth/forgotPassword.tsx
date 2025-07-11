@@ -6,6 +6,7 @@ import {useNavigate} from "react-router";
 import Loading from "src/components/Loading";
 import {admin_crud_request} from "src/service/crud.service.ts";
 import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
+import Shan from "../../assets/Shan.png"
 
 export default function ForgotPassword() {
     const [resetStep, setResetStep] = useState<number>(0);
@@ -103,7 +104,7 @@ export default function ForgotPassword() {
                             <div className='text-center mb-8'>
                                 <div className='mb-4 flex justify-center'>
                                     <img
-                                        src='https://readdy.ai/api/search-image?query=A%20professional%20and%20elegant%20college%20logo%20for%20Kisii%20Impact%20College%20featuring%20a%20stylized%20shield%20or%20emblem%20with%20blue%20and%20gold%20colors%2C%20academic%20symbols%20like%20books%20or%20a%20torch%2C%20and%20the%20college%20name%20incorporated%20in%20a%20modern%20serif%20font.%20The%20logo%20should%20appear%20clean%2C%20authoritative%2C%20and%20suitable%20for%20educational%20branding.&width=200&height=200&seq=1&orientation=squarish'
+                                        src={Shan}
                                         alt='Kisii Impact Logo'
                                         className='h-24'
                                     />

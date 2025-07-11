@@ -47,7 +47,7 @@ function AdminInitialRegistration() {
     const [passwordStrength, setPasswordStrength] = useState(0);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [superAdminCount, setSuperAdminCount] = useState(1); // Simulating current count
+    const [superAdminCount, setSuperAdminCount] = useState(1);
 
     const departments = [
         "Computer Science & IT",
