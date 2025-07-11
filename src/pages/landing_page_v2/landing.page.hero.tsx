@@ -58,6 +58,7 @@ export default function LandingPageHero() {
                     <SwiperSlide key={slide.id}>
                         <div className="relative h-full">
                             <div
+                                
                                 className="absolute inset-0 bg-cover bg-center"
                                 style={{backgroundImage: `url(${slide.image})`}}
                             >

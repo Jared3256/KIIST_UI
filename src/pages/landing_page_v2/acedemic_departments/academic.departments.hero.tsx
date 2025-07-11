@@ -7,6 +7,7 @@ export default function AcademicDepartmentsHero() {
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
+
                     backgroundImage: `url('https://readdy.ai/api/search-image?query=Modern%20computer%20science%20department%20with%20students%20working%20in%20high-tech%20laboratory%20surrounded%20by%20advanced%20computing%20equipment%20and%20programming%20workstations%20in%20bright%20academic%20environment&width=1440&height=400&seq=hero&orientation=landscape')`,
                 }}
             >
