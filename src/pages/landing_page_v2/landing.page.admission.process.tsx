@@ -7,6 +7,7 @@ import {
     TrophyOutlined
 } from "@ant-design/icons";
 import {Button, Card, Layout} from "antd";
+import {useNavigate} from "react-router";
 
 const admissionSteps = [
     {
@@ -25,29 +26,23 @@ const admissionSteps = [
     },
     {
         step: "03",
-        title: "Entrance Examination",
+        title: "Admin approval",
         description:
-            "Take our standardized entrance exam to assess your academic readiness and aptitude.",
+            "The Administrator does review and approval of the submitted documents.",
         icon: <ExperimentOutlined className="text-2xl"/>,
     },
     {
         step: "04",
-        title: "Interview Process",
-        description:
-            "Participate in a personal interview with our admissions committee and faculty members.",
-        icon: <TeamOutlined className="text-2xl"/>,
-    },
-    {
-        step: "05",
         title: "Admission Decision",
         description:
-            "Receive your admission decision and enrollment instructions within 2-3 weeks.",
+            "Receive your admission decision and enrollment instructions within 1-2 weeks.",
         icon: <TrophyOutlined className="text-2xl"/>,
     },
 ];
 
 export default function LandingPageAdmissionProcess() {
     const {Content} = Layout
+    const navigate = useNavigate()
     return (
         <Content id="admissions" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,6 +97,7 @@ export default function LandingPageAdmissionProcess() {
                 </div>
                 <div className="text-center mt-12">
                     <Button
+                        onClick={() => navigate("/h/admission/register")}
                         size="large"
                         type="primary"
                         className="!rounded-button whitespace-nowrap cursor-pointer bg-blue-600 h-12 px-8 text-lg"

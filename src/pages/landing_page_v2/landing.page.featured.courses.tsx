@@ -3,36 +3,36 @@ import {Button, Card, Col, Layout, Row} from "antd";
 export default function LandingPageFeaturedCourses() {
     const featuredCourses = [
         {
-            title: "Artificial Intelligence & Machine Learning",
-            duration: "4 Years",
-            level: "Bachelor's Degree",
+            title: "Software Engineering.",
+            duration: "2 Years",
+            level: "Diploma",
             description:
-                "Master the fundamentals of AI, machine learning algorithms, neural networks, and deep learning technologies.",
+                "Master the fundamentals of Software design, prototyping and development and latest technologies",
             image:
                 "https://readdy.ai/api/search-image?query=Students%20working%20with%20artificial%20intelligence%20and%20machine%20learning%20projects%20on%20computers%20with%20data%20visualization%20and%20algorithms%20displayed%20on%20screens&width=350&height=200&seq=course1&orientation=landscape",
-            price: "$12,000/year",
+            price: "Ksh 60,000/year",
             rating: 4.9,
         },
         {
-            title: "Renewable Energy Engineering",
-            duration: "4 Years",
+            title: "Electrical Installation and Wiring.",
+            duration: "2 Years",
             level: "Bachelor's Degree",
             description:
                 "Explore sustainable energy solutions including solar, wind, and hydroelectric power systems design.",
             image:
                 "https://readdy.ai/api/search-image?query=Engineering%20students%20studying%20renewable%20energy%20systems%20with%20solar%20panels%20and%20wind%20turbine%20models%20in%20modern%20laboratory%20environment&width=350&height=200&seq=course2&orientation=landscape",
-            price: "$11,500/year",
+            price: "Ksh. 54,500/year",
             rating: 4.8,
         },
         {
-            title: "Biotechnology & Biomedical Sciences",
-            duration: "4 Years",
-            level: "Bachelor's Degree",
+            title: "Preoperative theatre technology (Surgery)",
+            duration: "2 Years",
+            level: "Diploma",
             description:
                 "Advanced biotechnology research combining biology, chemistry, and engineering for medical applications.",
             image:
                 "https://readdy.ai/api/search-image?query=Biotechnology%20laboratory%20with%20students%20working%20on%20biomedical%20research%20using%20microscopes%20and%20advanced%20scientific%20equipment%20in%20sterile%20environment&width=350&height=200&seq=course3&orientation=landscape",
-            price: "$13,200/year",
+            price: "Ksh 60,000/year",
             rating: 4.9,
         },
     ];

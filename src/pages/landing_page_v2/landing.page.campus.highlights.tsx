@@ -2,33 +2,27 @@ import {Col, Layout, Row} from "antd";
 
 const campusHighlights = [
     {
-        title: "Modern Library & Learning Commons",
+        title: "Modern Laboratory & Learning Commons",
         description:
-            "State-of-the-art library with digital resources, collaborative spaces, and 24/7 study areas.",
+            "State-of-the-art laboratory with digital resources, collaborative spaces, and spacious study areas.",
         image:
             "https://readdy.ai/api/search-image?query=Modern%20university%20library%20with%20students%20studying%20in%20comfortable%20seating%20areas%20surrounded%20by%20books%20and%20digital%20resources%20in%20bright%20contemporary%20space&width=300&height=200&seq=campus1&orientation=landscape",
     },
     {
-        title: "Innovation Hub & Maker Space",
+        title: "Innovation Hub & Modern Studio.",
         description:
             "3D printing, prototyping, and entrepreneurship center for student innovation projects.",
         image:
             "https://readdy.ai/api/search-image?query=Innovation%20maker%20space%20with%203D%20printers%20and%20students%20working%20on%20creative%20technology%20projects%20in%20modern%20workshop%20environment&width=300&height=200&seq=campus2&orientation=landscape",
     },
     {
-        title: "Sports & Recreation Complex",
+        title: "Supportive student welfare programs.",
         description:
-            "Complete fitness facilities, sports courts, and recreational activities for student wellness.",
+            "Complete mental fitness facilities and services for student wellness.",
         image:
             "https://readdy.ai/api/search-image?query=Modern%20university%20sports%20complex%20with%20students%20playing%20basketball%20and%20using%20fitness%20equipment%20in%20bright%20recreational%20facility&width=300&height=200&seq=campus3&orientation=landscape",
     },
-    {
-        title: "Student Residence Halls",
-        description:
-            "Comfortable on-campus housing with modern amenities and community spaces.",
-        image:
-            "https://readdy.ai/api/search-image?query=Modern%20university%20dormitory%20common%20area%20with%20students%20socializing%20and%20studying%20in%20comfortable%20contemporary%20living%20space%20with%20natural%20lighting&width=300&height=200&seq=campus4&orientation=landscape",
-    },
+
 ];
 export default function LandingPageCampusHighlights() {
     const {Content} = Layout
@@ -46,7 +40,7 @@ export default function LandingPageCampusHighlights() {
                 </div>
                 <Row gutter={[32, 32]}>
                     {campusHighlights.map((highlight, index) => (
-                        <Col xs={24} sm={12} lg={6} key={index}>
+                        <Col xs={24} sm={10} lg={8} key={index}>
                             <div className="text-center group cursor-pointer">
                                 <div className="relative overflow-hidden rounded-xl mb-4">
                                     <img
@@ -55,7 +49,7 @@ export default function LandingPageCampusHighlights() {
                                         className="w-full h-48 object-cover object-top group-hover:scale-105 transition-transform duration-300"
                                     />
                                     <div
-                                        className="absolute inset-0 bg-blue-600 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                                        className="absolute inset-0 bg-blue/40 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                                 </div>
                                 <h3 className="text-lg font-bold text-gray-900 mb-2">
                                     {highlight.title}

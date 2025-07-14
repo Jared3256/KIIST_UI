@@ -20,17 +20,17 @@ const heroSlides = [
     {
         id: 2,
         image: Image2
-        , title: "State-of-the-Art Facilities",
+        , title: "State-of-the-Art Learning",
         subtitle:
-            "Experience world-class laboratories, modern classrooms, and innovative learning spaces designed to foster creativity and academic excellence.",
+            "Experience a learning environment enriched with modern classrooms, and innovative learning spaces designed to foster creativity and academic excellence.",
         cta: "Virtual Tour",
     },
     {
         id: 3,
         image: Image3
-        , title: "Innovation & Research Excellence",
+        , title: "Get started in foreign languages.",
         subtitle:
-            "Join a community of researchers and innovators pushing the boundaries of science and technology to create solutions for tomorrow.",
+            "Learn German language and grab the opportunity to study abroad.",
         cta: "Research Centers",
     },
 ];
@@ -58,7 +58,7 @@ export default function LandingPageHero() {
                     <SwiperSlide key={slide.id}>
                         <div className="relative h-full">
                             <div
-                                
+
                                 className="absolute inset-0 bg-cover bg-center"
                                 style={{backgroundImage: `url(${slide.image})`}}
                             >

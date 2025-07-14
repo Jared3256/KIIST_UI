@@ -10,26 +10,26 @@ export default function LandingPageFooter() {
         {
             type: "News",
             title:
-                "KIIST Receives International Accreditation for Engineering Programs",
-            date: "2024-01-15",
+                "KIIST Receives International collaboration with ISBAT university.",
+            date: "2025-01-15",
             excerpt:
-                "Our engineering department has been recognized by the International Engineering Alliance for excellence in education.",
+                "Our college is now fully in collaboration with ISBAT university for better outcomes in service delivery and industry acceptance.",
             image:
-                "https://readdy.ai/api/search-image?query=University%20ceremony%20with%20officials%20receiving%20accreditation%20award%20in%20formal%20academic%20setting%20with%20banners%20and%20professional%20atmosphere&width=300&height=180&seq=news1&orientation=landscape",
+                "https://schoolsuganda.com/storage/school-photos/bFO7FYC1ligwwD7WxJ7jGD6pMyfwijmQym28PjpL.jpg"
         },
         {
             type: "Event",
             title: "Annual Science & Technology Innovation Fair",
-            date: "2024-02-20",
+            date: "2025-02-20",
             excerpt:
-                "Join us for our biggest showcase of student innovations, research projects, and industry partnerships.",
+                "Our student  participated in the annual science and technology fair at Uganda, performing examplary well..",
             image:
                 "https://readdy.ai/api/search-image?query=Science%20fair%20exhibition%20with%20students%20presenting%20innovative%20technology%20projects%20and%20displays%20in%20modern%20convention%20center%20setting&width=300&height=180&seq=news2&orientation=landscape",
         },
         {
             type: "News",
             title: "New Partnership with Leading Tech Companies",
-            date: "2024-01-28",
+            date: "2025-01-28",
             excerpt:
                 "KIIST announces strategic partnerships with major technology firms for internships and job placements.",
             image:
