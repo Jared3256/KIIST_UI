@@ -1,26 +1,27 @@
 import {Col, Layout, Row} from "antd";
 
+import Lab from "../../assets/lab.jpg"
+import Support from "../../assets/support.jpg"
+import Studio from "../../assets/studio.jpg"
+
 const campusHighlights = [
     {
         title: "Modern Laboratory & Learning Commons",
         description:
             "State-of-the-art laboratory with digital resources, collaborative spaces, and spacious study areas.",
-        image:
-            "https://readdy.ai/api/search-image?query=Modern%20university%20library%20with%20students%20studying%20in%20comfortable%20seating%20areas%20surrounded%20by%20books%20and%20digital%20resources%20in%20bright%20contemporary%20space&width=300&height=200&seq=campus1&orientation=landscape",
+        image: Lab
     },
     {
         title: "Innovation Hub & Modern Studio.",
         description:
             "3D printing, prototyping, and entrepreneurship center for student innovation projects.",
-        image:
-            "https://readdy.ai/api/search-image?query=Innovation%20maker%20space%20with%203D%20printers%20and%20students%20working%20on%20creative%20technology%20projects%20in%20modern%20workshop%20environment&width=300&height=200&seq=campus2&orientation=landscape",
+        image: Studio
     },
     {
         title: "Supportive student welfare programs.",
         description:
             "Complete mental fitness facilities and services for student wellness.",
-        image:
-            "https://readdy.ai/api/search-image?query=Modern%20university%20sports%20complex%20with%20students%20playing%20basketball%20and%20using%20fitness%20equipment%20in%20bright%20recreational%20facility&width=300&height=200&seq=campus3&orientation=landscape",
+        image: Support
     },
 
 ];

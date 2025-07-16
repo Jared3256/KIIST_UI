@@ -19,7 +19,6 @@ interface FormData {
     password: string;
     confirmPassword: string;
     role: string;
-    department: string;
     staffId: string;
     securityQuestion: string;
     securityAnswer: string;
@@ -38,7 +37,6 @@ function AdminInitialRegistration() {
         password: "",
         confirmPassword: "",
         role: "",
-        department: "",
         staffId: "",
         securityQuestion: "",
         securityAnswer: "",
@@ -49,15 +47,6 @@ function AdminInitialRegistration() {
     const [isLoading, setIsLoading] = useState(false);
     const [superAdminCount, setSuperAdminCount] = useState(1);
 
-    const departments = [
-        "Computer Science & IT",
-        "Engineering & Technology",
-        "Business & Management",
-        "Health Sciences",
-        "Education",
-        "Agriculture & Environmental Science",
-        "Liberal Arts & Social Sciences",
-    ];
 
     const securityQuestions = [
         "What was the name of your first pet?",
@@ -125,7 +114,7 @@ function AdminInitialRegistration() {
 
     const validateStep2 = (): boolean => {
         if (
-            !formData.department ||
+           
             !formData.staffId ||
             !formData.securityQuestion ||
             !formData.securityAnswer ||
@@ -151,6 +140,7 @@ function AdminInitialRegistration() {
         if (!validateStep2()) return;
 
         setIsLoading(true);
+        console.log(formData)
 
         // Simulate API call
         setTimeout(() => {
@@ -205,7 +195,7 @@ function AdminInitialRegistration() {
                         type="primary"
                         size="large"
                         className="w-full !rounded-button"
-                        onClick={() => (window.location.href = "/login")}
+                        onClick={() => (window.location.href = "/auth/login")}
                     >
                         Return to Login
                     </Button>
@@ -413,27 +403,27 @@ function AdminInitialRegistration() {
                 {/* Step 2: Verification Details */}
                 {currentStep === 2 && (
                     <div className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Department/Faculty <span className="text-red-500">*</span>
-                            </label>
-                            <Select
-                                size="large"
-                                placeholder="Select your department"
-                                value={formData.department}
-                                onChange={(value) => handleInputChange("department", value)}
-                                className="w-full"
-                                suffixIcon={
-                                    <i className="fas fa-chevron-down text-gray-400"></i>
-                                }
-                            >
-                                {departments.map((dept) => (
-                                    <Option key={dept} value={dept}>
-                                        {dept}
-                                    </Option>
-                                ))}
-                            </Select>
-                        </div>
+                        {/*<div>*/}
+                        {/*    <label className="block text-sm font-medium text-gray-700 mb-2">*/}
+                        {/*        Department/Faculty <span className="text-red-500">*</span>*/}
+                        {/*    </label>*/}
+                        {/*    <Select*/}
+                        {/*        size="large"*/}
+                        {/*        placeholder="Select your department"*/}
+                        {/*        value={formData.department}*/}
+                        {/*        onChange={(value) => handleInputChange("department", value)}*/}
+                        {/*        className="w-full"*/}
+                        {/*        suffixIcon={*/}
+                        {/*            <i className="fas fa-chevron-down text-gray-400"></i>*/}
+                        {/*        }*/}
+                        {/*    >*/}
+                        {/*        {departments.map((dept) => (*/}
+                        {/*            <Option key={dept} value={dept}>*/}
+                        {/*                {dept}*/}
+                        {/*            </Option>*/}
+                        {/*        ))}*/}
+                        {/*    </Select>*/}
+                        {/*</div>*/}
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -545,8 +535,8 @@ function AdminInitialRegistration() {
             </p>
             <p>
                 Need assistance? Contact IT Support:{" "}
-                <span className="text-blue-600">support@kiist.ac.ke</span> | +254 700
-                000 000
+                <a href={"mailto:support@kiist.ac.ke"}> <span className="text-blue-600">support@kiist.ac.ke</span></a> |
+                +254 780 640 762
             </p>
         </div>
     </div>

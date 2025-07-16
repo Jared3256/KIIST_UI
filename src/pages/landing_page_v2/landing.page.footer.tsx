@@ -1,6 +1,7 @@
 import {CalendarOutlined, MailOutlined, RightOutlined} from "@ant-design/icons";
 import {Button, Card, Col, Form, Input, Layout, Row} from "antd";
 import Footer from "src/components/landing_page/Footer.tsx";
+import Community from "../../assets/community.jpg"
 
 export default function LandingPageFooter() {
     const {Content} = Layout
@@ -19,22 +20,12 @@ export default function LandingPageFooter() {
         },
         {
             type: "Event",
-            title: "Annual Science & Technology Innovation Fair",
+            title: "Annual Student Welfare",
             date: "2025-02-20",
             excerpt:
-                "Our student  participated in the annual science and technology fair at Uganda, performing examplary well..",
-            image:
-                "https://readdy.ai/api/search-image?query=Science%20fair%20exhibition%20with%20students%20presenting%20innovative%20technology%20projects%20and%20displays%20in%20modern%20convention%20center%20setting&width=300&height=180&seq=news2&orientation=landscape",
-        },
-        {
-            type: "News",
-            title: "New Partnership with Leading Tech Companies",
-            date: "2025-01-28",
-            excerpt:
-                "KIIST announces strategic partnerships with major technology firms for internships and job placements.",
-            image:
-                "https://readdy.ai/api/search-image?query=Business%20partnership%20signing%20ceremony%20with%20university%20officials%20and%20corporate%20executives%20in%20professional%20conference%20room%20setting&width=300&height=180&seq=news3&orientation=landscape",
-        },
+                "Our team will visited Saye mixed secondary for student mentorship, commiting to our devotion to always give back to the community.",
+            image: Community
+        }
     ];
     const handleSubscribe = (values: any) => {
         console.log("Subscription:", values);
@@ -55,7 +46,7 @@ export default function LandingPageFooter() {
                     </div>
                     <Row gutter={[32, 32]}>
                         {newsEvents.map((item, index) => (
-                            <Col xs={24} lg={8} key={index}>
+                            <Col xs={24} lg={12} key={index}>
                                 <Card
                                     className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer border-0">
                                     <div className="relative">

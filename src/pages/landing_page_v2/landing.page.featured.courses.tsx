@@ -1,4 +1,8 @@
 import {Button, Card, Col, Layout, Row} from "antd";
+import {useNavigate} from "react-router"
+import Hair from "../../assets/hair.jpg"
+import Electrical from "../../assets/electrical.jpg"
+import ICT from "../../assets/ict.jpg"
 
 export default function LandingPageFeaturedCourses() {
     const featuredCourses = [
@@ -8,36 +12,34 @@ export default function LandingPageFeaturedCourses() {
             level: "Diploma",
             description:
                 "Master the fundamentals of Software design, prototyping and development and latest technologies",
-            image:
-                "https://readdy.ai/api/search-image?query=Students%20working%20with%20artificial%20intelligence%20and%20machine%20learning%20projects%20on%20computers%20with%20data%20visualization%20and%20algorithms%20displayed%20on%20screens&width=350&height=200&seq=course1&orientation=landscape",
+            image: ICT,
             price: "Ksh 60,000/year",
             rating: 4.9,
         },
         {
             title: "Electrical Installation and Wiring.",
             duration: "2 Years",
-            level: "Bachelor's Degree",
+            level: "Diploma",
             description:
                 "Explore sustainable energy solutions including solar, wind, and hydroelectric power systems design.",
-            image:
-                "https://readdy.ai/api/search-image?query=Engineering%20students%20studying%20renewable%20energy%20systems%20with%20solar%20panels%20and%20wind%20turbine%20models%20in%20modern%20laboratory%20environment&width=350&height=200&seq=course2&orientation=landscape",
-            price: "Ksh. 54,500/year",
+            image: Electrical,
+            price: "Ksh. 60,000/year",
             rating: 4.8,
         },
         {
-            title: "Preoperative theatre technology (Surgery)",
-            duration: "2 Years",
-            level: "Diploma",
+            title: "Modern Beauty Therapy and Hairdressing.",
+            duration: "12 Months",
+            level: "Certificate",
             description:
                 "Advanced biotechnology research combining biology, chemistry, and engineering for medical applications.",
-            image:
-                "https://readdy.ai/api/search-image?query=Biotechnology%20laboratory%20with%20students%20working%20on%20biomedical%20research%20using%20microscopes%20and%20advanced%20scientific%20equipment%20in%20sterile%20environment&width=350&height=200&seq=course3&orientation=landscape",
-            price: "Ksh 60,000/year",
+            image: Hair,
+            price: "Ksh 54,000/year",
             rating: 4.9,
         },
     ];
 
     const {Content} = Layout
+    const navigate = useNavigate()
     return (
         <Content id="courses" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,6 +89,7 @@ export default function LandingPageFeaturedCourses() {
                         {course.price}
                       </span>
                                         <Button
+                                            onClick={() => navigate("/h/admission/register")}
                                             type="primary"
                                             className="!rounded-button whitespace-nowrap cursor-pointer bg-blue-600"
                                         >
