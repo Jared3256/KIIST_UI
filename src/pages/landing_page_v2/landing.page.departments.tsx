@@ -3,10 +3,10 @@ import {LaptopOutlined} from "@mui/icons-material";
 import {Card, Col, Layout, Row} from "antd";
 import {Link} from "react-router"
 
-import ICT from "../../assets/ict.jpg"
-import Social from "../../assets/social.jpg"
-import Tailoring from "../../assets/tailoring.jpg"
-import Business from "../../assets/business.jpg"
+import ICT from "../../assets/ict.avif"
+import Social from "../../assets/social.avif"
+import Tailoring from "../../assets/tailoring.avif"
+import Business from "../../assets/business.avif"
 
 const departments = [
     {
