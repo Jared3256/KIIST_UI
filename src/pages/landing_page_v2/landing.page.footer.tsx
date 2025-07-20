@@ -1,7 +1,8 @@
 import {CalendarOutlined, MailOutlined, RightOutlined} from "@ant-design/icons";
 import {Button, Card, Col, Form, Input, Layout, Row} from "antd";
 import Footer from "src/components/landing_page/Footer.tsx";
-import Community from "../../assets/community.jpg"
+import Community from "../../assets/community.avif"
+import Isbat from "../../assets/isbat.avif"
 
 export default function LandingPageFooter() {
     const {Content} = Layout
@@ -15,8 +16,7 @@ export default function LandingPageFooter() {
             date: "2025-01-15",
             excerpt:
                 "Our college is now fully in collaboration with ISBAT university for better outcomes in service delivery and industry acceptance.",
-            image:
-                "https://schoolsuganda.com/storage/school-photos/bFO7FYC1ligwwD7WxJ7jGD6pMyfwijmQym28PjpL.jpg"
+            image: Isbat
         },
         {
             type: "Event",
