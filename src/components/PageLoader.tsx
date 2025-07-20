@@ -1,6 +1,6 @@
 import {Box} from "@mui/joy";
 import {Image} from "antd";
-import Shan from "../assets/Shan.avif";
+import Shan from "../assets/Shan.png";
 import {Loader} from "lucide-react";
 
 export default function PageLoader() {
