@@ -3,9 +3,9 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination, Autoplay, Navigation} from "swiper/modules";
 import {PlayCircleOutlined, RightOutlined} from "@ant-design/icons";
 import {useState} from "react";
-import Image1 from "../../assets/image1.jpg"
-import Image2 from "../../assets/image2.jpg"
-import Image3 from "../../assets/image3.jpg"
+import Image1 from "../../assets/image1.avif"
+import Image2 from "../../assets/image2.avif"
+import Image3 from "../../assets/image3.avif"
 
 const heroSlides = [
     {

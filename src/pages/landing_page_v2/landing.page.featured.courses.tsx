@@ -1,8 +1,8 @@
 import {Button, Card, Col, Layout, Row} from "antd";
 import {useNavigate} from "react-router"
-import Hair from "../../assets/hair.jpg"
-import Electrical from "../../assets/electrical.jpg"
-import ICT from "../../assets/ict.jpg"
+import Hair from "../../assets/hair.avif"
+import Electrical from "../../assets/electrical.avif"
+import ICT from "../../assets/ict.avif"
 
 export default function LandingPageFeaturedCourses() {
     const featuredCourses = [
