@@ -4,7 +4,7 @@ import errorHandler from "src/handlers/errorHandler";
 export const admin_crud_request = {
     student_pay: async ({data, hotAxiosPrivate}) => {
         try {
-            const response = await hotAxiosPrivate.post("/payment/jenga/stkpush", data)
+            const response = await hotAxiosPrivate.post("/payment/stkpush", data)
             return response.data
 
         } catch (error) {
