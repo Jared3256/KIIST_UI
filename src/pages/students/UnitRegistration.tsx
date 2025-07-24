@@ -37,7 +37,8 @@ export default function UnitRegistration() {
     const [unitCode, setUnitCode] = useState<string>([])
 
     const [selectedCourses, setSelectedCourses] = useState([]);
-    const {weeks, setWeeks} = useState<number>(0)
+    const [weeks, setWeeks] = useState<number>(0)
+    const [deadline, setDeadline] = useState()
     const {current} = useSelector(selectAuth)
     const hotAxiosPrivate = useAxiosPrivate()
 
@@ -241,10 +242,11 @@ export default function UnitRegistration() {
 
         const number_of_weeks = differenceInWeeks(new Date(), start)
         setWeeks(number_of_weeks)
-
+        setDeadline(format(addWeeks(start, 6), "EEEE MMMM dd, yyyy"))
     }
     // Function to run on Page load up
     useEffect(() => {
+        calculateFeePolicy()
         const fetchData = async () => {
             try {
                 setIsLoading(true);
@@ -259,16 +261,17 @@ export default function UnitRegistration() {
             }
         };
         fetchData();
-        calculateFeePolicy()
+
 
     }, []);
 
 
     useEffect(() => {
-        if (weeks > 5) {
+        if (weeks > 5 && courses.length > 0) {
+            console.log(weeks)
             setCourses([])
         }
-    }, [weeks]);
+    }, [weeks, courses]);
 
     const filterCourse = () => {
         const regCodes = new Set(registrations.map((r) => r.course));
@@ -360,7 +363,7 @@ export default function UnitRegistration() {
                                             registering for a course.
                                         </li>
                                         <li>
-                                            Registration closes on June 30, 2025. No late registrations
+                                            Registration closes on {deadline}. No late registrations
                                             will be accepted.
                                         </li>
                                         <li>
@@ -542,7 +545,7 @@ export default function UnitRegistration() {
                     <div className='mb-6 gap-3'>
                         <Alert
                             message='Registration Period'
-                            description='Course registration is open until June 15, 2025. Please register for your courses before the deadline.'
+                            description={`Course registration is open until ${deadline}. Please register for your courses before the deadline.`}
                             type='info'
                             showIcon
                             className='mb-4'
