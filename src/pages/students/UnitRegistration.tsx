@@ -381,7 +381,7 @@ export default function UnitRegistration() {
                                 </Button>
                                 {selectedCourses.length < 3 && (
                                     <div className="mt-2 text-center text-red-500">
-                                        <small>You must select at least 3 courses to register</small>
+                                        <small> {weeks > 6 ? "Deadline has passed" : "You must select at least 3 courses to register"}</small>
                                     </div>
                                 )}
                             </div>
