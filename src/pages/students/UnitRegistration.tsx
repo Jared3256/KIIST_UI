@@ -377,7 +377,7 @@ export default function UnitRegistration() {
                                     block
                                     className="!rounded-button whitespace-nowrap cursor-pointer"
                                 >
-                                    Submit Registration
+                                    {weeks > 6 ? "Deadline has Passed" : "Submit Registration"}
                                 </Button>
                                 {selectedCourses.length < 3 && (
                                     <div className="mt-2 text-center text-red-500">
