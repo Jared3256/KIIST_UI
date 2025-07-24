@@ -21,6 +21,8 @@ import {useSelector} from "react-redux";
 import {selectAuth} from "src/redux/auth/selectors.ts";
 import useAxiosPrivate from "src/service/useAxiosPrivate.ts";
 import {courseCodeToCourseId, dataToCourse, dataToDepartment, dataToUnits} from "src/modules/Data.format.ts";
+import {getCurrentSemesterName} from "src/pages/admin/session/admin.session.manager.tsx";
+import {addWeeks, differenceInWeeks, format} from "date-fns";
 
 
 export default function UnitRegistration() {
@@ -35,6 +37,7 @@ export default function UnitRegistration() {
     const [unitCode, setUnitCode] = useState<string>([])
 
     const [selectedCourses, setSelectedCourses] = useState([]);
+    const {weeks, setWeeks} = useState<number>(0)
     const {current} = useSelector(selectAuth)
     const hotAxiosPrivate = useAxiosPrivate()
 
@@ -124,7 +127,7 @@ export default function UnitRegistration() {
             }
 
         } catch (error) {
-
+            console.log(error)
 
         }
 
@@ -214,6 +217,32 @@ export default function UnitRegistration() {
             filterCourse()
         }
     }
+
+    const calculateFeePolicy = () => {
+        let month = 1;
+        const month_name = getCurrentSemesterName().split(" - ")[0]
+        switch (month_name) {
+            case "January":
+                month = 1
+                break
+            case "May":
+                month = 5
+                break
+            case "September":
+                month = 9
+                break
+            default:
+                break
+        }
+
+        const date = new Date()
+        const year = date.getFullYear()
+        const start = new Date(year, month - 1, 1)
+
+        const number_of_weeks = differenceInWeeks(new Date(), start)
+        setWeeks(number_of_weeks)
+
+    }
     // Function to run on Page load up
     useEffect(() => {
         const fetchData = async () => {
@@ -230,8 +259,16 @@ export default function UnitRegistration() {
             }
         };
         fetchData();
+        calculateFeePolicy()
+
     }, []);
 
+
+    useEffect(() => {
+        if (weeks > 5) {
+            setCourses([])
+        }
+    }, [weeks]);
 
     const filterCourse = () => {
         const regCodes = new Set(registrations.map((r) => r.course));
