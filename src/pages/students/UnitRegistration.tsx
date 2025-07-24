@@ -265,14 +265,6 @@ export default function UnitRegistration() {
 
     }, []);
 
-
-    useEffect(() => {
-        if (weeks > 5 && courses.length > 0) {
-            console.log(weeks)
-            setCourses([])
-        }
-    }, [weeks, courses]);
-
     const filterCourse = () => {
         const regCodes = new Set(registrations.map((r) => r.course));
         setUnitCode(regCodes)
@@ -381,7 +373,7 @@ export default function UnitRegistration() {
                                     onClick={() => handleRegisterCourse(courseCodeToCourseId(selectedCourses, courses))}
                                     type="primary"
                                     size="large"
-                                    disabled={selectedCourses.length < 3}
+                                    disabled={selectedCourses.length < 3 || weeks > 6}
                                     block
                                     className="!rounded-button whitespace-nowrap cursor-pointer"
                                 >
